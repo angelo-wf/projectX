@@ -55,6 +55,7 @@ public class Runner extends Application {
 		}
 	}
 	
+	@Override
 	public void start(Stage primaryStage) {
 		VBox container = new VBox();
 		HBox sendBox = new HBox();
