@@ -3,16 +3,17 @@ package tictactoe;
 import gamehandler.EndReason;
 import gamehandler.GameModel;
 import gamehandler.Move;
+import gamehandler.Turn;
 
 public class TicTacToeModel extends GameModel {
 	
 	private int[] board;
-	private int turn;
+	private Turn turn;
 	private EndReason reason;
 	
 	public TicTacToeModel() {
 		board = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
-		turn = 0;
+		turn = Turn.PLAYER1;
 	}
 	
 	@Override
@@ -26,9 +27,9 @@ public class TicTacToeModel extends GameModel {
 		if(board[move.getAsInt(3)] != 0) {
 			return false;
 		}
-		board[move.getAsInt(3)] = turn + 1;
+		board[move.getAsInt(3)] = turn.getPieceNum();
 		if(checkWin()) {
-			if(turn == 1) {
+			if(turn == Turn.PLAYER2) {
 				endGame(EndReason.WIN2);
 			} else {
 				endGame(EndReason.WIN1);
@@ -38,11 +39,11 @@ public class TicTacToeModel extends GameModel {
 			endGame(EndReason.DRAW);
 			return true;
 		}
-		if(turn == 1) {
-			turn = 0;
+		if(turn == Turn.PLAYER2) {
+			turn = Turn.PLAYER1;
 			player1.requestMove(move);
 		} else {
-			turn = 1;
+			turn = Turn.PLAYER2;
 			player2.requestMove(move);
 		}
 		view.update();
@@ -53,7 +54,7 @@ public class TicTacToeModel extends GameModel {
 	public void endGame(EndReason reason) {
 		player1.endGame();
 		player2.endGame();
-		turn = 2;
+		turn = Turn.ENDED;
 		this.reason = reason;
 		view.update();
 	}
@@ -63,16 +64,10 @@ public class TicTacToeModel extends GameModel {
 	}
 	
 	public String getStateString() {
-		switch(turn) {
-		case 0:
-			return "Player's 1 turn";
-		case 1:
-			return "Player's 2 turn";
-		case 2:
-			return "Game ended, " + reason.getNiceString();
-		default:
-			return "Unknown turn state: " + turn;
+		if(turn == Turn.ENDED) {
+			return turn.getNiceString() + ", " + reason.getNiceString();
 		}
+		return turn.getNiceString();
 	}
 	
 	private boolean checkWin() {
