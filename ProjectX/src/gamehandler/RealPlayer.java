@@ -10,7 +10,6 @@ public class RealPlayer extends GamePlayer {
 	
 	@Override
 	public void handleClick(Move move) {
-		System.out.println("Clickhandler called with move " + move.getAsInt(3) + "; ourTurn: " + ourTurn + "; player: " + this);
 		if(ourTurn) {
 			if(model.doMove(move)) {
 				ourTurn = false;
@@ -21,7 +20,11 @@ public class RealPlayer extends GamePlayer {
 	@Override
 	public void requestMove(Move move) {
 		ourTurn = true;
-		System.out.println("Requested move from Player; ourTurn: " + ourTurn + "; player: " + this);
+	}
+
+	@Override
+	public void endGame() {
+		// player doesn't have to do anything
 	}
 
 }

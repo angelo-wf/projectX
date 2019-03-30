@@ -22,11 +22,10 @@ public class TicTacToeModel extends GameModel {
 	}
 	
 	@Override
-	public boolean doMove(Move move) {
+	public synchronized boolean doMove(Move move) {
 		if(board[move.getAsInt(3)] != 0) {
 			return false;
 		}
-		System.out.println("Move done: " + move.getAsInt(3));
 		board[move.getAsInt(3)] = turn + 1;
 		if(checkWin()) {
 			if(turn == 1) {
@@ -52,6 +51,8 @@ public class TicTacToeModel extends GameModel {
 
 	@Override
 	public void endGame(EndReason reason) {
+		player1.endGame();
+		player2.endGame();
 		turn = 2;
 		this.reason = reason;
 		view.update();

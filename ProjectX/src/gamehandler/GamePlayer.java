@@ -11,4 +11,6 @@ public abstract class GamePlayer {
 	public abstract void handleClick(Move move);
 	
 	public abstract void requestMove(Move move);
+	
+	public abstract void endGame();
 }
