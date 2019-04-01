@@ -26,7 +26,7 @@ public class Runner extends Application {
 	class ClientWorker implements Runnable {
 		public void run() {
 			try {
-				socket = new Socket("localhost", 7789);
+				socket = new Socket("145.33.225.170", 7789);
 				BufferedReader inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				outputStream = new OutputStreamWriter(socket.getOutputStream());
 				Platform.runLater(() -> {
@@ -62,10 +62,9 @@ public class Runner extends Application {
 		
 		TextField input = new TextField();
 		output = new TextArea();
-		Button sendButton = new Button("Send");
+		output.setEditable(false);
 		
 		sendBox.getChildren().add(input);
-		sendBox.getChildren().add(sendButton);
 		
 		container.getChildren().add(output);
 		container.getChildren().add(sendBox);
@@ -90,7 +89,7 @@ public class Runner extends Application {
 			}
 		});
 		
-		sendButton.setOnAction(e ->  {
+		input.setOnAction(e ->  {
 			try {
 				if(outputStream != null) {
 					outputStream.write(input.getText() + "\n");
