@@ -23,7 +23,7 @@ public class TicTacToeView extends GameView {
 			cells[i] = new Rectangle(x * 128, y * 128, 128, 128);
 			cells[i].setFill(Color.WHITE);
 			cells[i].setOnMouseClicked(e -> {
-				sendClick(new Move(x, y));
+				handleClick(new Move(x, y));
 			});
 			boardView.getChildren().add(cells[i]);
 		}
@@ -55,10 +55,6 @@ public class TicTacToeView extends GameView {
 				cells[i].setFill(Color.WHITE);
 			}
 		}
-	}
-	
-	private void sendClick(Move move) {
-		player.handleClick(move);
 	}
 
 }

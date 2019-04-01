@@ -27,4 +27,8 @@ public abstract class GameView {
 	}
 	
 	public abstract void update();
+	
+	public void handleClick(Move move) {
+		player.handleClick(move);
+	}
 }
