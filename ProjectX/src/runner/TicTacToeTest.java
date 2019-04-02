@@ -8,9 +8,9 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import tictactoe.TicTacToeAI;
-import tictactoe.TicTacToeModel;
-import tictactoe.TicTacToeView;
+import reversi.ReversiAI;
+import reversi.ReversiModel;
+import reversi.ReversiView;
 
 public class TicTacToeTest extends Application {
 
@@ -18,11 +18,16 @@ public class TicTacToeTest extends Application {
 	public void start(Stage primaryStage) {
 		VBox game = new VBox();
 		
-		GameModel model = new TicTacToeModel();
-		GameView view = new TicTacToeView();
+//		GameModel model = new TicTacToeModel();
+//		GameView view = new TicTacToeView();
+//		GamePlayer player1 = new RealPlayer();
+//		//GamePlayer player1 = new TicTacToeAI();
+//		GamePlayer player2 = new TicTacToeAI();
+		
+		GameModel model = new ReversiModel();
+		GameView view = new ReversiView();
 		GamePlayer player1 = new RealPlayer();
-		//GamePlayer player1 = new TicTacToeAI();
-		GamePlayer player2 = new TicTacToeAI();
+		GamePlayer player2 = new ReversiAI();
 		
 		model.setView(view);
 		model.setPlayer1(player1);

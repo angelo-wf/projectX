@@ -10,7 +10,19 @@ public class Move {
 		this.y = y;
 	}
 	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+	
 	public int getAsInt(int width) {
 		return y * width + x;
+	}
+	
+	public static Move getFromInt(int width, int num) {
+		return new Move(num % width, num / width);
 	}
 }
