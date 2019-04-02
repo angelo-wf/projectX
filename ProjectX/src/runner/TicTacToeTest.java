@@ -27,6 +27,7 @@ public class TicTacToeTest extends Application {
 		GameModel model = new ReversiModel();
 		GameView view = new ReversiView();
 		GamePlayer player1 = new RealPlayer();
+		//GamePlayer player1 = new ReversiAI();
 		GamePlayer player2 = new ReversiAI();
 		
 		model.setView(view);

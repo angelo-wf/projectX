@@ -12,6 +12,7 @@ public class TicTacToeAI extends GamePlayer {
 		public void run() {
 			while(running) {
 				if(moveRequested) {
+					moveRequested = false;
 					while(true) {
 						int x = (int) (Math.random() * 3);
 						int y = (int) (Math.random() * 3);
@@ -20,7 +21,6 @@ public class TicTacToeAI extends GamePlayer {
 							break;
 						}
 					}
-					moveRequested = false;
 				} else {
 					try {
 						Thread.sleep(10);
