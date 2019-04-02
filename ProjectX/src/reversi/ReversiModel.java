@@ -44,13 +44,16 @@ public class ReversiModel extends GameModel {
 			// the next player can't move, switch back to this player
 			swapTurn();
 			if(!movePossible(turn)) {
-				// this player can;t either, game is done
+				// this player can't either, game is done
 				finishGame();
+				return true;
 			}
 		}
 		if(turn == Turn.PLAYER1) {
+			System.out.println("Requested from player 1");
 			player1.requestMove(move);
 		} else {
+			System.out.println("Requested from player 2");
 			player2.requestMove(move);
 		}
 		view.update();

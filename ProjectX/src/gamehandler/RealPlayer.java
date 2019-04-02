@@ -11,8 +11,9 @@ public class RealPlayer extends GamePlayer {
 	@Override
 	public void handleClick(Move move) {
 		if(ourTurn) {
-			if(model.doMove(move)) {
-				ourTurn = false;
+			ourTurn = false;
+			if(!model.doMove(move)) {
+				ourTurn = true;
 			}
 		}
 	}

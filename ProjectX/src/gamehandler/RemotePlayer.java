@@ -9,10 +9,10 @@ public class RemotePlayer extends GamePlayer {
 		public void run() {
 			while(running) {
 				if(moveExpected) {
+					moveExpected = false;
 					// TODO: peek move from server
 					// if it is a 'yourmove' instead, something went wrong
 					model.doMove(new Move(0, 0));
-					moveExpected = false;
 				} else {
 					try {
 						Thread.sleep(10);
@@ -39,7 +39,8 @@ public class RemotePlayer extends GamePlayer {
 
 	@Override
 	public void requestMove(Move move) {
-		// TODO: oeek 'yourmove' from server
+		// TODO: peek 'yourmove' from server
+		// if not a 'yourmove' something went wrong
 		// TODO: send move to server
 		moveExpected = true;
 	}
