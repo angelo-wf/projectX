@@ -6,8 +6,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
-
-
 public class ClientSocket {
 	
 	private boolean running;
@@ -26,7 +24,6 @@ public class ClientSocket {
 		} catch(IOException ex) {
 			System.out.println(ex);
 		}
-		
 	}
 
 	class ServerWorker implements Runnable {	
@@ -47,12 +44,15 @@ public class ClientSocket {
 					}
 					// process line
 					connection.checkInput(line);
+					if(outputStream != null) {
+						outputStream.write(connection.getMessage());
+						outputStream.flush();
+					}
 				}
 			} catch(IOException e) {
 				System.out.println(e);
 			}
 		}
-		
 	}
 	
 	public void close() {

@@ -27,8 +27,12 @@ public class Connection {
 
     public void sendMessage(String message){
         // send to socket
+    	toServer = message;
     }
 
+    public String getMessage() {
+    	return toServer;
+    }
     public void checkInput(String fromServer){
      String firstWord[] = fromServer.split(" ",2);
     switch (firstWord[0]) {
