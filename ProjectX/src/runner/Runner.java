@@ -23,6 +23,8 @@ public class Runner extends Application {
 	private Socket socket;
 	
 	class ClientWorker implements Runnable {
+		
+		@Override
 		public void run() {
 			try {
 				socket = new Socket("localhost", 7789);
@@ -82,7 +84,9 @@ public class Runner extends Application {
 //				if(outputStream != null) {
 //					outputStream.close();
 //				}
-				socket.close();
+				if(socket != null) {
+					socket.close();
+				}
 			} catch(IOException ex) {
 				// ignored, closing anyways
 			}
