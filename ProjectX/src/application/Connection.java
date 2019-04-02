@@ -4,12 +4,23 @@ import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Connection {
+	
 	//represent streams
     public String toServer;
     public String fromServer;
+    private ClientSocket clientSocket;
     //new queue for messages
     LinkedBlockingQueue<HashMap<String, String>> messageQueue = new LinkedBlockingQueue<>();
 
+    private Connection(String address, int port) {
+    	clientSocket = new ClientSocket(address, port, this);
+    	
+    }
+    
+    public void close() {
+    	
+    }
+    
     public LinkedBlockingQueue<HashMap<String, String>> getQueue(){
         return messageQueue;
     }
@@ -22,7 +33,7 @@ public class Connection {
         // receive from socket
     }
 
-    public void checkInput(){
+    public void checkInput(String fromServer){
      String firstWord[] = fromServer.split(" ",2);
     switch (firstWord[0]) {
         case "OK":
