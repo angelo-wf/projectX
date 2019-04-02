@@ -18,7 +18,7 @@ public class Connection {
     }
     
     public void close() {
-    	
+    	clientSocket.close();
     }
     
     public LinkedBlockingQueue<HashMap<String, String>> getQueue(){
@@ -27,10 +27,6 @@ public class Connection {
 
     public void sendMessage(String message){
         // send to socket
-    }
-    
-    public void receiveMessage(){
-        // receive from socket
     }
 
     public void checkInput(String fromServer){
