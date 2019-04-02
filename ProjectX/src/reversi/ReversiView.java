@@ -20,7 +20,7 @@ public class ReversiView extends GameView {
 			final int x = i % 8;
 			final int y = i / 8;
 			cells[i] = new Rectangle(x * 50, y * 50, 50, 50);
-			cells[i].setFill(Color.WHITE);
+			cells[i].setFill(Color.GREEN);
 			cells[i].setOnMouseClicked(e -> {
 				handleClick(new Move(x, y));
 			});
@@ -47,11 +47,11 @@ public class ReversiView extends GameView {
 		for(int i = 0; i < board.length; i++) {
 			int value = board[i];
 			if(value == 1) {
-				cells[i].setFill(Color.RED);
+				cells[i].setFill(Color.BLACK);
 			} else if(value == 2) {
-				cells[i].setFill(Color.BLUE);
-			} else {
 				cells[i].setFill(Color.WHITE);
+			} else {
+				cells[i].setFill(Color.GREEN);
 			}
 		}
 	}

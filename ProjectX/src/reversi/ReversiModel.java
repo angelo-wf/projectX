@@ -39,11 +39,18 @@ public class ReversiModel extends GameModel {
 		for(Move m : moves) {
 			board[m.getAsInt(8)] = turn.getPieceNum();
 		}
-		if(turn == Turn.PLAYER2) {
-			turn = Turn.PLAYER1;
+		swapTurn();
+		if(!movePossible(turn)) {
+			// the next player can't move, switch back to this player
+			swapTurn();
+			if(!movePossible(turn)) {
+				// this player can;t either, game is done
+				finishGame();
+			}
+		}
+		if(turn == Turn.PLAYER1) {
 			player1.requestMove(move);
 		} else {
-			turn = Turn.PLAYER2;
 			player2.requestMove(move);
 		}
 		view.update();
@@ -67,7 +74,44 @@ public class ReversiModel extends GameModel {
 		if(turn == Turn.ENDED) {
 			return turn.getNiceString() + ", " + reason.getNiceString();
 		}
-		return turn.getNiceString();
+		int[] counts = getPieceCount();
+		return turn.getNiceString() + ", black pieces: " + counts[1] + ", white pieces: " + counts[2];
+	}
+	
+	private int[] getPieceCount() {
+		int[] counts = new int[] {0, 0, 0};
+		for(int i = 0; i < 64; i++) {
+			counts[board[i]]++;
+		}
+		return counts;
+	}
+	
+	private void finishGame() {
+		int[] counts = getPieceCount();
+		if(counts[1] > counts[2]) {
+			endGame(EndReason.WIN1);
+		} else if(counts[2] > counts[1]) {
+			endGame(EndReason.WIN2);
+		} else {
+			endGame(EndReason.DRAW);
+		}
+	}
+	
+	private void swapTurn() {
+		if(turn == Turn.PLAYER1) {
+			turn = Turn.PLAYER2;
+		} else {
+			turn = Turn.PLAYER1;
+		}
+	}
+	
+	private boolean movePossible(Turn turn) {
+		for(int i = 0; i < 64; i++) {
+			if(handleTurn(Move.getFromInt(8, i), turn) != null) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	private ArrayList<Move> handleTurn(Move move, Turn turn) {

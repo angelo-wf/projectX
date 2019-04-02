@@ -11,6 +11,12 @@ public class ReversiAI extends GamePlayer {
 		public void run() {
 			while(running) {
 				if(moveRequested) {
+					try {
+						Thread.sleep(500);
+					} catch(InterruptedException e) {
+						System.out.println("AI thread failed to sleep:");
+						e.printStackTrace();
+					}
 					while(true) {
 						int x = (int) (Math.random() * 8);
 						int y = (int) (Math.random() * 8);
