@@ -43,15 +43,26 @@ public class ReversiView extends GameView {
 	private void updateBoard() {
 		// TODO: Should getBoard and getStateString be part of the GameView?
 		int[] board = ((ReversiModel) model).getBoard();
+		int startingPlayer = ((ReversiModel) model).getStartingPlayer();
 		
 		for(int i = 0; i < board.length; i++) {
 			int value = board[i];
-			if(value == 1) {
-				cells[i].setFill(Color.BLACK);
-			} else if(value == 2) {
-				cells[i].setFill(Color.WHITE);
+			if(startingPlayer == 1) {
+				if(value == 1) {
+					cells[i].setFill(Color.BLACK);
+				} else if(value == 2) {
+					cells[i].setFill(Color.WHITE);
+				} else {
+					cells[i].setFill(Color.GREEN);
+				}
 			} else {
-				cells[i].setFill(Color.GREEN);
+				if(value == 1) {
+					cells[i].setFill(Color.WHITE);
+				} else if(value == 2) {
+					cells[i].setFill(Color.BLACK);
+				} else {
+					cells[i].setFill(Color.GREEN);
+				}
 			}
 		}
 	}

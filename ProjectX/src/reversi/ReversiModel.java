@@ -12,6 +12,7 @@ public class ReversiModel extends GameModel {
 	private int[] board;
 	private Turn turn;
 	private EndReason reason;
+	private int startingPlayer;
 	
 	public ReversiModel() {
 		board = new int[64];
@@ -23,10 +24,19 @@ public class ReversiModel extends GameModel {
 	}
 	
 	@Override
-	public void initGame() {
-		// TODO: get starting player from server
+	public void initGame(int startingPlayer) {
+		this.startingPlayer = startingPlayer;
+		if(startingPlayer == 2) {
+			board[8 * 3 + 3] = Turn.PLAYER1.getPieceNum();
+			board[8 * 3 + 4] = Turn.PLAYER2.getPieceNum();
+			board[8 * 4 + 3] = Turn.PLAYER2.getPieceNum();
+			board[8 * 4 + 4] = Turn.PLAYER1.getPieceNum();
+			player2.requestMove(null);
+			turn = Turn.PLAYER2;
+		} else {
+			player1.requestMove(null);
+		}
 		view.update();
-		player1.requestMove(null);
 	}
 
 	@Override
@@ -46,7 +56,6 @@ public class ReversiModel extends GameModel {
 			if(!movePossible(turn)) {
 				// this player can't either, game is done
 				finishGame();
-				return true;
 			}
 		}
 		if(turn == Turn.PLAYER1) {
@@ -66,7 +75,6 @@ public class ReversiModel extends GameModel {
 		player2.endGame();
 		turn = Turn.ENDED;
 		this.reason = reason;
-		view.update();
 	}
 	
 	public int[] getBoard() {
@@ -78,7 +86,11 @@ public class ReversiModel extends GameModel {
 			return turn.getNiceString() + ", " + reason.getNiceString();
 		}
 		int[] counts = getPieceCount();
-		return turn.getNiceString() + ", black pieces: " + counts[1] + ", white pieces: " + counts[2];
+		return turn.getNiceString() + ", P1 pieces: " + counts[1] + ", P2 pieces: " + counts[2];
+	}
+	
+	public int getStartingPlayer() {
+		return startingPlayer;
 	}
 	
 	private int[] getPieceCount() {

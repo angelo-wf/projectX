@@ -14,7 +14,7 @@ public abstract class GameModel {
 		view.update();
 	}
 	
-	public abstract void initGame();
+	public abstract void initGame(int startingPlayer);
 	
 	public abstract boolean doMove(Move move);
 	

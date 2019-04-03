@@ -45,7 +45,7 @@ public class TicTacToeTest extends Application {
 		primaryStage.setScene(scene);
 		primaryStage.setTitle("TicTacToe");
 		
-		model.initGame();
+		model.initGame(2);
 		
 		primaryStage.show();
 		

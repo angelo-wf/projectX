@@ -3,33 +3,16 @@ package gamehandler;
 public class RemotePlayer extends GamePlayer {
 	
 	private boolean moveExpected;
-	private boolean running;
-	
-	class RemoteThread implements Runnable {
-		public void run() {
-			while(running) {
-				if(moveExpected) {
-					moveExpected = false;
-					// TODO: peek move from server
-					// if it is a 'yourmove' instead, something went wrong
-					model.doMove(new Move(0, 0));
-				} else {
-					try {
-						Thread.sleep(10);
-					} catch(InterruptedException e) {
-						System.out.println("AI thread failed to sleep:");
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-	}
 	
 	public RemotePlayer() {
 		moveExpected = false;
-		running = true;
-		Thread remoteThread = new Thread(new RemoteThread());
-		remoteThread.start();
+	}
+	
+	public void onMessage(String message) {
+		// depending on message, do stuff
+		// if a move expected and move-message
+		model.doMove(new Move(0, 0));
+		// if a move expected and no move-message, something went wrong
 	}
 	
 	@Override
@@ -47,7 +30,7 @@ public class RemotePlayer extends GamePlayer {
 
 	@Override
 	public void endGame() {
-		running = false;
+		// do nothing
 	}
 
 }
