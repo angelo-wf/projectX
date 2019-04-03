@@ -1,6 +1,9 @@
 package application;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Connection {
@@ -10,9 +13,9 @@ public class Connection {
     public String fromServer;
     private ClientSocket clientSocket;
     //new queue for messages
-    LinkedBlockingQueue<HashMap<String, String>> messageQueue = new LinkedBlockingQueue<>();
+    LinkedBlockingQueue<HashMap<String, Object>> messageQueue = new LinkedBlockingQueue<>();
 
-    private Connection(String address, int port) {
+    public Connection(String address, int port) {
     	clientSocket = new ClientSocket(address, port, this);
     	
     }
@@ -21,7 +24,7 @@ public class Connection {
     	clientSocket.close();
     }
     
-    public LinkedBlockingQueue<HashMap<String, String>> getQueue(){
+    public LinkedBlockingQueue<HashMap<String, Object>> getQueue(){
         return messageQueue;
     }
 
@@ -65,6 +68,11 @@ public class Connection {
                             draw(otherWords);
                             break;
                         case "CHALLENGE":
+                        	String forthWord[] = otherWords.split(" ",2);
+                        	if(forthWord[0] == "CANCELLED") {
+                        		cancelled(forthWord[1]);
+                        		break;
+                        	}
                             challenge(otherWords);
                             break;
                         default:
@@ -72,6 +80,12 @@ public class Connection {
                             System.out.println("Could not recognize command. /n" + "Command: " + secondWord[1]);
                             break;
                     }
+                case "PLAYERLIST":
+                	 playerlist(secondWord[1]);                	 
+                	 break;
+                case "GAMELIST":
+                	gamelist(secondWord[1]);
+                	break;
                 default:
                 // not recognized
                 System.out.println("Could not recognize command. /n" + "Command: " + firstWord[1]);
@@ -86,7 +100,7 @@ public class Connection {
 
     public void setStringInHashMap(String stringMap, String messageType){
     	// Turn string into a HashMap
-        HashMap<String, String> gameMap = new HashMap<>();    
+        HashMap<String, Object> gameMap = new HashMap<>();    
         stringMap.substring(1, stringMap.length()-1);
         String[] keyValuePairs = stringMap.split(",");
         gameMap.put("MESSAGETYPE", messageType);
@@ -95,6 +109,16 @@ public class Connection {
             gameMap.put(entry[0].trim(), entry[1].trim().substring(1,entry[1].length()));
         }
         messageQueue.add(gameMap);
+    }
+    
+    public void setListInHashMap(String stringMap, String messageType) {
+        HashMap<String, Object> gameMap = new HashMap<>();    
+        List<String> newList = new ArrayList<String>(Arrays.asList(stringMap.split(",")));
+        for (int i = 0; i < newList.size(); i++) {
+        	newList.set(i, newList.get(i).substring(1, newList.size()));
+        }
+        gameMap.put("MESSAGETYPE", messageType);
+        gameMap.put("LIST", newList);
     }
     
     /**
@@ -186,5 +210,18 @@ public class Connection {
     public void challenge(String otherWords){
         // do challenge stuff;
         setStringInHashMap(otherWords, "CHALLENGE");
+    }
+    
+    public void cancelled(String otherWords) {
+    	// do challenge cancelled stuff
+    	setStringInHashMap(otherWords, "CHALLENGE_CANCELLED");
+    }
+    
+    public void playerlist(String otherWords) {
+    	setListInHashMap(otherWords, "PLAYERLIST");
+    }
+    
+    public void gamelist(String otherWords) {
+    	setListInHashMap(otherWords, "GAMELIST");
     }
 }
