@@ -36,61 +36,64 @@ public class Connection {
     public String getMessage() {
     	return toServer;
     }
+    
     public void checkInput(String fromServer){
-     String firstWord[] = fromServer.split(" ",2);
-    switch (firstWord[0]) {
-        case "OK":
-            ok();
-            break;
-        case "SVR":
-            String secondWord[] = firstWord[1].split(" ", 2);
-            switch (secondWord[0]) {
-                 case "GAME":
-                    String thirdWord[] = secondWord[1].split(" ",2);
-                    String otherWords = thirdWord[1];
-                    switch (thirdWord[0]) {
-                        case "MATCH":
-                            match(otherWords);
-                            break;
-                        case "YOURTURN":
-                            yourturn(otherWords);
-                            break;
-                        case "MOVE":
-                            move(otherWords);
-                            break;
-                        case "WIN":
-                            win(otherWords);
-                            break;
-                        case "LOSS":
-                            loss(otherWords);
-                            break;
-                        case "DRAW":
-                            draw(otherWords);
-                            break;
-                        case "CHALLENGE":
-                        	String forthWord[] = otherWords.split(" ",2);
-                        	if(forthWord[0] == "CANCELLED") {
-                        		cancelled(forthWord[1]);
-                        		break;
-                        	}
-                            challenge(otherWords);
-                            break;
-                        default:
-                            // not recognized
-                            System.out.println("Could not recognize command. /n" + "Command: " + secondWord[1]);
-                            break;
-                    }
-                case "PLAYERLIST":
-                	 playerlist(secondWord[1]);                	 
-                	 break;
-                case "GAMELIST":
-                	gamelist(secondWord[1]);
-                	break;
-                default:
-                // not recognized
-                System.out.println("Could not recognize command. /n" + "Command: " + firstWord[1]);
-                    break;
-           }
+    	
+    	String firstWord[] = fromServer.split(" ",2);
+    	switch (firstWord[0]) {
+        	case "OK":
+        		ok();
+        		break;
+        	case "SVR":
+        		String secondWord[] = firstWord[1].split(" ", 2);
+        		switch (secondWord[0]) {
+                 	case "GAME":
+                 		String thirdWord[] = secondWord[1].split(" ",2);
+                 		String otherWords = thirdWord[1];
+                 		switch (thirdWord[0]) {
+                 			case "MATCH":
+                 				match(otherWords);
+                 				break;
+                 			case "YOURTURN":
+                 				yourturn(otherWords);
+                 				break;
+                 			case "MOVE":
+                 				move(otherWords);
+                 				break;
+                 			case "WIN":
+                 				win(otherWords);
+                 				break;
+                 			case "LOSS":
+                 				loss(otherWords);
+                 				break;
+                 			case "DRAW":
+                 				draw(otherWords);
+                 				break;
+                 			case "CHALLENGE":
+                 				String forthWord[] = otherWords.split(" ",2);
+                 				// Check if challenge is cancelled
+                 				if(forthWord[0] == "CANCELLED") {
+                 					cancelled(forthWord[1]);
+                 					break;
+                 				}
+                 				challenge(otherWords);
+                 				break;
+                 			default:
+                 				// not recognized
+                 				System.out.println("Could not recognize command. /n" + "Command: " + secondWord[1]);
+                 				break;
+                 		}
+                 	case "PLAYERLIST":
+                 		playerlist(secondWord[1]);                	 
+                 		break;
+                 	case "GAMELIST":
+                 		gamelist(secondWord[1]);
+                 		break;
+                 	default:
+                 		// not recognized
+                 		System.out.println("Could not recognize command. /n" + "Command: " + firstWord[1]);
+                 		break;
+        			}
         default:
         // not recognized
         System.out.println("Could not recognize command. /n" + "Command: " + fromServer);
@@ -99,26 +102,34 @@ public class Connection {
    }
 
     public void setStringInHashMap(String stringMap, String messageType){
-    	// Turn string into a HashMap
+    	// Turn string which contains map into a HashMap
         HashMap<String, Object> gameMap = new HashMap<>();    
         stringMap.substring(1, stringMap.length()-1);
         String[] keyValuePairs = stringMap.split(",");
+        // enter items in the HashMap
         gameMap.put("MESSAGETYPE", messageType);
         for(String pair : keyValuePairs){
             String[] entry = pair.split(":");
             gameMap.put(entry[0].trim(), entry[1].trim().substring(1,entry[1].length()));
         }
+        // Enter HashMap in message queue
         messageQueue.add(gameMap);
     }
     
     public void setListInHashMap(String stringMap, String messageType) {
-        HashMap<String, Object> gameMap = new HashMap<>();    
+    	// Turn the string which contains a list into a HashMap
+        HashMap<String, Object> gameMap = new HashMap<>();
+        // Enter items in new list
         List<String> newList = new ArrayList<String>(Arrays.asList(stringMap.split(",")));
+        // remove quotation marks from strings
         for (int i = 0; i < newList.size(); i++) {
         	newList.set(i, newList.get(i).substring(1, newList.size()));
         }
+        // enter list and message type in the HashMap
         gameMap.put("MESSAGETYPE", messageType);
         gameMap.put("LIST", newList);
+        // Enter HashMap in message queue
+        messageQueue.add(gameMap);
     }
     
     /**
