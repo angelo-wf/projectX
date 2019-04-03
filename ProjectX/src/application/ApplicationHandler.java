@@ -11,8 +11,9 @@ public class ApplicationHandler {
 		// make window
 	}
 	
-	public void setServer(String name) {
-		connection = new Connection(name.split(":")[0], Integer.parseInt(name.split(":")[1]));
+	public void setServer(String name, String address) {
+		connection = new Connection(address.split(":")[0], Integer.parseInt(address.split(":")[1]));
+		connection.login(name);
 	}
 	
 	public void requestPlayerList() {
