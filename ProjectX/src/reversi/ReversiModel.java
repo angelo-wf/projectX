@@ -86,7 +86,10 @@ public class ReversiModel extends GameModel {
 			return turn.getNiceString() + ", " + reason.getNiceString();
 		}
 		int[] counts = getPieceCount();
-		return turn.getNiceString() + ", P1 pieces: " + counts[1] + ", P2 pieces: " + counts[2];
+		if(startingPlayer == 2) {
+			return turn.getNiceString() + ", P1 (white) pieces: " + counts[1] + ", P2 (black) pieces: " + counts[2];
+		}
+		return turn.getNiceString() + ", P1 (black) pieces: " + counts[1] + ", P2 (white) pieces: " + counts[2];
 	}
 	
 	public int getStartingPlayer() {
@@ -130,6 +133,7 @@ public class ReversiModel extends GameModel {
 	}
 	
 	private ArrayList<Move> handleTurn(Move move, Turn turn) {
+		// if piece is already full, not a valid move
 		if(board[move.getAsInt(8)] != 0) {
 			return null;
 		}
@@ -137,6 +141,7 @@ public class ReversiModel extends GameModel {
 		ArrayList<Move> changes = new ArrayList<>();
 		for(int i = -1; i <= 1; i++) {
 			for(int j = -1; j <= 1; j++) {
+				// for each of the 8 cells around this cell, if it is out of range, check next cell
 				if(move.getX() + i < 0 || move.getX() + i >= 8) {
 					continue;
 				}
@@ -144,26 +149,33 @@ public class ReversiModel extends GameModel {
 					continue;
 				}
 				Move cell = new Move(move.getX() + i, move.getY() + j);
+				// if it is our piece, or empty (also skips middle cell), check next cell
 				if((board[cell.getAsInt(8)] == turn.getPieceNum()) || board[cell.getAsInt(8)] == 0) {
 					continue;
 				}
 				boolean canDo = false;
 				int t = 2;
+				// check in each direction from the other player's piece
 				while(inRange(move.getX() + (i * t)) && inRange(move.getY() + (j * t))) {
 					Move tCell = new Move(move.getX() + (i * t), move.getY() + (j * t));
+					// if it is empty, break (move not possible)
 					if(board[tCell.getAsInt(8)] == 0) {
 						break;
 					}
+					// else, break but indicate that move is possible
 					if(board[tCell.getAsInt(8)] == turn.getPieceNum()) {
 						canDo = true;
 						break;
 					}
 					t++;
 				}
+				// if we can move
 				if(canDo) {
 					int u = 1;
+					// add all other player's pieces to the change-list, these get turned
 					while(inRange(move.getX() + (i * u)) && inRange(move.getY() + (j * u))) {
 						Move tCell = new Move(move.getX() + (i * u), move.getY() + (j * u));
+						// if we hit our piece, break
 						if(board[tCell.getAsInt(8)] == turn.getPieceNum()) {
 							break;
 						}
@@ -174,10 +186,12 @@ public class ReversiModel extends GameModel {
 				}
 			}
 		}
+		// if we could move, add the piece we placed to the change-list
 		if(allow) {
 			changes.add(move);
 			return changes;
 		}
+		// else return null (couldn't move)
 		return null;
 	}
 	

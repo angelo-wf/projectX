@@ -10,7 +10,7 @@ public class ApplicationHandler {
 	}
 	
 	public void setServer(String name) {
-		//connection = new Connection(name.split(":")[0], Integer.parseInt(name.split(":")[1]));
+		connection = new Connection(name.split(":")[0], Integer.parseInt(name.split(":")[1]));
 	}
 	
 	public void requestPlayerList() {
