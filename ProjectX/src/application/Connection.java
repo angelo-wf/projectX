@@ -9,7 +9,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class Connection {
 	
 	//represent streams
-    public String toServer;
+//    public String toServer;
     public String fromServer;
     private ClientSocket clientSocket;
     //new queue for messages
@@ -27,8 +27,9 @@ public class Connection {
         return messageQueue;
     }
 
-    public void sendMessage(){
+    public void sendMessage(String toServer){
         // send to socket
+    	System.out.println("toServer: " + toServer);
     	clientSocket.sendToServer(toServer);
     }
     
@@ -38,6 +39,9 @@ public class Connection {
     	switch (firstWord[0]) {
         	case "OK":
         		ok();
+        		break;
+        	case "ERR":
+        		error(firstWord[1]);
         		break;
         	case "SVR":
         		String secondWord[] = firstWord[1].split(" ", 2);
@@ -127,52 +131,50 @@ public class Connection {
         messageQueue.add(gameMap);
     }
     
+    public void setErrorInHashMap(String errorMessage, String messageType) {
+    	// Turn the string into a HashMap
+        HashMap<String, Object> gameMap = new HashMap<>();
+        gameMap.put("MESSAGETYPE", messageType);
+        gameMap.put("ERRORMESSAGE", errorMessage);
+    }
+    
     /**
      * toSever methods
      */
     public void login(String username){
-        toServer = "login " + username;
-        sendMessage();
+        sendMessage("login " + username);
     }
     
     public void logout(){
-        toServer = "logout";
-        sendMessage();
+        sendMessage("logout");
     }
     
     public void getGamelist(){
-        toServer = "get gamelist";
-        sendMessage();
+        sendMessage("get gamelist");
     }
     
     public void getPlayerlist(){
-        toServer= "get playerlist";
-        sendMessage();
+        sendMessage("get playerlist");
     }
     
     public void subscirbe(String game){
-        toServer= "subscribe " + game;
-        sendMessage();
+        sendMessage("subscribe " + game);
     }
     
     public void move(int pos){
-        toServer= "move " + pos;
-        sendMessage();
+        sendMessage("move " + pos);
     }
     
     public void forfeit(){
-        toServer= "forfeit";
-        sendMessage();
+        sendMessage("forfeit");
     }
     
     public void challenge(String player, String game){
-        toServer= "challenge " + player + " " + game;
-        sendMessage();
+        sendMessage("challenge " + player + " " + game);
     }
     
     public void challengeAccept(int index){
-        toServer= "challenge accept " + index;
-        sendMessage();
+        sendMessage("challenge accept " + index);
     }
     
     /**
@@ -225,9 +227,13 @@ public class Connection {
     
     public void playerlist(String otherWords) {
     	setListInHashMap(otherWords, "PLAYERLIST");
+    	// applicationHandler.receivePlayerlist();
     }
     
     public void gamelist(String otherWords) {
     	setListInHashMap(otherWords, "GAMELIST");
+    }
+    public void error(String errorMessage) {
+    	setErrorInHashMap(errorMessage, "ERROR");
     }
 }

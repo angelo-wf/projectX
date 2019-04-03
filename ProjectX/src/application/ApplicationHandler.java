@@ -27,5 +27,36 @@ public class ApplicationHandler {
 	public void recieveMessage(HashMap<String, Object> map) {
 		//send to view
 		String type = (String) map.get("MESSAGETYPE");
+		switch (type) {
+		case "MATCH":
+			System.out.println(map.toString());
+			break;
+		case "YOURTURN":
+			System.out.println(map.toString());
+			break;
+		case "MOVE":
+			System.out.println(map.toString());
+			break;
+		case "WIN":
+			System.out.println(map.toString());
+			break;
+		case "LOSS":
+			System.out.println(map.toString());
+			break;
+		case "CHALLENGE":
+			System.out.println(map.toString());
+			break;
+		case "CHALLENGE_CANCELLED":
+			System.out.println(map.toString());
+			break;
+		case "PLAYERLIST":
+			System.out.println(map.toString());
+			break;
+		case "GAMELIST":
+			System.out.println(map.toString());
+			break;
+		default:
+			break;
+		}
 	}
 }

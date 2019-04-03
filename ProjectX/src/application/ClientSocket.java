@@ -49,6 +49,7 @@ public class ClientSocket {
 					// when connection stops sending
 					if(line == null) {
 						//close connection
+						running = false;
 						inputStream.close();
 						outputStream.close();
 						break;
