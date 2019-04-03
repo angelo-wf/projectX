@@ -1,5 +1,7 @@
 package application;
 
+import java.util.HashMap;
+
 public class ApplicationHandler {
 	
 	private Connection connection;
@@ -21,7 +23,8 @@ public class ApplicationHandler {
 		}
 	}
 	
-	public void recievePlayerList() {
+	public void recieveMessage(HashMap<String, Object> map) {
 		//send to view
+		String type = (String) map.get("MESSAGETYPE");
 	}
 }
