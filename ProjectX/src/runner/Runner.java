@@ -27,7 +27,8 @@ public class Runner extends Application {
 		@Override
 		public void run() {
 			try {
-				socket = new Socket("145.33.225.170", 7789);
+				//socket = new Socket("145.33.225.170", 7789);
+				socket = new Socket("localhost", 7789);
 				BufferedReader inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 				outputStream = new OutputStreamWriter(socket.getOutputStream());
 				Platform.runLater(() -> {
