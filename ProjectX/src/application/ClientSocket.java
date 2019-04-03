@@ -30,6 +30,7 @@ public class ClientSocket {
 		// send to server
 		try {
 			outputStream.write(message);
+			outputStream.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
