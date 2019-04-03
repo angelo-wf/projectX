@@ -25,6 +25,16 @@ public class ClientSocket {
 			System.out.println(ex);
 		}
 	}
+	
+	public void sendToServer(String message) {
+		// send to server
+		try {
+			outputStream.write(message);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
 	class ServerWorker implements Runnable {	
 		@Override
@@ -44,10 +54,6 @@ public class ClientSocket {
 					}
 					// process line
 					connection.checkInput(line);
-					if(outputStream != null) {
-						outputStream.write(connection.getMessage());
-						outputStream.flush();
-					}
 				}
 			} catch(IOException e) {
 				System.out.println(e);

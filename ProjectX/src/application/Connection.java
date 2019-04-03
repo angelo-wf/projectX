@@ -17,7 +17,6 @@ public class Connection {
 
     public Connection(String address, int port) {
     	clientSocket = new ClientSocket(address, port, this);
-    	
     }
     
     public void close() {
@@ -28,17 +27,13 @@ public class Connection {
         return messageQueue;
     }
 
-    public void sendMessage(String message){
+    public void sendMessage(){
         // send to socket
-    	toServer = message;
-    }
-
-    public String getMessage() {
-    	return toServer;
+    	clientSocket.sendToServer(toServer);
     }
     
     public void checkInput(String fromServer){
-    	
+    	// check server message word by word
     	String firstWord[] = fromServer.split(" ",2);
     	switch (firstWord[0]) {
         	case "OK":
@@ -137,47 +132,47 @@ public class Connection {
      */
     public void login(String username){
         toServer = "login " + username;
-        sendMessage(toServer);
+        sendMessage();
     }
     
     public void logout(){
         toServer = "logout";
-        sendMessage(toServer);
+        sendMessage();
     }
     
     public void getGamelist(){
         toServer = "get gamelist";
-        sendMessage(toServer);
+        sendMessage();
     }
     
     public void getPlayerlist(){
         toServer= "get playerlist";
-        sendMessage(toServer);
+        sendMessage();
     }
     
     public void subscirbe(String game){
         toServer= "subscribe " + game;
-        sendMessage(toServer);
+        sendMessage();
     }
     
     public void move(int pos){
         toServer= "move " + pos;
-        sendMessage(toServer);
+        sendMessage();
     }
     
     public void forfeit(){
         toServer= "forfeit";
-        sendMessage(toServer);
+        sendMessage();
     }
     
     public void challenge(String player, String game){
         toServer= "challenge " + player + " " + game;
-        sendMessage(toServer);
+        sendMessage();
     }
     
     public void challengeAccept(int index){
         toServer= "challenge accept " + index;
-        sendMessage(toServer);
+        sendMessage();
     }
     
     /**
