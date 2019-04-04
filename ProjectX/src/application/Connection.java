@@ -30,11 +30,12 @@ public class Connection {
     }
     
     public void checkInput(String fromServer){
+    	System.out.println(fromServer);
     	// check server message word by word
     	String firstWord[] = fromServer.split(" ",2);
     	switch (firstWord[0]) {
         	case "OK":
-        		System.out.println("OK");
+        		System.out.println("OK: OK");
         		break;
         	case "ERR":
         		setErrorInHashMap(firstWord[1], "ERROR");
@@ -65,10 +66,10 @@ public class Connection {
         			}
         		break;
         	case "Strategic":
-        		System.out.println(fromServer);
+        		System.out.println("STARTMESSAGE: " + fromServer);
         		break;
         	case "(C)":
-        		System.out.println(fromServer);
+        		System.out.println("STARTMESSAGE: " + fromServer);
         		break;
         default:
         // not recognized
@@ -91,7 +92,7 @@ public class Connection {
         }
         // Enter HashMap in message queue
         messageQueue.add(gameMap);
-        System.out.println(gameMap.toString());
+        System.out.println("setMap: " + gameMap.toString());
 
     }
     
@@ -109,7 +110,7 @@ public class Connection {
         gameMap.put("LIST", output);
         // Enter HashMap in message queue
         messageQueue.add(gameMap);
-        System.out.println(gameMap.toString());
+        System.out.println("setList: " + gameMap.toString());
     }
     
     public void setErrorInHashMap(String errorMessage, String messageType) {
@@ -117,6 +118,7 @@ public class Connection {
         HashMap<String, Object> gameMap = new HashMap<>();
         gameMap.put("MESSAGETYPE", messageType);
         gameMap.put("ERRORMESSAGE", errorMessage);
+        System.out.println("setError: " + gameMap.toString());
     }
     
     /**
