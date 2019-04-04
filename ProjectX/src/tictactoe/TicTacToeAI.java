@@ -7,6 +7,7 @@ public class TicTacToeAI extends GamePlayer {
 	
 	private boolean running;
 	private boolean moveRequested;
+	private int playerNum;
 	
 	class AiThread implements Runnable {
 		public void run() {
@@ -14,6 +15,8 @@ public class TicTacToeAI extends GamePlayer {
 				if(moveRequested) {
 					moveRequested = false;
 					while(true) {
+						int[] board = ((TicTacToeModel) model).getBoard();
+						
 						int x = (int) (Math.random() * 3);
 						int y = (int) (Math.random() * 3);
 						Move tryMove = new Move(x, y);
@@ -33,7 +36,8 @@ public class TicTacToeAI extends GamePlayer {
 		}
 	}
 	
-	public TicTacToeAI() {
+	public TicTacToeAI(int importedPlayerNum) {
+		playerNum = importedPlayerNum;
 		running = true;
 		moveRequested = false;
 		Thread aiThread = new Thread(new AiThread());
@@ -59,6 +63,7 @@ public class TicTacToeAI extends GamePlayer {
 	@Override
 	public void tellMove(Move move) {
 		// AI doesn't do anything with the other's move
+		
 	}
 
 }
