@@ -31,6 +31,7 @@ public class ClientSocket {
 	public void sendToServer(String message) {
 		// send to server
 		try {
+			outputStream.flush();
 			outputStream.write(message + "\n");
 			outputStream.flush();
 		} catch (IOException e) {

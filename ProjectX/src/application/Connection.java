@@ -64,6 +64,12 @@ public class Connection {
                  		break;
         			}
         		break;
+        	case "Strategic":
+        		System.out.println(fromServer);
+        		break;
+        	case "(C)":
+        		System.out.println(fromServer);
+        		break;
         default:
         // not recognized
         System.out.println("Could not recognize command 1. \n" + "Command: " + fromServer);
@@ -73,7 +79,7 @@ public class Connection {
 
     public void setStringInHashMap(String stringMap, String messageType){
     	// Turn string which contains map into a HashMap
-    	System.out.println(stringMap);
+//    	System.out.println(stringMap);
         HashMap<String, Object> gameMap = new HashMap<>();    
         stringMap = stringMap.substring(1, stringMap.length()-1);
         String[] keyValuePairs = stringMap.split(", ");
@@ -145,7 +151,7 @@ public class Connection {
     }
     
     public void challengePlayer(String player, String game){
-        sendMessage("challenge " + player + " " + game);
+        sendMessage("challenge \"" + player + "\" \"" + game + "\"");
     }
     
     public void challengeAccept(int index){
