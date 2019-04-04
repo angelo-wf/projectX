@@ -10,7 +10,7 @@ public class RemotePlayer extends GamePlayer {
 	private Connection connection;
 	private boolean yourTurnSend;
 	
-	public RemotePlayer(Connection connection) {
+	public RemotePlayer(int playerNum, Connection connection) {
 		moveExpected = false;
 		yourTurnSend = false;
 		this.connection = connection;

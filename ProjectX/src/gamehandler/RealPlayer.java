@@ -4,7 +4,7 @@ public class RealPlayer extends GamePlayer {
 	
 	private boolean ourTurn;
 	
-	public RealPlayer() {
+	public RealPlayer(int playerNum) {
 		ourTurn = false;
 	}
 	

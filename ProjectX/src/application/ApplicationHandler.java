@@ -45,20 +45,20 @@ public class ApplicationHandler {
 		case "Reversi":
 			model = new ReversiModel();
 			if(playerType1.equals("AI")) {
-				player1 = new ReversiAI();
+				player1 = new ReversiAI(1);
 			}
 			if(playerType2.equals("AI")) {
-				player2 = new ReversiAI();
+				player2 = new ReversiAI(2);
 			}
 			gameView = new ReversiView();
 			break;
 		case "Tic-tac-toe":
 			model = new TicTacToeModel();
 			if(playerType1.equals("AI")) {
-				player1 = new TicTacToeAI();
+				player1 = new TicTacToeAI(1);
 			}
 			if(playerType2.equals("AI")) {
-				player2 = new TicTacToeAI();
+				player2 = new TicTacToeAI(2);
 			}
 			gameView = new TicTacToeView();
 			break;
@@ -66,10 +66,10 @@ public class ApplicationHandler {
 			throw new IllegalArgumentException("Unknown Game-type");
 		}
 		if(!playerType1.equals("AI")) {
-			player1 = getPlayerForType(playerType1);
+			player1 = getPlayerForType(playerType1, 1);
 		}
 		if(!playerType2.equals("AI")) {
-			player2 = getPlayerForType(playerType2);
+			player2 = getPlayerForType(playerType2, 2);
 		}
 		model.setPlayer1(player1);
 		model.setPlayer2(player2);
@@ -119,12 +119,12 @@ public class ApplicationHandler {
 		}
 	}
 	
-	private GamePlayer getPlayerForType(String type) {
+	private GamePlayer getPlayerForType(String type, int number) {
 		switch(type) {
 		case "Real":
-			return new RealPlayer();
+			return new RealPlayer(number);
 		case "Remote":
-			return new RemotePlayer(connection);
+			return new RemotePlayer(number, connection);
 		default:
 			throw new IllegalArgumentException("Unknown Player-type");
 		}

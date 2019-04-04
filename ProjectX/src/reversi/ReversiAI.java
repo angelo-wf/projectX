@@ -6,6 +6,7 @@ import gamehandler.Move;
 public class ReversiAI extends GamePlayer {
 	private boolean running;
 	private boolean moveRequested;
+	private int playerNum;
 	
 	class AiThread implements Runnable {
 		public void run() {
@@ -38,11 +39,12 @@ public class ReversiAI extends GamePlayer {
 		}
 	}
 	
-	public ReversiAI() {
+	public ReversiAI(int playerNum) {
 		running = true;
 		moveRequested = false;
 		Thread aiThread = new Thread(new AiThread());
 		aiThread.start();
+		this.playerNum = playerNum;
 	}
 	
 	@Override
