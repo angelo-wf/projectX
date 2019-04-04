@@ -2,10 +2,26 @@ package application;
 
 import java.util.HashMap;
 
+import gamehandler.GameModel;
+import gamehandler.GamePlayer;
+import gamehandler.GameView;
+import gamehandler.RealPlayer;
+import gamehandler.RemotePlayer;
+import reversi.ReversiAI;
+import reversi.ReversiModel;
+import reversi.ReversiView;
+import tictactoe.TicTacToeAI;
+import tictactoe.TicTacToeModel;
+import tictactoe.TicTacToeView;
+
 public class ApplicationHandler {
 	
 	private Connection connection;
 	// global view, gamemodel, players, view
+	private GameModel model;
+	private GamePlayer player1;
+	private GamePlayer player2;
+	private GameView gameView;
 	
 	public ApplicationHandler() {
 		// make window
@@ -22,6 +38,46 @@ public class ApplicationHandler {
 		} else {
 			connection.getGamelist();
 		}
+	}
+	
+	public void setUpGame(String game, String playerType1, String playerType2) {
+		switch(game) {
+		case "Reversi":
+			model = new ReversiModel();
+			if(playerType1.equals("AI")) {
+				player1 = new ReversiAI();
+			}
+			if(playerType2.equals("AI")) {
+				player2 = new ReversiAI();
+			}
+			gameView = new ReversiView();
+			break;
+		case "Tic-tac-toe":
+			model = new TicTacToeModel();
+			if(playerType1.equals("AI")) {
+				player1 = new TicTacToeAI();
+			}
+			if(playerType2.equals("AI")) {
+				player2 = new TicTacToeAI();
+			}
+			gameView = new TicTacToeView();
+			break;
+		default:
+			throw new IllegalArgumentException("Unknown Game-type");
+		}
+		if(!playerType1.equals("AI")) {
+			player1 = getPlayerForType(playerType1);
+		}
+		if(!playerType2.equals("AI")) {
+			player2 = getPlayerForType(playerType2);
+		}
+		model.setPlayer1(player1);
+		model.setPlayer2(player2);
+		model.setView(gameView);
+		gameView.setModel(model);
+		gameView.setPlayer(player1);
+		player1.setModel(model);
+		player2.setModel(model);
 	}
 	
 	public void recieveMessage(HashMap<String, Object> map) {
@@ -57,6 +113,17 @@ public class ApplicationHandler {
 			break;
 		default:
 			break;
+		}
+	}
+	
+	private GamePlayer getPlayerForType(String type) {
+		switch(type) {
+		case "Real":
+			return new RealPlayer();
+		case "Remote":
+			return new RemotePlayer();
+		default:
+			throw new IllegalArgumentException("Unknown Player-type");
 		}
 	}
 }
