@@ -1,16 +1,12 @@
 package application;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public class Connection {
 	
 	//represent streams
-//    public String toServer;
-    public String fromServer;
     private ClientSocket clientSocket;
     //new queue for messages
     LinkedBlockingQueue<HashMap<String, Object>> messageQueue = new LinkedBlockingQueue<>();
@@ -79,7 +75,7 @@ public class Connection {
                  				break;
                  			default:
                  				// not recognized
-                 				System.out.println("Could not recognize command. /n" + "Command: " + secondWord[1]);
+                 				System.out.println("Could not recognize command 3. \n" + "Command: " + secondWord[1]);
                  				break;
                  		}
                  	case "PLAYERLIST":
@@ -90,12 +86,13 @@ public class Connection {
                  		break;
                  	default:
                  		// not recognized
-                 		System.out.println("Could not recognize command. /n" + "Command: " + firstWord[1]);
+                 		System.out.println("Could not recognize command 2. \n" + "Command: " + firstWord[1]);
                  		break;
         			}
+        		break;
         default:
         // not recognized
-        System.out.println("Could not recognize command. /n" + "Command: " + fromServer);
+        System.out.println("Could not recognize command 1. \n" + "Command: " + fromServer);
            break;
        }
    }
@@ -116,19 +113,20 @@ public class Connection {
     }
     
     public void setListInHashMap(String stringMap, String messageType) {
+    	System.out.println(stringMap);
     	// Turn the string which contains a list into a HashMap
         HashMap<String, Object> gameMap = new HashMap<>();
-        // Enter items in new list
-        List<String> newList = new ArrayList<String>(Arrays.asList(stringMap.split(",")));
-        // remove quotation marks from strings
-        for (int i = 0; i < newList.size(); i++) {
-        	newList.set(i, newList.get(i).substring(1, newList.size()));
+        stringMap = stringMap.substring(1, stringMap.length() - 1);
+        String[] stringItems = stringMap.split(", ");
+        ArrayList<String> output = new ArrayList<>();
+        for(String item : stringItems) {
+        	output.add(item.substring(1, item.length() - 1));
         }
-        // enter list and message type in the HashMap
         gameMap.put("MESSAGETYPE", messageType);
-        gameMap.put("LIST", newList);
+        gameMap.put("LIST", output);
         // Enter HashMap in message queue
         messageQueue.add(gameMap);
+        System.out.println(gameMap.toString());
     }
     
     public void setErrorInHashMap(String errorMessage, String messageType) {

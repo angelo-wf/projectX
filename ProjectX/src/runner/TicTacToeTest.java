@@ -1,5 +1,6 @@
 package runner;
 
+import application.Connection;
 import gamehandler.GameModel;
 import gamehandler.GamePlayer;
 import gamehandler.GameView;
@@ -23,6 +24,10 @@ public class TicTacToeTest extends Application {
 //		GamePlayer player1 = new RealPlayer();
 //		//GamePlayer player1 = new TicTacToeAI();
 //		GamePlayer player2 = new TicTacToeAI();
+		
+		Connection connection = new Connection("localhost", 7789);
+		connection.login("elzo_d");
+		connection.getGamelist();
 		
 		GameModel model = new ReversiModel();
 		GameView view = new ReversiView();
