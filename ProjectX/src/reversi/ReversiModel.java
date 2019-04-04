@@ -78,6 +78,11 @@ public class ReversiModel extends GameModel {
 		this.reason = reason;
 	}
 	
+	@Override
+	public int getWidth() {
+		return 8;
+	}
+	
 	public int[] getBoard() {
 		return board;
 	}

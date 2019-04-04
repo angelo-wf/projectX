@@ -1,18 +1,42 @@
 package gamehandler;
 
+import java.util.HashMap;
+
+import application.Connection;
+
 public class RemotePlayer extends GamePlayer {
 	
 	private boolean moveExpected;
+	private Connection connection;
+	private boolean yourTurnSend;
 	
-	public RemotePlayer() {
+	public RemotePlayer(Connection connection) {
 		moveExpected = false;
+		yourTurnSend = false;
+		this.connection = connection;
 	}
 	
-	public void onMessage(String message) {
+	public void onMessage(HashMap<String, Object> map) {
 		// depending on message, do stuff
 		// if a move expected and move-message
 		model.doMove(new Move(0, 0));
 		// if a move expected and no move-message, something went wrong
+		switch((String) map.get("MESSAGETYPE")) {
+		case "MOVE":
+			if(moveExpected) {
+				moveExpected = false;
+				model.doMove(Move.getFromInt(model.getWidth(), Integer.parseInt((String) map.get("MOVE"))));
+			} else {
+				// something went wrong...
+				System.out.println("ERROR: Got move while not expecting one");
+			}
+			break;
+		case "YOURTURN":
+			yourTurnSend = true;
+			break;
+		default:
+			System.out.println("Message gotten: " + map.get("MESSAGETYPE"));
+		}
 	}
 	
 	@Override
@@ -22,10 +46,14 @@ public class RemotePlayer extends GamePlayer {
 
 	@Override
 	public void requestMove(Move move) {
-		// TODO: peek 'yourmove' from server
-		// if not a 'yourmove' something went wrong
-		// TODO: send move to server
-		moveExpected = true;
+		if(yourTurnSend) {
+			connection.move(move.getAsInt(model.getWidth()));
+			moveExpected = true;
+			yourTurnSend = false;
+		} else {
+			// something went wrong...
+			System.out.println("ERROR: Wanted to do move without it being our turn");
+		}
 	}
 
 	@Override

@@ -121,7 +121,7 @@ public class ApplicationHandler {
 		case "Real":
 			return new RealPlayer();
 		case "Remote":
-			return new RemotePlayer();
+			return new RemotePlayer(connection);
 		default:
 			throw new IllegalArgumentException("Unknown Player-type");
 		}

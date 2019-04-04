@@ -61,6 +61,11 @@ public class TicTacToeModel extends GameModel {
 		this.reason = reason;
 	}
 	
+	@Override
+	public int getWidth() {
+		return 3;
+	}
+	
 	public int[] getBoard() {
 		return board;
 	}

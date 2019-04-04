@@ -20,6 +20,8 @@ public abstract class GameModel {
 	
 	public abstract void endGame(EndReason reason);
 	
+	public abstract int getWidth();
+	
 	public void setPlayer1(GamePlayer player) {
 		this.player1 = player;
 	}
