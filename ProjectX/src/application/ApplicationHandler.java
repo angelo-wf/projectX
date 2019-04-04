@@ -85,31 +85,34 @@ public class ApplicationHandler {
 		String type = (String) map.get("MESSAGETYPE");
 		switch (type) {
 		case "MATCH":
-			System.out.println(map.toString());
+			System.out.println(type);
 			break;
 		case "YOURTURN":
-			System.out.println(map.toString());
+			System.out.println(type);
 			break;
 		case "MOVE":
-			System.out.println(map.toString());
+			System.out.println(type);
 			break;
 		case "WIN":
-			System.out.println(map.toString());
+			System.out.println(type);
 			break;
 		case "LOSS":
-			System.out.println(map.toString());
+			System.out.println(type);
+			break;
+		case "DRAW":
+			System.out.println(type);
 			break;
 		case "CHALLENGE":
-			System.out.println(map.toString());
+			System.out.println(type);
 			break;
 		case "CHALLENGE_CANCELLED":
-			System.out.println(map.toString());
+			System.out.println(type);
 			break;
 		case "PLAYERLIST":
-			System.out.println(map.toString());
+			System.out.println(type);
 			break;
 		case "GAMELIST":
-			System.out.println(map.toString());
+			System.out.println(type);
 			break;
 		default:
 			break;
