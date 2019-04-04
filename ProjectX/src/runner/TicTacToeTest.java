@@ -28,7 +28,7 @@ public class TicTacToeTest extends Application {
 		Connection connection = new Connection("localhost", 7789);
 		connection.login("elzo_d");
 		connection.getGamelist();
-//		connection.challengePlayer("user1", "Tic-tac-toe");
+		connection.challengePlayer("user1", "Tic-tac-toe");
 		
 		GameModel model = new ReversiModel();
 		GameView view = new ReversiView();

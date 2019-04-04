@@ -31,7 +31,7 @@ public class ClientSocket {
 	public void sendToServer(String message) {
 		// send to server
 		try {
-			outputStream.write(message + "/n");
+			outputStream.write(message + "\n");
 			outputStream.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
