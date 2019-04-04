@@ -38,8 +38,7 @@ public class Gui extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-    
-    
+        
     HBox hBox = new HBox();
     String nameUser;
     String nameServer;
@@ -52,8 +51,7 @@ public class Gui extends Application {
         grid1.setAlignment(Pos.CENTER);
         grid1.setPadding(new Insets(15));
         grid1.setMinWidth(400);
-        grid1.setMaxWidth(400);
-        
+        grid1.setMaxWidth(400);  
         
         VBox vBoxLabels = new VBox();
         VBox vBoxScores = new VBox();
@@ -65,11 +63,9 @@ public class Gui extends Application {
         Label turnLabel = new Label("It's your turn!");
         Label timeLabel = new Label("8.32 sec left");
         
-        
         //Button
         Button ffBtn = new Button("Forfeit");
-        
-        
+                
         //styles
         statLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 40));
         yourScoreLabel.setFont(Font.font("Verdana", 20));
@@ -84,16 +80,13 @@ public class Gui extends Application {
         		"    -fx-background-radius: 30;\r\n" + 
         		"    -fx-background-insets: 0;\r\n" + 
         		"    -fx-text-fill: white;");
-        
-       
-        
+                
         //Button interactie en stijl
         ffBtn.setOnMouseEntered(e -> ffBtn.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00);\r\n" + 
         		"    -fx-background-radius: 30;\r\n" + 
         		"    -fx-background-insets: 0;\r\n" + 
         		"    -fx-text-fill: white; -fx-opacity: 0.5;"));
-        
-        
+                
         ffBtn.setOnMouseExited(e -> ffBtn.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00);\r\n" + 
         		"    -fx-background-radius: 30;\r\n" + 
         		"    -fx-background-insets: 0;\r\n" + 
@@ -105,12 +98,10 @@ public class Gui extends Application {
             }
         });
         
-        
         //labels for stats screen
         Label scoreNumberLabel = new Label("30");
         Label oppScoreNumberLabel = new Label("27");
 
-        
         //styles
         scoreNumberLabel.setFont(Font.font("Verdana", 20));
         oppScoreNumberLabel.setFont(Font.font("Verdana", 20));
@@ -126,7 +117,6 @@ public class Gui extends Application {
         
         hBox.getChildren().add(grid1);
     }
-    
     
     public void makeGame() {
     	 GridPane grid2 = new GridPane();
@@ -148,10 +138,6 @@ public class Gui extends Application {
     
     public void makeLogin(StackPane root) {
     	
-    	
-    	
-    	
-    	
     	ObservableList<String> options = 
     		    FXCollections.observableArrayList(
     		        "Online",
@@ -161,8 +147,7 @@ public class Gui extends Application {
     	GridPane loginGrid = new GridPane();
     	loginGrid.setAlignment(Pos.CENTER);
     	loginGrid.setPadding(new Insets(15));
-        
-    	
+            	
         Label loginName = new Label("Username: ");
         Label serverName = new Label("Server: ");
         Label nameError = new Label("name required");
@@ -180,8 +165,7 @@ public class Gui extends Application {
         if(nameServer != null) {
         	serverInput.setText(nameServer);
         }
-    	
-        
+    	        
         ComboBox<String> selectMode = new ComboBox(options);
         selectMode.getSelectionModel().selectFirst();
 
@@ -203,10 +187,6 @@ public class Gui extends Application {
             }
         });
         
-        
-        
-        
-        
     	Button enterButton = new Button("Enter lobby");
         
     	loginGrid.add(loginName, 0, 1);
@@ -222,14 +202,12 @@ public class Gui extends Application {
 		serverError.setVisible(false);
 		nameError.setVisible(false);
 	
-    	
         enterButton.setOnAction(e -> {
         	nameUser = loginInput.getText();
         	nameServer = serverInput.getText();
         	Boolean userGoed = false;
         	Boolean serverGoed = false;
         	Boolean canLogin = false;
-        	
         	
         	String selectedMode1 = selectMode.getSelectionModel().getSelectedItem();
   	
@@ -277,8 +255,6 @@ public class Gui extends Application {
         	
         });
     	
-    	
-    	
 //    	enterButton.setStyle("-fx-background-color: linear-gradient(#15b700, #75ff63);\r\n" + 
 //    			"    -fx-background-radius: 30;\r\n" + 
 //    			"    -fx-background-insets: 0;\r\n" + 
@@ -294,11 +270,7 @@ public class Gui extends Application {
     	loginGrid.setPadding(new Insets(10, 10, 10, 10));
     	
     	root.getChildren().add(loginGrid);
-
-
-
     }
-    
     
 public void makeLobby(StackPane root) {
 		ToolBar toolbar = new ToolBar();
@@ -340,10 +312,7 @@ public void makeLobby(StackPane root) {
 
     	toolbarbox.getChildren().add(lobbyGrid);
     	
-    	
     	root.getChildren().add(toolbarbox);
-
-    	
     	
         playerLobbyLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
         gameLobbyLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
@@ -353,9 +322,6 @@ public void makeLobby(StackPane root) {
     	ArrayList<Player> playerArray = new ArrayList<Player>();
     	
     	//dummy speler:
-    	
-    
-    	
     	Player player1 = new Player("player123", "none", false);
     	Player player2 = new Player("speler123132", "none", false);
     	Player player3 = new Player("hallo23", "Invited you!", true);
@@ -375,9 +341,7 @@ public void makeLobby(StackPane root) {
                 	//lobbyGrid.add(new Label(currentPlayer.getStatus()), 1, r+1);
                 	lobbyGrid.add(new Label("You got invited!"), 1, r+2);
                 	lobbyGrid.add(new Button("Accept"), 2, r+2);
-                	lobbyGrid.add(new Button("Decline"), 3, r+2);
-                	
-                	
+                	lobbyGrid.add(new Button("Decline"), 3, r+2);        	
             	}
             //}
 }
@@ -395,22 +359,12 @@ public void makeLobby(StackPane root) {
     
     @Override
     public void start(Stage primaryStage) {
-        
-    	
-    
     	
     	primaryStage.setTitle("Game");
-        
-       
-        
-       
-        
-        
-    	StackPane root = new StackPane();
+       	StackPane root = new StackPane();
     	//showBoth(root);
         makeLogin(root);
         //makeLobby(root);
-        
         
         Scene scene = new Scene(root, 800, 400);
 
