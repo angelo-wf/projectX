@@ -197,7 +197,9 @@ public class Gui extends Application {
             if(selectedMode == "Online") {
             	serverName.setVisible(true);
                 serverInput.setVisible(true);
-                serverError.setVisible(true);
+                serverError.setVisible(false);
+                nameError.setVisible(false);
+                
             }
         });
         
