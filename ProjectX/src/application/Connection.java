@@ -10,9 +10,12 @@ public class Connection {
     private ClientSocket clientSocket;
     //new queue for messages
     LinkedBlockingQueue<HashMap<String, Object>> messageQueue = new LinkedBlockingQueue<>();
+    
+    private ApplicationHandler app;
 
-    public Connection(String address, int port) {
+    public Connection(String address, int port, ApplicationHandler app) {
     	clientSocket = new ClientSocket(address, port, this);
+    	this.app = app;
     }
     
     public void close() {
@@ -93,7 +96,8 @@ public class Connection {
         // Enter HashMap in message queue
         messageQueue.add(gameMap);
         System.out.println("setMap: " + gameMap.toString());
-
+        
+        app.recieveMessage(gameMap);
     }
     
     public void setListInHashMap(String stringList, String messageType) {
@@ -111,6 +115,8 @@ public class Connection {
         // Enter HashMap in message queue
         messageQueue.add(gameMap);
         System.out.println("setList: " + gameMap.toString());
+        
+        app.recieveMessage(gameMap);
     }
     
     public void setErrorInHashMap(String errorMessage, String messageType) {
@@ -119,6 +125,8 @@ public class Connection {
         gameMap.put("MESSAGETYPE", messageType);
         gameMap.put("ERRORMESSAGE", errorMessage);
         System.out.println("setError: " + gameMap.toString());
+        
+        app.recieveMessage(gameMap);
     }
     
     /**

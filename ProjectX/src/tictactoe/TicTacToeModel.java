@@ -18,6 +18,7 @@ public class TicTacToeModel extends GameModel {
 	
 	@Override
 	public void initGame(int startingPlayer) {
+		System.out.println("Starting TicTacToe with starting player " + startingPlayer);
 		if(startingPlayer == 2) {
 			player2.requestMove();
 			turn = Turn.PLAYER2;
@@ -44,8 +45,10 @@ public class TicTacToeModel extends GameModel {
 			} else {
 				endGame(EndReason.WIN1);
 			}
+			return true;
 		} else if(checkFull()) {
 			endGame(EndReason.DRAW);
+			return true;
 		}
 		if(turn == Turn.PLAYER2) {
 			turn = Turn.PLAYER1;
@@ -64,6 +67,7 @@ public class TicTacToeModel extends GameModel {
 		player2.endGame();
 		turn = Turn.ENDED;
 		this.reason = reason;
+		view.update();
 	}
 	
 	@Override

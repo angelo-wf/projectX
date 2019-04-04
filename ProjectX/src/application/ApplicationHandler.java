@@ -7,6 +7,9 @@ import gamehandler.GamePlayer;
 import gamehandler.GameView;
 import gamehandler.RealPlayer;
 import gamehandler.RemotePlayer;
+import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import reversi.ReversiAI;
 import reversi.ReversiModel;
 import reversi.ReversiView;
@@ -23,12 +26,30 @@ public class ApplicationHandler {
 	private GamePlayer player2;
 	private GameView gameView;
 	
-	public ApplicationHandler() {
+	private String username;
+	
+	public ApplicationHandler(Stage primaryStage) {
+		
 		// make window
+		VBox game = new VBox();
+		// TEMP: Create gameview here
+		gameView = new TicTacToeView();
+		game.getChildren().add(gameView.getBoardView());
+		game.getChildren().add(gameView.getStatsPane());
+		
+		Scene scene = new Scene(game);
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("TicTacToe");
+		
+		primaryStage.show();
+		
+		setServer("a", "localhost:7789");
+		connection.challengePlayer("b", "Tic-tac-toe");
 	}
 	
 	public void setServer(String name, String address) {
-		connection = new Connection(address.split(":")[0], Integer.parseInt(address.split(":")[1]));
+		username = name;
+		connection = new Connection(address.split(":")[0], Integer.parseInt(address.split(":")[1]), this);
 		connection.login(name);
 	}
 	
@@ -38,6 +59,11 @@ public class ApplicationHandler {
 		} else {
 			connection.getGamelist();
 		}
+	}
+	
+	public void startGame(int beginningPlayer) {
+		setUpGame("Tic-tac-toe", "Real", "Remote");
+		model.initGame(beginningPlayer);
 	}
 	
 	public void setUpGame(String game, String playerType1, String playerType2) {
@@ -60,7 +86,8 @@ public class ApplicationHandler {
 			if(playerType2.equals("AI")) {
 				player2 = new TicTacToeAI(2);
 			}
-			gameView = new TicTacToeView();
+			// TEMP: made in constructor
+			//gameView = new TicTacToeView();
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown Game-type");
@@ -85,13 +112,22 @@ public class ApplicationHandler {
 		String type = (String) map.get("MESSAGETYPE");
 		switch (type) {
 		case "MATCH":
-			System.out.println(type);
+			//System.out.println(type);
+			if(map.get("PLAYERTOMOVE").equals(username)) {
+				startGame(1);
+			} else {
+				startGame(2);
+			}
 			break;
 		case "YOURTURN":
-			System.out.println(type);
+			//System.out.println(type);
+			((RemotePlayer) player2).onMessage(map);
 			break;
 		case "MOVE":
-			System.out.println(type);
+			//System.out.println(type);
+			if(!map.get("PLAYER").equals(username)) {
+				((RemotePlayer) player2).onMessage(map);
+			}
 			break;
 		case "WIN":
 			System.out.println(type);

@@ -19,7 +19,7 @@ public class RemotePlayer extends GamePlayer {
 	public void onMessage(HashMap<String, Object> map) {
 		// depending on message, do stuff
 		// if a move expected and move-message
-		model.doMove(new Move(0, 0));
+		//model.doMove(new Move(0, 0));
 		// if a move expected and no move-message, something went wrong
 		switch((String) map.get("MESSAGETYPE")) {
 		case "MOVE":

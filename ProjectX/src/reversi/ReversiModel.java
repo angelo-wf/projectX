@@ -61,6 +61,7 @@ public class ReversiModel extends GameModel {
 			if(!movePossible(turn)) {
 				// this player can't either, game is done
 				finishGame();
+				return true;
 			}
 		}
 		if(turn == Turn.PLAYER1) {
@@ -80,6 +81,7 @@ public class ReversiModel extends GameModel {
 		player2.endGame();
 		turn = Turn.ENDED;
 		this.reason = reason;
+		view.update();
 	}
 	
 	@Override
