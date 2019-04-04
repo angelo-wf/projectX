@@ -21,9 +21,9 @@ public class TicTacToeTest extends Application {
 		
 //		GameModel model = new TicTacToeModel();
 //		GameView view = new TicTacToeView();
-//		GamePlayer player1 = new RealPlayer();
-//		//GamePlayer player1 = new TicTacToeAI();
-//		GamePlayer player2 = new TicTacToeAI();
+//		GamePlayer player1 = new RealPlayer(1);
+//		//GamePlayer player1 = new TicTacToeAI(1);
+//		GamePlayer player2 = new TicTacToeAI(2);
 		
 		Connection connection = new Connection("localhost", 7789);
 		connection.login("elzo_d");
@@ -33,9 +33,9 @@ public class TicTacToeTest extends Application {
 		
 		GameModel model = new ReversiModel();
 		GameView view = new ReversiView();
-		GamePlayer player1 = new RealPlayer();
-		//GamePlayer player1 = new ReversiAI();
-		GamePlayer player2 = new ReversiAI();
+		GamePlayer player1 = new RealPlayer(1);
+		//GamePlayer player1 = new ReversiAI(1);
+		GamePlayer player2 = new ReversiAI(2);
 		
 		model.setView(view);
 		model.setPlayer1(player1);
