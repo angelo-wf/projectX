@@ -19,13 +19,18 @@ public class RealPlayer extends GamePlayer {
 	}
 
 	@Override
-	public void requestMove(Move move) {
+	public void requestMove() {
 		ourTurn = true;
 	}
 
 	@Override
 	public void endGame() {
 		// player doesn't have to do anything
+	}
+
+	@Override
+	public void tellMove(Move move) {
+		// player does nothing with the others move
 	}
 
 }

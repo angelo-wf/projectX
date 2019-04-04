@@ -19,10 +19,10 @@ public class TicTacToeModel extends GameModel {
 	@Override
 	public void initGame(int startingPlayer) {
 		if(startingPlayer == 2) {
-			player2.requestMove(null);
+			player2.requestMove();
 			turn = Turn.PLAYER2;
 		} else {
-			player1.requestMove(null);
+			player1.requestMove();
 		}
 		view.update();
 	}
@@ -31,6 +31,11 @@ public class TicTacToeModel extends GameModel {
 	public synchronized boolean doMove(Move move) {
 		if(board[move.getAsInt(3)] != 0) {
 			return false;
+		}
+		if(turn == Turn.PLAYER2) {
+			player1.tellMove(move);
+		} else {
+			player2.tellMove(move);
 		}
 		board[move.getAsInt(3)] = turn.getPieceNum();
 		if(checkWin()) {
@@ -44,10 +49,10 @@ public class TicTacToeModel extends GameModel {
 		}
 		if(turn == Turn.PLAYER2) {
 			turn = Turn.PLAYER1;
-			player1.requestMove(move);
+			player1.requestMove();
 		} else {
 			turn = Turn.PLAYER2;
-			player2.requestMove(move);
+			player2.requestMove();
 		}
 		view.update();
 		return true;

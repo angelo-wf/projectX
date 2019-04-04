@@ -46,7 +46,7 @@ public class TicTacToeAI extends GamePlayer {
 	}
 
 	@Override
-	public void requestMove(Move move) {
+	public void requestMove() {
 		moveRequested = true;
 	}
 
@@ -54,6 +54,11 @@ public class TicTacToeAI extends GamePlayer {
 	public void endGame() {
 		// stop thread
 		running = false;
+	}
+
+	@Override
+	public void tellMove(Move move) {
+		// AI doesn't do anything with the other's move
 	}
 
 }

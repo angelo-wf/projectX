@@ -35,7 +35,7 @@ public class RemotePlayer extends GamePlayer {
 			yourTurnSend = true;
 			break;
 		default:
-			System.out.println("Message gotten: " + map.get("MESSAGETYPE"));
+			System.out.println("Unhandled message gotten: " + map.get("MESSAGETYPE"));
 		}
 	}
 	
@@ -45,20 +45,24 @@ public class RemotePlayer extends GamePlayer {
 	}
 
 	@Override
-	public void requestMove(Move move) {
-		if(yourTurnSend) {
-			connection.move(move.getAsInt(model.getWidth()));
-			moveExpected = true;
-			yourTurnSend = false;
-		} else {
-			// something went wrong...
-			System.out.println("ERROR: Wanted to do move without it being our turn");
-		}
+	public void requestMove() {
+		moveExpected = true;
 	}
 
 	@Override
 	public void endGame() {
 		// do nothing
+	}
+
+	@Override
+	public void tellMove(Move move) {
+		if(yourTurnSend) {
+			yourTurnSend = false;
+			connection.move(move.getAsInt(model.getWidth()));
+		} else {
+			// something went wrong...
+			System.out.println("ERROR: Wanted to send move without it being our turn");
+		}
 	}
 
 }

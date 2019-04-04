@@ -31,10 +31,10 @@ public class ReversiModel extends GameModel {
 			board[8 * 3 + 4] = Turn.PLAYER2.getPieceNum();
 			board[8 * 4 + 3] = Turn.PLAYER2.getPieceNum();
 			board[8 * 4 + 4] = Turn.PLAYER1.getPieceNum();
-			player2.requestMove(null);
+			player2.requestMove();
 			turn = Turn.PLAYER2;
 		} else {
-			player1.requestMove(null);
+			player1.requestMove();
 		}
 		view.update();
 	}
@@ -45,6 +45,11 @@ public class ReversiModel extends GameModel {
 		if(moves == null) {
 			return false;
 		}
+		if(turn == Turn.PLAYER2) {
+			player1.tellMove(move);
+		} else {
+			player2.tellMove(move);
+		}
 		System.out.println("Move done: " + move.getAsInt(8));
 		for(Move m : moves) {
 			board[m.getAsInt(8)] = turn.getPieceNum();
@@ -53,7 +58,6 @@ public class ReversiModel extends GameModel {
 		if(!movePossible(turn)) {
 			// the next player can't move, switch back to this player
 			swapTurn();
-			move = null;
 			if(!movePossible(turn)) {
 				// this player can't either, game is done
 				finishGame();
@@ -61,10 +65,10 @@ public class ReversiModel extends GameModel {
 		}
 		if(turn == Turn.PLAYER1) {
 			System.out.println("Requested from player 1");
-			player1.requestMove(move);
+			player1.requestMove();
 		} else {
 			System.out.println("Requested from player 2");
-			player2.requestMove(move);
+			player2.requestMove();
 		}
 		view.update();
 		return true;
