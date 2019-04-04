@@ -53,6 +53,7 @@ public class ReversiModel extends GameModel {
 		if(!movePossible(turn)) {
 			// the next player can't move, switch back to this player
 			swapTurn();
+			move = null;
 			if(!movePossible(turn)) {
 				// this player can't either, game is done
 				finishGame();

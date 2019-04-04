@@ -19,6 +19,8 @@ public class ClientSocket {
 			socket = new Socket(address, port);
 			this.connection = connection;
 			running = true;
+			outputStream = new OutputStreamWriter(socket.getOutputStream());
+			inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			Thread serverThread = new Thread(new ServerWorker());
 			serverThread.start();
 		} catch(IOException ex) {
@@ -29,7 +31,7 @@ public class ClientSocket {
 	public void sendToServer(String message) {
 		// send to server
 		try {
-			outputStream.write(message);
+			outputStream.write(message + "\n");
 			outputStream.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -41,14 +43,15 @@ public class ClientSocket {
 		@Override
 		public void run() {
 			try {
-				inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-				outputStream = new OutputStreamWriter(socket.getOutputStream());
+
+				
 				
 				while(running) {
 					String line = inputStream.readLine();
 					// when connection stops sending
 					if(line == null) {
 						//close connection
+						running = false;
 						inputStream.close();
 						outputStream.close();
 						break;
