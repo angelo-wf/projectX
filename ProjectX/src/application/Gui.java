@@ -215,10 +215,17 @@ public class Gui extends Application {
     	loginGrid.add(selectMode, 0, 0);
     	loginGrid.add(enterButton, 0, 5);
     	
+		loginGrid.add(nameError, 1, 2);
+		loginGrid.add(serverError, 1, 4);
+		serverError.setVisible(false);
+		nameError.setVisible(false);
+	
     	
         enterButton.setOnAction(e -> {
         	nameUser = loginInput.getText();
         	nameServer = serverInput.getText();
+        	Boolean userGoed = false;
+        	Boolean serverGoed = false;
         	Boolean canLogin = false;
         	
         	
@@ -226,22 +233,37 @@ public class Gui extends Application {
   	
         	if(selectedMode1.equals("Online")) {
         		if(nameUser.equals("") | nameUser == null) {
-            		loginGrid.add(nameError, 1, 2);
+        			nameError.setVisible(true);
             	}
+        		else {
+        			nameError.setVisible(false);
+        			userGoed=true;
+        		}
             	if(nameServer.equals("") | nameServer == null) {
-            		loginGrid.add(serverError, 1, 4);
+        			serverError.setVisible(true);
             	}
             	else {
+            		serverError.setVisible(false);
+            		serverGoed = true;
+            	}
+            	if(userGoed == true && serverGoed == true) {
             		canLogin = true;
             	}
         	}
-        	if(selectedMode1.equals("Local"))  {
+//        	else {
+//        		canLogin = true;
+//        	}
+        	if(selectedMode1.equals("Local")) {
+        		serverError.setVisible(false);
+        		nameServer = "";
         		if(nameUser.equals("") | nameUser == null) {
-            		loginGrid.add(nameError, 1, 2);
+        			nameError.setVisible(true);
             	}
             	else {
+            		nameError.setVisible(false);
             		canLogin = true;
             	}
+        		
         	}
         	
         	
