@@ -1,4 +1,4 @@
-package gui_test;
+package application;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -154,6 +154,12 @@ public class Gui extends Application {
         Label serverName = new Label("Server: ");
         Label nameError = new Label("name required");
         Label serverError = new Label("server required");
+        Label nameErrorInvisible = new Label("name required");
+        Label serverErrorInvisible = new Label("server required");
+        
+        nameErrorInvisible.setVisible(false);
+        serverErrorInvisible.setVisible(false);
+
         nameError.setId("inputError");
         serverError.setId("inputError");
         
@@ -191,16 +197,19 @@ public class Gui extends Application {
         
     	Button enterButton = new Button("Enter lobby");
         
-    	loginGrid.add(loginName, 0, 1);
-    	loginGrid.add(loginInput, 0, 2);
-    	loginGrid.add(serverName, 0, 3);
-    	loginGrid.add(serverInput, 0, 4);
+    	loginGrid.add(loginName, 1, 1);
+    	loginGrid.add(loginInput, 1, 2);
+    	loginGrid.add(serverName, 1, 3);
+    	loginGrid.add(serverInput, 1, 4);
     	
-    	loginGrid.add(selectMode, 0, 0);
-    	loginGrid.add(enterButton, 0, 5);
+    	loginGrid.add(selectMode, 1, 0);
+    	loginGrid.add(enterButton, 1, 5);
     	
-		loginGrid.add(nameError, 1, 2);
-		loginGrid.add(serverError, 1, 4);
+    	loginGrid.add(nameErrorInvisible, 0, 2);
+    	loginGrid.add(serverErrorInvisible, 0, 2);
+    	
+		loginGrid.add(nameError, 2, 2);
+		loginGrid.add(serverError, 2, 4);
 		serverError.setVisible(false);
 		nameError.setVisible(false);
 	
