@@ -1,4 +1,4 @@
-package application;
+package gui_test;
 
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -14,9 +14,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -248,8 +250,12 @@ public class Gui extends Application {
         	
         	
         	
-	        	if(canLogin == true) {
+	        	if(canLogin == true && selectedMode1 == "Online") {
 	        		makeLobby(root);
+	            	root.getChildren().remove(loginGrid);
+	        	}
+	        	if(canLogin == true && selectedMode1 == "Local") {
+	        		makeLocalLobby(root);
 	            	root.getChildren().remove(loginGrid);
 	        	}
         	
@@ -357,6 +363,69 @@ public void makeLobby(StackPane root) {
 
     }
     
+
+public void makeLocalLobby(StackPane root) {
+	ToolBar toolbarLocal = new ToolBar();
+	GridPane localLobbyGrid = new GridPane();
+	
+	localLobbyGrid.setAlignment(Pos.CENTER);
+	localLobbyGrid.setPadding(new Insets(15));
+	
+	localLobbyGrid.setHgap(10);
+	localLobbyGrid.setVgap(30);
+	localLobbyGrid.setPadding(new Insets(10, 10, 10, 10));
+	
+	//Label playerLobbyLabel = new Label("Player");
+	//Label gameLobbyLabel = new Label("Status");
+	Label lobbyUsernameLabel = new Label("Logged in as " + nameUser + "  ");
+	
+	Button playBtn = new Button("play");
+	
+	
+	lobbyUsernameLabel.setId("toolbar-content");
+
+	Button backToLoginBtn = new Button("Back");
+	backToLoginBtn.setId("back-button");
+	
+	
+	
+	Separator separator3 = new Separator();
+	separator3.setOrientation(Orientation.VERTICAL);
+	
+	final ToggleGroup toggle = new ToggleGroup();
+	
+	RadioButton rb1 = new RadioButton();
+	rb1.setText("Tic-Tac-Toe");
+	rb1.setToggleGroup(toggle);
+	RadioButton rb2 = new RadioButton();
+	rb2.setText("Reversi");
+	rb2.setToggleGroup(toggle);
+	
+	
+	toolbarLocal.getItems().add(backToLoginBtn);
+	toolbarLocal.getItems().add(separator3);
+	toolbarLocal.getItems().add(lobbyUsernameLabel);
+	
+	localLobbyGrid.add(rb1, 1, 1);
+	localLobbyGrid.add(rb2, 1, 2);
+	//localLobbyGrid.add(playerLobbyLabel, 0, 1);
+	//localLobbyGrid.add(gameLobbyLabel, 0, 2);
+	localLobbyGrid.add(playBtn, 1, 3);
+	VBox toolbarboxLocal = new VBox();
+	toolbarboxLocal.getChildren().add(toolbarLocal);
+	//root.getChildren().add(lobbyGrid);
+
+	backToLoginBtn.setOnAction(e -> {
+    	makeLogin(root);
+    	root.getChildren().remove(localLobbyGrid);
+    	root.getChildren().remove(toolbarboxLocal);
+    });
+	
+	toolbarboxLocal.getChildren().add(localLobbyGrid);
+	
+	root.getChildren().add(toolbarboxLocal);
+}
+
     @Override
     public void start(Stage primaryStage) {
     	
