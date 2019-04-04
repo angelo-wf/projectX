@@ -17,10 +17,10 @@ public class ClientSocket {
 	public ClientSocket(String address, int port, Connection connection) {
 		try { 
 			socket = new Socket(address, port);
-			inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			outputStream = new OutputStreamWriter(socket.getOutputStream());
 			this.connection = connection;
 			running = true;
+			outputStream = new OutputStreamWriter(socket.getOutputStream());
+			inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			Thread serverThread = new Thread(new ServerWorker());
 			serverThread.start();
 		} catch(IOException ex) {
@@ -31,7 +31,7 @@ public class ClientSocket {
 	public void sendToServer(String message) {
 		// send to server
 		try {
-			outputStream.write(message + "\n");
+			outputStream.write(message + "/n");
 			outputStream.flush();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -43,6 +43,8 @@ public class ClientSocket {
 		@Override
 		public void run() {
 			try {
+
+				
 				
 				while(running) {
 					String line = inputStream.readLine();

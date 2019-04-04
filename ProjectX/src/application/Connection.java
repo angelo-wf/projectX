@@ -34,10 +34,10 @@ public class Connection {
     	String firstWord[] = fromServer.split(" ",2);
     	switch (firstWord[0]) {
         	case "OK":
-        		ok();
+        		System.out.println("OK");
         		break;
         	case "ERR":
-        		error(firstWord[1]);
+        		setErrorInHashMap(firstWord[1], "ERROR");
         		break;
         	case "SVR":
         		String secondWord[] = firstWord[1].split(" ", 2);
@@ -45,44 +45,52 @@ public class Connection {
                  	case "GAME":
                  		String thirdWord[] = secondWord[1].split(" ",2);
                  		String otherWords = thirdWord[1];
-                 		switch (thirdWord[0]) {
-                 			case "MATCH":
-                 				match(otherWords);
-                 				break;
-                 			case "YOURTURN":
-                 				yourturn(otherWords);
-                 				break;
-                 			case "MOVE":
-                 				move(otherWords);
-                 				break;
-                 			case "WIN":
-                 				win(otherWords);
-                 				break;
-                 			case "LOSS":
-                 				loss(otherWords);
-                 				break;
-                 			case "DRAW":
-                 				draw(otherWords);
-                 				break;
-                 			case "CHALLENGE":
-                 				String forthWord[] = otherWords.split(" ",2);
-                 				// Check if challenge is cancelled
-                 				if(forthWord[0] == "CANCELLED") {
-                 					cancelled(forthWord[1]);
-                 					break;
-                 				}
-                 				challenge(otherWords);
-                 				break;
-                 			default:
-                 				// not recognized
-                 				System.out.println("Could not recognize command 3. \n" + "Command: " + secondWord[1]);
-                 				break;
+                 		String forthWord[] = otherWords.split(" ",2);
+                 		if(forthWord[0].equals("CANCELLED")) {
+                 			setStringInHashMap(forthWord[1], "CHALLENGE_CANCELLED");
+                 		}else {
+                 			setStringInHashMap(otherWords, thirdWord[0]);
                  		}
-                 	case "PLAYERLIST":
-                 		playerlist(secondWord[1]);                	 
+                 		
+//                 		switch (thirdWord[0]) {
+//                 			case "MATCH":
+//                 				setStringInHashMap(otherWords, "MATCH");
+//                 				break;
+//                 			case "YOURTURN":
+//                 				setStringInHashMap(otherWords, "YOURTURN");
+//                 				break;
+//                 			case "MOVE":
+//                 				setStringInHashMap(otherWords, "MOVE");
+//                 				break;
+//                 			case "WIN":
+//                 				setStringInHashMap(otherWords, "WIN");
+//                 				break;
+//                 			case "LOSS":
+//                 				setStringInHashMap(otherWords, "LOSS");
+//                 				break;
+//                 			case "DRAW":
+//                 				setStringInHashMap(otherWords, "DRAW");
+//                 				break;
+//                 			case "CHALLENGE":
+//                 				String forthWord[] = otherWords.split(" ",2);
+//                 				// Check if challenge is cancelled
+//                 				if(forthWord[0] == "CANCELLED") {
+//                 					setStringInHashMap(forthWord[1], "CHALLENGE_CANCELLED");
+//                 					break;
+//                 				}
+//                 				setStringInHashMap(otherWords, "CHALLENGE");
+//                 				break;
+//                 			default:
+//                 				// not recognized
+//                 				System.out.println("Could not recognize command 3. \n" + "Command: " + secondWord[1]);
+//                 				break;
+//                 		}
+                 	case "PLAYERLIST": 
+                 		setListInHashMap(secondWord[1], "PLAYERLIST");
                  		break;
                  	case "GAMELIST":
                  		gamelist(secondWord[1]);
+                 		setListInHashMap(secondWord[1], "GAMELIST");
                  		break;
                  	default:
                  		// not recognized
@@ -167,7 +175,7 @@ public class Connection {
         sendMessage("forfeit");
     }
     
-    public void challenge(String player, String game){
+    public void challengePlayer(String player, String game){
         sendMessage("challenge " + player + " " + game);
     }
     
