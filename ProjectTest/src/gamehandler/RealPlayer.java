@@ -1,13 +1,10 @@
 package gamehandler;
 
-import java.awt.*;
-
 public class RealPlayer extends GamePlayer {
 	
 	private boolean ourTurn;
 	
-	public RealPlayer() {
-		super(1);
+	public RealPlayer(int playerNum) {
 		ourTurn = false;
 	}
 	
@@ -23,7 +20,7 @@ public class RealPlayer extends GamePlayer {
 
 	@Override
 	public void requestMove(Move move) {
-		ourTurn = true;
+
 	}
 
 	@Override
@@ -31,19 +28,4 @@ public class RealPlayer extends GamePlayer {
 		// player doesn't have to do anything
 	}
 
-	@Override
-	public boolean isUserPlayer() {
-		return false;
-	}
-
-	@Override
-	public String playerName() {
-		return null;
-	}
-
-	@Override
-	public Point play(int[][] board) {
-		return null;
-	}
 }
-

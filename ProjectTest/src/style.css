@@ -1,0 +1,127 @@
+.label{
+  -fx-font-size:14.0;
+}
+
+#label-big {
+  -fx-font-size:16.0;
+  -fx-font-weight:BOLD;
+}
+.combo-box-base {
+    -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-background-radius: 3px, 3px, 2px, 1px;
+    -fx-padding: 0.333333em 0.666667em 0.333333em 0.666667em; /* 4 8 4 8 */
+    -fx-text-fill: -fx-text-base-color;
+    -fx-alignment: CENTER;
+    -fx-content-display: LEFT;
+}
+
+#glass-grey {
+    -fx-background-color: 
+        #c3c4c4,
+        linear-gradient(#d6d6d6 50%, white 100%),
+        radial-gradient(center 50% -40%, radius 200%, #e6e6e6 45%, rgba(230,230,230,0) 50%);
+    -fx-background-radius: 30;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 3, 0.0 , 0 , 1 );
+}
+
+
+#button1 {
+ background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+
+
+#button1:hover {
+background: #434343;
+-fx-cursor: hand;
+letter-spacing: 1px;
+transition: all 0.4s ease 0s;
+}
+
+#record-sales {
+    -fx-padding: 8 15 15 15;
+    -fx-background-insets: 0,0 0 5 0, 0 0 6 0, 0 0 7 0;
+    -fx-background-radius: 8;
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+        #9d4024,
+        #d86e3a,
+        radial-gradient(center 50% 50%, radius 100%, #d86e3a, #c54e2c);
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.75) , 4,0,0,1 );
+    -fx-font-weight: bold;
+    -fx-font-size: 1.1em;
+}
+#record-sales:hover {
+    
+    -fx-background-color: 
+        linear-gradient(from 0% 93% to 0% 100%, #a34313 0%, #903b12 100%),
+        #9d4024,
+        #d86e3a,
+        radial-gradient(center 50% 50%, radius 100%, #ea7f4b, #c54e2c);
+}
+#record-sales:pressed {
+    -fx-padding: 10 15 13 15;
+    -fx-background-insets: 2 0 0 0,2 0 3 0, 2 0 4 0, 2 0 5 0;
+}
+#record-sales Text {
+    -fx-fill: white;
+    -fx-effect: dropshadow( gaussian , #a30000 , 0,0,0,2 );
+}
+
+.root{
+    -fx-font-size: 14pt;
+    -fx-font-family: "Courier New";
+    -fx-base: rgb(132, 145, 47);
+    -fx-background: rgb(225, 228, 203);
+}
+
+#toolbar-content{
+  -fx-font-size:11;
+  -fx-opacity:0.5;
+  -fx-text-fill:#FFFFFF;
+}
+
+#back-button{
+  -fx-font-size:11;
+}
+
+#inputError {
+  -fx-text-fill:RED;
+}
+
+#refresh-button {
+  -fx-border-color: transparent;
+  -fx-background-color: transparent;
+  -fx-font-size:11;
+  -fx-text-fill:BLUE;
+}
+
+#refresh-button:focused {
+    -fx-border-color: transparent, black;
+    -fx-border-width: 1, 1;
+    -fx-border-style: solid, segments(1, 2);
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 1 1 1 1, 0;
+}
+
+#refresh-button:hover {
+   -fx-border-color: transparent;
+   -fx-background-color: #DCDCDC;
+   -fx-opacity: 0.7;
+   -fx-font-size:11;
+   -fx-text-fill:RED;
+}
+
+#refresh-button:pressed {
+    -fx-background-color: black;
+    -fx-text-fill: white;
+}

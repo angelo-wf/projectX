@@ -1,10 +1,8 @@
 package ai;
 
-import ai.BoardHelper;
-import reversi.ReversiModel;
+import reversi.BoardHelper;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class Minimax {
 

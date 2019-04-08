@@ -11,7 +11,7 @@ public class Connection {
     //new queue for messages
     LinkedBlockingQueue<HashMap<String, Object>> messageQueue = new LinkedBlockingQueue<>();
 
-    public Connection(String address, int port) {
+    public Connection(String address, int port, ApplicationHandler applicationHandler) {
     	clientSocket = new ClientSocket(address, port, this);
     }
     

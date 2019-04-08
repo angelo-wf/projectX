@@ -2,10 +2,7 @@ package reversi;
 
 import java.util.ArrayList;
 
-import gamehandler.EndReason;
-import gamehandler.GameModel;
-import gamehandler.Move;
-import gamehandler.Turn;
+import gamehandler.*;
 
 public class ReversiModel extends GameModel {
 	

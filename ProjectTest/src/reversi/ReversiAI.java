@@ -2,12 +2,15 @@ package reversi;
 
 import gamehandler.GamePlayer;
 import gamehandler.Move;
+import gamehandler.RealPlayer;
 
 import java.awt.*;
 
-public class ReversiAI extends GamePlayer {
+public class ReversiAI extends RealPlayer {
 	private boolean running;
 	private boolean moveRequested;
+	private int playerNum;
+	
 	class AiThread implements Runnable {
 		public void run() {
 			while(running) {
@@ -39,13 +42,13 @@ public class ReversiAI extends GamePlayer {
 		}
 	}
 	
-	public ReversiAI() {
-		super(1);
+	public ReversiAI(int playerNum) {
+		super(playerNum);
 		running = true;
 		moveRequested = false;
 		Thread aiThread = new Thread(new AiThread());
 		aiThread.start();
-
+		this.playerNum = playerNum;
 	}
 	
 	@Override
@@ -55,27 +58,11 @@ public class ReversiAI extends GamePlayer {
 
 	@Override
 	public void requestMove(Move move) {
-		moveRequested = true;
+
 	}
 
 	@Override
 	public void endGame() {
-		// stop thread
-		running = false;
-	}
 
-	@Override
-	public boolean isUserPlayer() {
-		return false;
-	}
-
-	@Override
-	public String playerName() {
-		return null;
-	}
-
-	@Override
-	public Point play(int[][] board) {
-		return null;
 	}
 }

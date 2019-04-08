@@ -1,10 +1,12 @@
 package gamehandler;
 
+import ai.AI;
+
 public abstract class GameModel {
 	
 	protected GameView view;
 	protected GamePlayer player1;
-	protected GamePlayer player2;
+	protected AI player2;
 	
 	public void setView(GameView view) {
 		this.view = view;
@@ -26,7 +28,10 @@ public abstract class GameModel {
 		this.player1 = player;
 	}
 	
-	public void setPlayer2(GamePlayer player) {
+	public void setPlayer2(AI player) {
 		this.player2 = player;
+	}
+
+	public void setPlayer2(GamePlayer player2) {
 	}
 }

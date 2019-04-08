@@ -7,7 +7,7 @@ import java.awt.*;
 public abstract class GamePlayer {
 
 	protected GameModel model;
-	
+
 	public void setModel(GameModel model) {
 		this.model = model;
 	}
@@ -18,16 +18,6 @@ public abstract class GamePlayer {
 	
 	public abstract void endGame();
 
-	protected int myMark;
-	public GamePlayer(int mark){
-		myMark = mark;
 	}
-
-	abstract public boolean isUserPlayer();
-
-	abstract public String playerName();
-
-	abstract public Point play(int[][] board);
-}
 
 

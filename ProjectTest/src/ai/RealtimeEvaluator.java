@@ -1,11 +1,11 @@
 package ai;
 
-import ai.BoardHelper;
+import reversi.BoardHelper;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-import static ai.BoardHelper.getAllPossibleMoves;
+import static reversi.BoardHelper.getAllPossibleMoves;
 
 public class RealtimeEvaluator implements Evaluator {
 

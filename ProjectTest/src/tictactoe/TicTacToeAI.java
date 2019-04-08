@@ -36,7 +36,6 @@ public class TicTacToeAI extends GamePlayer {
 	}
 	
 	public TicTacToeAI() {
-		super(1);
 		running = true;
 		moveRequested = false;
 		Thread aiThread = new Thread(new AiThread());
@@ -57,20 +56,5 @@ public class TicTacToeAI extends GamePlayer {
 	public void endGame() {
 		// stop thread
 		running = false;
-	}
-
-	@Override
-	public boolean isUserPlayer() {
-		return false;
-	}
-
-	@Override
-	public String playerName() {
-		return null;
-	}
-
-	@Override
-	public Point play(int[][] board) {
-		return null;
 	}
 }
