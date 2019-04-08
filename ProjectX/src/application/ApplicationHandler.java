@@ -1,5 +1,6 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import gamehandler.GameModel;
@@ -10,8 +11,10 @@ import gamehandler.RemotePlayer;
 import javafx.stage.Stage;
 import reversi.ReversiAI;
 import reversi.ReversiModel;
+import reversi.ReversiView;
 import tictactoe.TicTacToeAI;
 import tictactoe.TicTacToeModel;
+import tictactoe.TicTacToeView;
 
 public class ApplicationHandler {
 	
@@ -82,8 +85,7 @@ public class ApplicationHandler {
 			if(playerType2.equals("AI")) {
 				player2 = new ReversiAI(2);
 			}
-			// TEMP: made in constructor
-			//gameView = new ReversiView();
+			gameView = new ReversiView();
 			break;
 		case "Tic-tac-toe":
 			model = new TicTacToeModel();
@@ -93,8 +95,7 @@ public class ApplicationHandler {
 			if(playerType2.equals("AI")) {
 				player2 = new TicTacToeAI(2);
 			}
-			// TEMP: made in constructor
-			//gameView = new TicTacToeView();
+			gameView = new TicTacToeView();
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown Game-type");
@@ -152,7 +153,8 @@ public class ApplicationHandler {
 			System.out.println(type);
 			break;
 		case "PLAYERLIST":
-			System.out.println(type);
+			//System.out.println(type);
+			gui.setPlayerList((ArrayList<String>) map.get("LIST"));
 			break;
 		case "GAMELIST":
 			System.out.println(type);
