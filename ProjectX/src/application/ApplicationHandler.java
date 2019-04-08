@@ -7,15 +7,11 @@ import gamehandler.GamePlayer;
 import gamehandler.GameView;
 import gamehandler.RealPlayer;
 import gamehandler.RemotePlayer;
-import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import reversi.ReversiAI;
 import reversi.ReversiModel;
-import reversi.ReversiView;
 import tictactoe.TicTacToeAI;
 import tictactoe.TicTacToeModel;
-import tictactoe.TicTacToeView;
 
 public class ApplicationHandler {
 	
@@ -27,24 +23,29 @@ public class ApplicationHandler {
 	private GameView gameView;
 	
 	private String username;
+	private Gui gui;
 	
 	public ApplicationHandler(Stage primaryStage) {
 		
-		// make window
-		VBox game = new VBox();
-		// TEMP: Create gameview here
-		gameView = new TicTacToeView();
-		game.getChildren().add(gameView.getBoardView());
-		game.getChildren().add(gameView.getStatsPane());
+//		// make window
+//		VBox game = new VBox();
+//		// TEMP: Create gameview here
+//		gameView = new ReversiView();
+//		game.getChildren().add(gameView.getBoardView());
+//		game.getChildren().add(gameView.getStatsPane());
+//		
+//		Scene scene = new Scene(game);
+//		primaryStage.setScene(scene);
+//		primaryStage.setTitle("Reversi");
+//		
+//		primaryStage.show();
+//		
+//		setServer("b", "localhost:7789");
+//		//connection.challengePlayer("b", "Reversi");
+//		connection.subscirbe("Reversi");
 		
-		Scene scene = new Scene(game);
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("TicTacToe");
+		gui = new Gui(primaryStage, this);
 		
-		primaryStage.show();
-		
-		setServer("a", "localhost:7789");
-		connection.challengePlayer("b", "Tic-tac-toe");
 	}
 	
 	public void setServer(String name, String address) {
@@ -62,7 +63,7 @@ public class ApplicationHandler {
 	}
 	
 	public void startGame(int beginningPlayer) {
-		setUpGame("Tic-tac-toe", "Real", "Remote");
+		setUpGame("Reversi", "Real", "Remote");
 		model.initGame(beginningPlayer);
 	}
 	
@@ -76,7 +77,8 @@ public class ApplicationHandler {
 			if(playerType2.equals("AI")) {
 				player2 = new ReversiAI(2);
 			}
-			gameView = new ReversiView();
+			// TEMP: made in constructor
+			//gameView = new ReversiView();
 			break;
 		case "Tic-tac-toe":
 			model = new TicTacToeModel();

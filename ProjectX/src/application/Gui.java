@@ -36,14 +36,26 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Gui extends Application {
-    public static void main(String[] args) {
-        launch(args);
-    }
+public class Gui {
         
     HBox hBox = new HBox();
     String nameUser;
     String nameServer;
+    
+    public Gui(Stage primaryStage, ApplicationHandler app) {
+    	primaryStage.setTitle("Game");
+       	StackPane root = new StackPane();
+    	//showBoth(root);
+        makeLogin(root);
+        //makeLobby(root);
+        
+        Scene scene = new Scene(root, 800, 400);
+
+        //scene.getStylesheets().add(css);
+        scene.getStylesheets().add("/style.css");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
     
     public void makeStats() {
 
@@ -434,21 +446,4 @@ public class Gui extends Application {
 		
 		root.getChildren().add(toolbarboxLocal);
 	}
-
-    @Override
-    public void start(Stage primaryStage) {
-    	
-    	primaryStage.setTitle("Game");
-       	StackPane root = new StackPane();
-    	//showBoth(root);
-        makeLogin(root);
-        //makeLobby(root);
-        
-        Scene scene = new Scene(root, 800, 400);
-
-        //scene.getStylesheets().add(css);
-        scene.getStylesheets().add("/style.css");
-        primaryStage.setScene(scene);
-        primaryStage.show();
-    }
 }
