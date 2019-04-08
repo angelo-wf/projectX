@@ -41,8 +41,10 @@ public class Gui {
     HBox hBox = new HBox();
     String nameUser;
     String nameServer;
+    ApplicationHandler app;
     
     public Gui(Stage primaryStage, ApplicationHandler app) {
+    	this.app = app;
     	primaryStage.setTitle("Game");
        	StackPane root = new StackPane();
     	//showBoth(root);
@@ -272,6 +274,7 @@ public class Gui {
         	
         	
 	        	if(canLogin == true && selectedMode1 == "Online") {
+	        		app.setServer(nameUser, nameServer);
 	        		makeLobby(root);
 	            	root.getChildren().remove(loginGrid);
 	        	}
@@ -373,6 +376,7 @@ public class Gui {
 	            //}
 	}
 	    	backToLoginBtn.setOnAction(e -> {
+        		app.disconnect();
 	        	makeLogin(root);
 	        	root.getChildren().remove(lobbyGrid);
 	        	root.getChildren().remove(toolbarbox);
