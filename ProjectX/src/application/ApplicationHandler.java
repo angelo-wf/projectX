@@ -66,7 +66,7 @@ public class ApplicationHandler {
 		if(connection == null) {
 			return;
 		} else {
-			connection.getGamelist();
+			connection.getPlayerlist();
 		}
 	}
 	
