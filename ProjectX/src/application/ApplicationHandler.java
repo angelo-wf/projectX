@@ -54,6 +54,10 @@ public class ApplicationHandler {
 		connection.login(name);
 	}
 	
+	public void disconnect() {
+		connection.close();
+	}
+	
 	public void requestPlayerList() {
 		if(connection == null) {
 			return;
