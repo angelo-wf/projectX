@@ -5,7 +5,7 @@ public class RealPlayer extends GamePlayer {
 	private boolean ourTurn;
 	
 	public RealPlayer(int playerNum) {
-		ourTurn = false;
+		super(playerNum);
 	}
 	
 	@Override

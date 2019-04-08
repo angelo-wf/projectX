@@ -7,7 +7,6 @@ public class TicTacToeAI extends GamePlayer {
 	
 	private boolean running;
 	private boolean moveRequested;
-	private int playerNum;
 	
 	class AiThread implements Runnable {
 		public void run() {
@@ -37,7 +36,7 @@ public class TicTacToeAI extends GamePlayer {
 	}
 	
 	public TicTacToeAI(int importedPlayerNum) {
-		playerNum = importedPlayerNum;
+		super(importedPlayerNum);
 		running = true;
 		moveRequested = false;
 		Thread aiThread = new Thread(new AiThread());
