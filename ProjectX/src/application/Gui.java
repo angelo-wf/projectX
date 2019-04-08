@@ -42,6 +42,9 @@ public class Gui {
     String nameUser;
     String nameServer;
     ApplicationHandler app;
+	private GridPane lobbyGrid;
+	//private ArrayList<String> playerArray;
+	private ArrayList<String> playerArrayList;
     
     public Gui(Stage primaryStage, ApplicationHandler app) {
     	this.app = app;
@@ -302,6 +305,51 @@ public class Gui {
     	root.getChildren().add(loginGrid);
     }
     
+    public void setPlayerList(ArrayList<String> playerArray) {
+    	this.playerArrayList = playerArray;
+    	
+    	//dummy speler:
+//    	Player player1 = new Player("player123", "none", false);
+//    	Player player2 = new Player("speler123132", "none", false);
+//    	Player player3 = new Player("hallo23", "Invited you!", true);
+//    	
+//    	playerArray.add(player1);
+//    	playerArray.add(player2);
+//    	playerArray.add(player3);
+    	
+    	int aantalSpelers = playerArrayList.size();
+    	
+//    	for (int r = 0; r < aantalSpelers; r++) {
+//            //for (int c = 0; c < 3; c++) {
+//            	//Player currentPlayer = playerArrayList.get(r);
+//            	//lobbyGrid.add(new Label(currentPlayer.getName()), 0, r+2);
+//            	
+//            	if(currentPlayer.invited() == true) {
+//                	//lobbyGrid.add(new Label(currentPlayer.getStatus()), 1, r+1);
+//                	lobbyGrid.add(new Label("You got invited!"), 1, r+2);
+//                	lobbyGrid.add(new Button("Accept"), 2, r+2);
+//                	lobbyGrid.add(new Button("Decline"), 3, r+2);        	
+//            	}
+//            //}
+//}
+    	
+    	for (String username : playerArrayList) { 		      
+    		for (int r = 0; r < aantalSpelers; r++) {
+              for (int c = 0; c < 3; c++) {
+              	lobbyGrid.add(new Label(username), 0, r+2);
+              	
+//              	if(currentPlayer.invited() == true) {
+//                  	//lobbyGrid.add(new Label(currentPlayer.getStatus()), 1, r+1);
+//                  	lobbyGrid.add(new Label("You got invited!"), 1, r+2);
+//                  	lobbyGrid.add(new Button("Accept"), 2, r+2);
+//                  	lobbyGrid.add(new Button("Decline"), 3, r+2);        	
+//              	}
+              }
+  }
+       }
+    }
+    
+    
 	public void makeLobby(StackPane root) {
 			ToolBar toolbar = new ToolBar();
 	    	GridPane lobbyGrid = new GridPane();
@@ -349,32 +397,12 @@ public class Gui {
 	        playerLobbyLabel.setId("label-big");
 	        gameLobbyLabel.setId("label-big");
 	    	
-	    	ArrayList<Player> playerArray = new ArrayList<Player>();
 	    	
-	    	//dummy speler:
-	    	Player player1 = new Player("player123", "none", false);
-	    	Player player2 = new Player("speler123132", "none", false);
-	    	Player player3 = new Player("hallo23", "Invited you!", true);
 	    	
-	    	playerArray.add(player1);
-	    	playerArray.add(player2);
-	    	playerArray.add(player3);
+	    	refreshBtn.setOnAction(e -> {
+	    		app.requestPlayerList();
+	    	});
 	    	
-	    	int aantalSpelers = playerArray.size();
-	    	
-	    	for (int r = 0; r < aantalSpelers; r++) {
-	            //for (int c = 0; c < 3; c++) {
-	            	Player currentPlayer = playerArray.get(r);
-	            	lobbyGrid.add(new Label(currentPlayer.getName()), 0, r+2);
-	            	
-	            	if(currentPlayer.invited() == true) {
-	                	//lobbyGrid.add(new Label(currentPlayer.getStatus()), 1, r+1);
-	                	lobbyGrid.add(new Label("You got invited!"), 1, r+2);
-	                	lobbyGrid.add(new Button("Accept"), 2, r+2);
-	                	lobbyGrid.add(new Button("Decline"), 3, r+2);        	
-	            	}
-	            //}
-	}
 	    	backToLoginBtn.setOnAction(e -> {
         		app.disconnect();
 	        	makeLogin(root);
@@ -448,6 +476,8 @@ public class Gui {
 		
 		toolbarboxLocal.getChildren().add(localLobbyGrid);
 		
+		
+		app.requestPlayerList();
 		root.getChildren().add(toolbarboxLocal);
 	}
 }
