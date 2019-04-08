@@ -55,6 +55,7 @@ public class ApplicationHandler {
 	}
 	
 	public void disconnect() {
+		connection.logout();
 		connection.close();
 	}
 	
