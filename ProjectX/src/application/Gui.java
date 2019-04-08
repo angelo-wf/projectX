@@ -287,153 +287,153 @@ public class Gui extends Application {
     	root.getChildren().add(loginGrid);
     }
     
-public void makeLobby(StackPane root) {
-		ToolBar toolbar = new ToolBar();
-    	GridPane lobbyGrid = new GridPane();
-    	
-    	lobbyGrid.setAlignment(Pos.CENTER);
-    	lobbyGrid.setPadding(new Insets(15));
-
-    	Label playerLobbyLabel = new Label("Player");
-    	Label gameLobbyLabel = new Label("Status");
-    	Label lobbyUsernameLabel = new Label("Logged in as " + nameUser + "  ");
-    	Label lobbyServerLabel = new Label("  server: " + nameServer);
-    	lobbyUsernameLabel.setId("toolbar-content");
-    	lobbyServerLabel.setId("toolbar-content");
-
-    	Button backToLoginBtn = new Button("Back");
-    	backToLoginBtn.setId("back-button");
-    	
-    	Button refreshBtn = new Button("refresh");
-    	refreshBtn.setId("refresh-button");
-    	
-    	Separator separator1 = new Separator();
-    	separator1.setOrientation(Orientation.VERTICAL);
-    	
-    	Separator separator2 = new Separator();
-    	separator2.setOrientation(Orientation.VERTICAL);
-    	
-    	lobbyGrid.add(refreshBtn, 3, 1);
-    	toolbar.getItems().add(backToLoginBtn);
-    	toolbar.getItems().add(separator2);
-    	toolbar.getItems().add(lobbyUsernameLabel);
-    	toolbar.getItems().add(separator1);
-    	toolbar.getItems().add(lobbyServerLabel);
-    	lobbyGrid.add(playerLobbyLabel, 0, 1);
-    	lobbyGrid.add(gameLobbyLabel, 1, 1);
-    	VBox toolbarbox = new VBox();
-    	toolbarbox.getChildren().add(toolbar);
-    	//root.getChildren().add(lobbyGrid);
-
-    	toolbarbox.getChildren().add(lobbyGrid);
-    	
-    	root.getChildren().add(toolbarbox);
-    	
-        playerLobbyLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
-        gameLobbyLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
-        playerLobbyLabel.setId("label-big");
-        gameLobbyLabel.setId("label-big");
-    	
-    	ArrayList<Player> playerArray = new ArrayList<Player>();
-    	
-    	//dummy speler:
-    	Player player1 = new Player("player123", "none", false);
-    	Player player2 = new Player("speler123132", "none", false);
-    	Player player3 = new Player("hallo23", "Invited you!", true);
-    	
-    	playerArray.add(player1);
-    	playerArray.add(player2);
-    	playerArray.add(player3);
-    	
-    	int aantalSpelers = playerArray.size();
-    	
-    	for (int r = 0; r < aantalSpelers; r++) {
-            //for (int c = 0; c < 3; c++) {
-            	Player currentPlayer = playerArray.get(r);
-            	lobbyGrid.add(new Label(currentPlayer.getName()), 0, r+2);
-            	
-            	if(currentPlayer.invited() == true) {
-                	//lobbyGrid.add(new Label(currentPlayer.getStatus()), 1, r+1);
-                	lobbyGrid.add(new Label("You got invited!"), 1, r+2);
-                	lobbyGrid.add(new Button("Accept"), 2, r+2);
-                	lobbyGrid.add(new Button("Decline"), 3, r+2);        	
-            	}
-            //}
-}
-    	backToLoginBtn.setOnAction(e -> {
-        	makeLogin(root);
-        	root.getChildren().remove(lobbyGrid);
-        	root.getChildren().remove(toolbarbox);
-        });
-    	
-    	lobbyGrid.setHgap(10);
-    	lobbyGrid.setVgap(10);
-    	lobbyGrid.setPadding(new Insets(10, 10, 10, 10));
-
-    }
-    
-
-public void makeLocalLobby(StackPane root) {
-	ToolBar toolbarLocal = new ToolBar();
-	GridPane localLobbyGrid = new GridPane();
+	public void makeLobby(StackPane root) {
+			ToolBar toolbar = new ToolBar();
+	    	GridPane lobbyGrid = new GridPane();
+	    	
+	    	lobbyGrid.setAlignment(Pos.CENTER);
+	    	lobbyGrid.setPadding(new Insets(15));
 	
-	localLobbyGrid.setAlignment(Pos.CENTER);
-	localLobbyGrid.setPadding(new Insets(15));
+	    	Label playerLobbyLabel = new Label("Player");
+	    	Label gameLobbyLabel = new Label("Status");
+	    	Label lobbyUsernameLabel = new Label("Logged in as " + nameUser + "  ");
+	    	Label lobbyServerLabel = new Label("  server: " + nameServer);
+	    	lobbyUsernameLabel.setId("toolbar-content");
+	    	lobbyServerLabel.setId("toolbar-content");
 	
-	localLobbyGrid.setHgap(10);
-	localLobbyGrid.setVgap(30);
-	localLobbyGrid.setPadding(new Insets(10, 10, 10, 10));
+	    	Button backToLoginBtn = new Button("Back");
+	    	backToLoginBtn.setId("back-button");
+	    	
+	    	Button refreshBtn = new Button("refresh");
+	    	refreshBtn.setId("refresh-button");
+	    	
+	    	Separator separator1 = new Separator();
+	    	separator1.setOrientation(Orientation.VERTICAL);
+	    	
+	    	Separator separator2 = new Separator();
+	    	separator2.setOrientation(Orientation.VERTICAL);
+	    	
+	    	lobbyGrid.add(refreshBtn, 3, 1);
+	    	toolbar.getItems().add(backToLoginBtn);
+	    	toolbar.getItems().add(separator2);
+	    	toolbar.getItems().add(lobbyUsernameLabel);
+	    	toolbar.getItems().add(separator1);
+	    	toolbar.getItems().add(lobbyServerLabel);
+	    	lobbyGrid.add(playerLobbyLabel, 0, 1);
+	    	lobbyGrid.add(gameLobbyLabel, 1, 1);
+	    	VBox toolbarbox = new VBox();
+	    	toolbarbox.getChildren().add(toolbar);
+	    	//root.getChildren().add(lobbyGrid);
 	
-	//Label playerLobbyLabel = new Label("Player");
-	//Label gameLobbyLabel = new Label("Status");
-	Label lobbyUsernameLabel = new Label("Logged in as " + nameUser + "  ");
+	    	toolbarbox.getChildren().add(lobbyGrid);
+	    	
+	    	root.getChildren().add(toolbarbox);
+	    	
+	        playerLobbyLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
+	        gameLobbyLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
+	        playerLobbyLabel.setId("label-big");
+	        gameLobbyLabel.setId("label-big");
+	    	
+	    	ArrayList<Player> playerArray = new ArrayList<Player>();
+	    	
+	    	//dummy speler:
+	    	Player player1 = new Player("player123", "none", false);
+	    	Player player2 = new Player("speler123132", "none", false);
+	    	Player player3 = new Player("hallo23", "Invited you!", true);
+	    	
+	    	playerArray.add(player1);
+	    	playerArray.add(player2);
+	    	playerArray.add(player3);
+	    	
+	    	int aantalSpelers = playerArray.size();
+	    	
+	    	for (int r = 0; r < aantalSpelers; r++) {
+	            //for (int c = 0; c < 3; c++) {
+	            	Player currentPlayer = playerArray.get(r);
+	            	lobbyGrid.add(new Label(currentPlayer.getName()), 0, r+2);
+	            	
+	            	if(currentPlayer.invited() == true) {
+	                	//lobbyGrid.add(new Label(currentPlayer.getStatus()), 1, r+1);
+	                	lobbyGrid.add(new Label("You got invited!"), 1, r+2);
+	                	lobbyGrid.add(new Button("Accept"), 2, r+2);
+	                	lobbyGrid.add(new Button("Decline"), 3, r+2);        	
+	            	}
+	            //}
+	}
+	    	backToLoginBtn.setOnAction(e -> {
+	        	makeLogin(root);
+	        	root.getChildren().remove(lobbyGrid);
+	        	root.getChildren().remove(toolbarbox);
+	        });
+	    	
+	    	lobbyGrid.setHgap(10);
+	    	lobbyGrid.setVgap(10);
+	    	lobbyGrid.setPadding(new Insets(10, 10, 10, 10));
 	
-	Button playBtn = new Button("play");
+	    }
+	    
 	
+	public void makeLocalLobby(StackPane root) {
+		ToolBar toolbarLocal = new ToolBar();
+		GridPane localLobbyGrid = new GridPane();
+		
+		localLobbyGrid.setAlignment(Pos.CENTER);
+		localLobbyGrid.setPadding(new Insets(15));
+		
+		localLobbyGrid.setHgap(10);
+		localLobbyGrid.setVgap(30);
+		localLobbyGrid.setPadding(new Insets(10, 10, 10, 10));
+		
+		//Label playerLobbyLabel = new Label("Player");
+		//Label gameLobbyLabel = new Label("Status");
+		Label lobbyUsernameLabel = new Label("Logged in as " + nameUser + "  ");
+		
+		Button playBtn = new Button("play");
+		
+		
+		lobbyUsernameLabel.setId("toolbar-content");
 	
-	lobbyUsernameLabel.setId("toolbar-content");
-
-	Button backToLoginBtn = new Button("Back");
-	backToLoginBtn.setId("back-button");
+		Button backToLoginBtn = new Button("Back");
+		backToLoginBtn.setId("back-button");
+		
+		
+		
+		Separator separator3 = new Separator();
+		separator3.setOrientation(Orientation.VERTICAL);
+		
+		final ToggleGroup toggle = new ToggleGroup();
+		
+		RadioButton rb1 = new RadioButton();
+		rb1.setText("Tic-Tac-Toe");
+		rb1.setToggleGroup(toggle);
+		RadioButton rb2 = new RadioButton();
+		rb2.setText("Reversi");
+		rb2.setToggleGroup(toggle);
+		
+		
+		toolbarLocal.getItems().add(backToLoginBtn);
+		toolbarLocal.getItems().add(separator3);
+		toolbarLocal.getItems().add(lobbyUsernameLabel);
+		
+		localLobbyGrid.add(rb1, 1, 1);
+		localLobbyGrid.add(rb2, 1, 2);
+		//localLobbyGrid.add(playerLobbyLabel, 0, 1);
+		//localLobbyGrid.add(gameLobbyLabel, 0, 2);
+		localLobbyGrid.add(playBtn, 1, 3);
+		VBox toolbarboxLocal = new VBox();
+		toolbarboxLocal.getChildren().add(toolbarLocal);
+		//root.getChildren().add(lobbyGrid);
 	
-	
-	
-	Separator separator3 = new Separator();
-	separator3.setOrientation(Orientation.VERTICAL);
-	
-	final ToggleGroup toggle = new ToggleGroup();
-	
-	RadioButton rb1 = new RadioButton();
-	rb1.setText("Tic-Tac-Toe");
-	rb1.setToggleGroup(toggle);
-	RadioButton rb2 = new RadioButton();
-	rb2.setText("Reversi");
-	rb2.setToggleGroup(toggle);
-	
-	
-	toolbarLocal.getItems().add(backToLoginBtn);
-	toolbarLocal.getItems().add(separator3);
-	toolbarLocal.getItems().add(lobbyUsernameLabel);
-	
-	localLobbyGrid.add(rb1, 1, 1);
-	localLobbyGrid.add(rb2, 1, 2);
-	//localLobbyGrid.add(playerLobbyLabel, 0, 1);
-	//localLobbyGrid.add(gameLobbyLabel, 0, 2);
-	localLobbyGrid.add(playBtn, 1, 3);
-	VBox toolbarboxLocal = new VBox();
-	toolbarboxLocal.getChildren().add(toolbarLocal);
-	//root.getChildren().add(lobbyGrid);
-
-	backToLoginBtn.setOnAction(e -> {
-    	makeLogin(root);
-    	root.getChildren().remove(localLobbyGrid);
-    	root.getChildren().remove(toolbarboxLocal);
-    });
-	
-	toolbarboxLocal.getChildren().add(localLobbyGrid);
-	
-	root.getChildren().add(toolbarboxLocal);
-}
+		backToLoginBtn.setOnAction(e -> {
+	    	makeLogin(root);
+	    	root.getChildren().remove(localLobbyGrid);
+	    	root.getChildren().remove(toolbarboxLocal);
+	    });
+		
+		toolbarboxLocal.getChildren().add(localLobbyGrid);
+		
+		root.getChildren().add(toolbarboxLocal);
+	}
 
     @Override
     public void start(Stage primaryStage) {
