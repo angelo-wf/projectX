@@ -33,24 +33,24 @@ public class ApplicationHandler {
 	
 	public ApplicationHandler(Stage primaryStage) {
 		
-		// make window
-		VBox game = new VBox();
-		// TEMP: Create gameview here
-		gameView = new ReversiView();
-		game.getChildren().add(gameView.getBoardView());
-		game.getChildren().add(gameView.getStatsPane());
+//		// make window
+//		VBox game = new VBox();
+//		// TEMP: Create gameview here
+//		gameView = new ReversiView();
+//		game.getChildren().add(gameView.getBoardView());
+//		game.getChildren().add(gameView.getStatsPane());
+//		
+//		Scene scene = new Scene(game);
+//		primaryStage.setScene(scene);
+//		primaryStage.setTitle("Reversi");
+//		
+//		primaryStage.show();
+//		
+//		setServer("b", "localhost:7789");
+//		//connection.challengePlayer("b", "Reversi");
+//		connection.subscirbe("Reversi");
 		
-		Scene scene = new Scene(game);
-		primaryStage.setScene(scene);
-		primaryStage.setTitle("Reversi");
-		
-		primaryStage.show();
-		
-		setServer("b", "localhost:7789");
-		//connection.challengePlayer("b", "Reversi");
-		connection.subscirbe("Reversi");
-		
-		//gui = new Gui(primaryStage, this);
+		gui = new Gui(primaryStage, this);
 		
 	}
 	
@@ -123,7 +123,7 @@ public class ApplicationHandler {
 			if(playerType2.equals("AI")) {
 				player2 = new ReversiAI(2);
 			}
-			//gameView = new ReversiView();
+			gameView = new ReversiView();
 			break;
 		case "Tic-tac-toe":
 			model = new TicTacToeModel();
