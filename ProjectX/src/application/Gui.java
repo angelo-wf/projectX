@@ -51,6 +51,7 @@ public class Gui {
 	private GridPane inviteGrid;
 	private ArrayList<String> inviteArrayList;
 	private String currentGame = "Reversi";
+	private ArrayList<String> challengedPlayers = null;
     
     public Gui(Stage primaryStage, ApplicationHandler app) {
     	this.app = app;
@@ -388,13 +389,35 @@ public class Gui {
     				if(!(playerArrayList.get(r).equals(nameUser))) {
     					lobbyGrid.add(new Label(playerArrayList.get(r)), 0, r+2);
     					//lobbyGrid.add(new Button ("invite", null, css.style.Button_Plain), 1, r+2);
-    					Button tempBtn = new Button("Invite");
-    					lobbyGrid.add(tempBtn, 1, r+2);
+    					
+    					
     					String currentPlayer = playerArrayList.get(r);
-    					tempBtn.setOnAction(e -> {
-    						app.challengePlayer(currentPlayer, currentGame);
-    					});
+    					
+    					Button tempBtn = new Button("Invite");
+    					//Button tempBtn2 = new Button("Cancel Invite");
+
+    					
+    					
+    					//tempBtn2.setOnAction(e -> {
+    					//	challengedPlayers = null;
+    					//});
+    					
     					tempBtn.setId("small-button");
+    					//tempBtn2.setId("small-button");
+    					
+    					
+//    					if(challengedPlayers == null){
+        					lobbyGrid.add(tempBtn, 1, r+2);    						
+//    					}
+//    					else {
+//	    					if(challengedPlayers.contains(currentPlayer)) {
+//	    						lobbyGrid.add(tempBtn2, 1, r+2);  
+//	    					}
+//    					}
+        					tempBtn.setOnAction(e -> {
+        						app.challengePlayer(currentPlayer, currentGame);
+        						//challengedPlayers.add(currentPlayer);
+        					});
     					//Button.setId("button-small");
     				}
     				
