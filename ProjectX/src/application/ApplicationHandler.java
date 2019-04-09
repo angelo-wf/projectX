@@ -10,6 +10,8 @@ import gamehandler.GamePlayer;
 import gamehandler.GameView;
 import gamehandler.RealPlayer;
 import gamehandler.RemotePlayer;
+import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import reversi.ReversiAI;
 import reversi.ReversiModel;
@@ -117,6 +119,7 @@ public class ApplicationHandler {
 		}
 		model.initGame(beginningPlayer);
 		// TODO: tell ui game started, provide pane for board and label for status
+		gui.setGameScreen(gameView);
 	}
 	
 	public void setUpGame(String game, String playerType1, String playerType2) {
