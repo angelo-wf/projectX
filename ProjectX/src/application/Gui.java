@@ -153,11 +153,11 @@ public class Gui {
         hBox.getChildren().add(grid1);
     }
     
-    public void updateStats(String yourPoints, String oppPoints, int beurt) {
+    public void updateStats(int yourPoints, int oppPoints, int beurt) {
     	
     	Platform.runLater(() -> {
-    		scoreNumberLabel.setText(yourPoints);
-    		oppScoreNumberLabel.setText(oppPoints);
+    		scoreNumberLabel.setText("" + yourPoints);
+    		oppScoreNumberLabel.setText("" + oppPoints);
     		
     		if(beurt == 1) {
     			turnLabel.setText("> It's your turn! <");
