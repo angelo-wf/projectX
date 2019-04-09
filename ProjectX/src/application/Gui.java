@@ -160,7 +160,7 @@ public class Gui {
     		oppScoreNumberLabel.setText("" + oppPoints);
     		
     		if(beurt == 1) {
-    			turnLabel.setText("> It's your turn! <");
+    			turnLabel.setText("It's your turn!");
     		}
     		else {
     			turnLabel.setText("opponent's turn");
