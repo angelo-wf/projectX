@@ -57,6 +57,10 @@ public class Gui {
 	private ArrayList<String> challengedPlayers = null;
    	StackPane root = new StackPane();
 	HBox drieBox = new HBox();
+	private Label scoreNumberLabel;
+	private Label oppScoreNumberLabel;
+	private Label timeLabel;
+	private Label turnLabel;
 
     
     public Gui(Stage primaryStage, ApplicationHandler app) {
@@ -91,8 +95,8 @@ public class Gui {
         Label statLabel = new Label("Stats");
         Label yourScoreLabel = new Label("Your score: ");
         Label oppScoreLabel = new Label("Opponent's score: ");
-        Label turnLabel = new Label("It's your turn!");
-        Label timeLabel = new Label("8.32 sec left");
+        turnLabel = new Label();
+        timeLabel = new Label("8.32 sec left");
         
         //Button
         Button ffBtn = new Button("Forfeit");
@@ -130,8 +134,8 @@ public class Gui {
         });
         
         //labels for stats screen
-        Label scoreNumberLabel = new Label("30");
-        Label oppScoreNumberLabel = new Label("27");
+        scoreNumberLabel = new Label();
+        oppScoreNumberLabel = new Label();
 
         //styles
         scoreNumberLabel.setFont(Font.font("Verdana", 20));
@@ -148,6 +152,24 @@ public class Gui {
         
         hBox.getChildren().add(grid1);
     }
+    
+    public void updateStats(String yourPoints, String oppPoints, int beurt) {
+    	
+    	Platform.runLater(() -> {
+    		scoreNumberLabel.setText(yourPoints);
+    		oppScoreNumberLabel.setText(oppPoints);
+    		
+    		if(beurt == 1) {
+    			turnLabel.setText("> It's your turn! <");
+    		}
+    		else {
+    			turnLabel.setText("opponent's turn");
+    		}
+    		//timeLabel.setText(secondenOver + "seconds left!");
+    	});
+    }
+    
+    
     
     public void makeGame(Pane board) {
     	 //GridPane grid2 = new GridPane();
