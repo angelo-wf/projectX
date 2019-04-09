@@ -2,6 +2,37 @@
   -fx-font-size:14.0;
 }
 
+#scroll-pane:focus{
+  -fx-border-color:transparent;
+}
+
+#invites-table {
+  -fx-background-color: #e5e7ff;
+}
+
+#small-dropdown{
+  -fx-font-size:12;
+}
+
+#lobbyGrid{
+  -fx-font-size:12  
+}
+
+#lobbyGrid.button{
+  -fx-background: transparent;
+  -fx-border-color: transparent;
+  -fx-font-size:11;
+  -fx-text-fill:BLUE;
+}
+
+#button-small{
+  -fx-background: transparent;
+  -fx-border-color: transparent;
+  -fx-font-size:11;
+  -fx-text-fill:BLUE;
+}
+
+
 #label-big {
   -fx-font-size:16.0;
   -fx-font-weight:BOLD;

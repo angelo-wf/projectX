@@ -16,6 +16,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -47,6 +48,8 @@ public class Gui {
 	//private ArrayList<String> playerArray;
 	private ArrayList<String> playerArrayList;
 	private VBox toolbarbox;
+	private GridPane inviteGrid;
+	private ArrayList<String> inviteArrayList;
     
     public Gui(Stage primaryStage, ApplicationHandler app) {
     	this.app = app;
@@ -367,7 +370,7 @@ public class Gui {
             Button refreshBtn = new Button("refresh");
         	refreshBtn.setId("refresh-button");
         	
-        	lobbyGrid.add(refreshBtn, 3, 1);
+        	lobbyGrid.add(refreshBtn, 2, 1);
         	
         	refreshBtn.setOnAction(e -> {
         		app.requestPlayerList();
@@ -380,10 +383,14 @@ public class Gui {
     		//for (String username : playerArrayList) { 		      
     			for (int r = 0; r < playerCount; r++) {
                   //for (int c = 0; c < 3; c++) {
-    				
+    				;
     				if(!(playerArrayList.get(r).equals(nameUser))) {
     					lobbyGrid.add(new Label(playerArrayList.get(r)), 0, r+2);
+    					//lobbyGrid.add(new Button ("invite", null, css.style.Button_Plain), 1, r+2);
+    					lobbyGrid.add(new Button("invite"), 1, r+2);
+    					//Button.setId("button-small");
     				}
+    				
 //                  	if(currentPlayer.invited() == true) {
 //                      	//lobbyGrid.add(new Label(currentPlayer.getStatus()), 1, r+1);
 //                      	lobbyGrid.add(new Label("You got invited!"), 1, r+2);
@@ -398,15 +405,157 @@ public class Gui {
     	
     }
     
+    public void setInviteList(ArrayList<String> inviteArray) {
+    	this.inviteArrayList = inviteArray;
+    	
+    	
+    	
+    	//lobbyGrid = new GridPane();
+    	
+    	//dummy speler:
+//    	Player player1 = new Player("player123", "none", false);
+//    	Player player2 = new Player("speler123132", "none", false);
+//    	Player player3 = new Player("hallo23", "Invited you!", true);
+//    	
+//    	playerArray.add(player1);
+//    	playerArray.add(player2);
+//    	playerArray.add(player3);
+    	
+    	//int aantalSpelers = playerArrayList.size();
+    	
+//    	for (int r = 0; r < aantalSpelers; r++) {
+//            //for (int c = 0; c < 3; c++) {
+//            	//Player currentPlayer = playerArrayList.get(r);
+//            	//lobbyGrid.add(new Label(currentPlayer.getName()), 0, r+2);
+//            	
+//            	if(currentPlayer.invited() == true) {
+//                	//lobbyGrid.add(new Label(currentPlayer.getStatus()), 1, r+1);
+//                	lobbyGrid.add(new Label("You got invited!"), 1, r+2);
+//                	lobbyGrid.add(new Button("Accept"), 2, r+2);
+//                	lobbyGrid.add(new Button("Decline"), 3, r+2);        	
+//            	}
+//            //}
+//}
+
+    	
+    
+
+    	
+    	
+    	
+    	
+    	Platform.runLater(() -> {
+    		inviteGrid.getChildren().clear();
+    		
+    		
+    		Label playerLobbyLabel = new Label("Invite");
+        	Label gameLobbyLabel = new Label("Game");
+        	//Label inviteTitle = new Label("Invites");
+        	
+        	inviteGrid.add(playerLobbyLabel, 0, 1);
+        	inviteGrid.add(gameLobbyLabel, 1, 1);
+        	//inviteGrid.add(inviteTitle, 0, 0);
+        	
+        	playerLobbyLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
+            gameLobbyLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
+            playerLobbyLabel.setId("label-big");
+            gameLobbyLabel.setId("label-big");
+        	
+        	
+            Button refreshBtn = new Button("refresh");
+        	refreshBtn.setId("refresh-button");
+        	
+        	inviteGrid.add(refreshBtn, 3, 1);
+        	
+        	refreshBtn.setOnAction(e -> {
+        		app.requestPlayerList();
+        	});
+
+    		
+
+    		
+    		int playerCount = inviteArrayList.size();
+    		//for (String username : playerArrayList) { 		      
+    			for (int r = 0; r < playerCount; r++) {
+                  //for (int c = 0; c < 3; c++) {
+    				
+    				//if(!(inviteArrayList.get(r).equals(nameUser))) {
+    					inviteGrid.add(new Label(inviteArrayList.get(r)), 0, r+2);
+    				//}
+                      	//lobbyGrid.add(new Label(currentPlayer.getStatus()), 1, r+1);
+                      	//lobbyGrid.add(new Label("You got invited!"), 1, r+2);
+                      	lobbyGrid.add(new Button("Accept"), 2, r+2);
+                      	lobbyGrid.add(new Button("Decline"), 3, r+2);        	
+                  	
+                  }
+     // }
+          // }
+    		
+    	});
+    	
+    }
+    
+    
+    
     
 	public void makeLobby(StackPane root) {
+			
+		
+			HBox drieBox = new HBox();
 			
 			lobbyGrid = new GridPane();
 			
 	    	lobbyGrid.setAlignment(Pos.CENTER);
 	    	lobbyGrid.setPadding(new Insets(15));
 		
-		
+	    	VBox lobbyVbox = new VBox();
+	    	
+	    	inviteGrid = new GridPane();
+			
+	    	inviteGrid.setAlignment(Pos.CENTER);
+	    	inviteGrid.setPadding(new Insets(15));
+	    	
+	    	VBox inviteVbox = new VBox();
+	    	
+	    	
+	    	GridPane optionsGrid = new GridPane();
+	    	
+	    	VBox optionsVbox = new VBox();
+	    	
+	    	Label optionsGameLabel = new Label("Game:");
+	    	Label optionsModeLabel = new Label("mode:");
+	    	
+	    	ObservableList<String> lobbyOptionsGame = 
+	    		    FXCollections.observableArrayList(
+	    		        "Tic-Tac-Toe",
+	    		        "Reversi"
+	    		    );
+	    	
+	    	
+	    	ComboBox<String> lobbySelectGame = new ComboBox(lobbyOptionsGame);
+	        lobbySelectGame.getSelectionModel().selectFirst();
+	        
+	        ObservableList<String> lobbyOptionsMode = 
+	    		    FXCollections.observableArrayList(
+	    		        "You",
+	    		        "AI"
+	    		    );
+	    	
+	    	
+	    	ComboBox<String> lobbySelectMode = new ComboBox(lobbyOptionsMode);
+	        lobbySelectMode.getSelectionModel().selectFirst();
+	    	
+	    	optionsGrid.add(optionsGameLabel, 0, 1);
+	    	optionsGrid.add(optionsModeLabel, 0, 2);
+	    	
+	    	optionsGrid.add(lobbySelectGame, 1, 1);
+	    	optionsGrid.add(lobbySelectMode, 1, 2);
+	    	
+	    	
+	    	lobbySelectMode.setId("small-dropdown");
+	    	lobbySelectGame.setId("small-dropdown");
+	    	
+	    	
 		
 			ToolBar toolbar = new ToolBar();
 	    	
@@ -418,6 +567,15 @@ public class Gui {
 	    	Button backToLoginBtn = new Button("Back");
 	    	backToLoginBtn.setId("back-button");
 	    	
+	    	
+	    	ArrayList<String> dummyInvites = new ArrayList<>();
+	        dummyInvites.add("a");
+	        dummyInvites.add("a");
+	        dummyInvites.add("a");
+	        dummyInvites.add("a");
+	        dummyInvites.add("a");
+	        
+	        setInviteList(dummyInvites);
 	    	
 	    	
 	    	Separator separator1 = new Separator();
@@ -437,10 +595,28 @@ public class Gui {
 	    	toolbarbox.getChildren().add(toolbar);
 	    	//root.getChildren().add(lobbyGrid);
 	
+	    	inviteGrid.setId("invites-table");
 	    	
 	    	
+	    	
+	    	
+	    	lobbyVbox.getChildren().add(lobbyGrid);
+	    	inviteVbox.getChildren().add(inviteGrid);
+	    	optionsVbox.getChildren().add(optionsGrid);
+	    	
+	    	drieBox.getChildren().add(lobbyVbox);
+	    	drieBox.getChildren().add(inviteVbox);
+	    	drieBox.getChildren().add(optionsVbox);
+
+	    	
+	    	ScrollPane scrollpane = new ScrollPane();
+	    	scrollpane.setContent(drieBox);
+	    	
+	    	scrollpane.setId("scroll-pane");
+	    	drieBox.minHeight(400);
+	    	drieBox.prefHeight(400);
 	    	root.getChildren().add(toolbarbox);
-	    	toolbarbox.getChildren().add(lobbyGrid);
+	    	toolbarbox.getChildren().add(scrollpane);
 	        
 	    	
 	    	
@@ -448,14 +624,23 @@ public class Gui {
 	    	backToLoginBtn.setOnAction(e -> {
         		app.disconnect();
 	        	makeLogin(root);
-	        	root.getChildren().remove(lobbyGrid);
+	        	root.getChildren().remove(drieBox);
 	        	root.getChildren().remove(toolbarbox);
 	        });
 	    	
 	    	lobbyGrid.setHgap(10);
 	    	lobbyGrid.setVgap(10);
 	    	lobbyGrid.setPadding(new Insets(10, 10, 10, 10));
+	    	
+	    	inviteGrid.setHgap(10);
+	    	inviteGrid.setVgap(10);
+	    	inviteGrid.setPadding(new Insets(10, 10, 10, 10));
 	
+	    	optionsGrid.setHgap(10);
+	    	optionsGrid.setVgap(10);
+	    	optionsGrid.setPadding(new Insets(10, 10, 10, 10));
+	    	
+	    	
 	    }
 	    
 	
