@@ -153,7 +153,7 @@ public class Gui {
         hBox.getChildren().add(grid1);
     }
     
-    public void updateStats(int yourPoints, int oppPoints, int beurt) {
+    public void updateStats(int yourPoints, int oppPoints, int beurt, String endreason) {
     	
     	Platform.runLater(() -> {
     		scoreNumberLabel.setText("" + yourPoints);
@@ -162,9 +162,14 @@ public class Gui {
     		if(beurt == 1) {
     			turnLabel.setText("It's your turn!");
     		}
-    		else {
-    			turnLabel.setText("opponent's turn");
-    		}
+    		//else {
+			if(beurt==2) {
+				turnLabel.setText("opponent's turn");
+			}
+			if(beurt==0) {
+				turnLabel.setText(endreason);
+			}
+    		//}
     		//timeLabel.setText(secondenOver + "seconds left!");
     	});
     }
