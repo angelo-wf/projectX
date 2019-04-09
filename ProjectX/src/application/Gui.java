@@ -96,7 +96,7 @@ public class Gui {
         Label yourScoreLabel = new Label("Your score: ");
         Label oppScoreLabel = new Label("Opponent's score: ");
         turnLabel = new Label();
-        timeLabel = new Label("8.32 sec left");
+        //timeLabel = new Label("8.32 sec left");
         
         //Button
         Button ffBtn = new Button("Forfeit");
@@ -147,7 +147,7 @@ public class Gui {
         grid1.add(vBoxScores, 1, 0);
         
         //vul vboxes
-        vBoxLabels.getChildren().addAll(statLabel, yourScoreLabel, oppScoreLabel, turnLabel, timeLabel, ffBtn);
+        vBoxLabels.getChildren().addAll(statLabel, yourScoreLabel, oppScoreLabel, turnLabel, ffBtn);
         vBoxScores.getChildren().addAll(scoreNumberLabel, oppScoreNumberLabel);
         
         hBox.getChildren().add(grid1);
