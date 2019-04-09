@@ -3,23 +3,28 @@ package reversi;
 import gamehandler.GameView;
 import gamehandler.Move;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Circle;
 
 public class ReversiView extends GameView {
-	private Rectangle[] cells;
+	private Circle[] cells;
 	private Label stats;
 	
 	public ReversiView() {
 		boardView = new Pane();
+		boardView.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
 		boardView.setPrefSize(400, 400);
-		cells = new Rectangle[64];
+		cells = new Circle[64];
 		for(int i = 0; i < cells.length; i++) {
 			final int x = i % 8;
 			final int y = i / 8;
-			cells[i] = new Rectangle(x * 50, y * 50, 50, 50);
+			cells[i] = new Circle(x * 50 + 25, y * 50 + 25, 23);
 			cells[i].setFill(Color.GREEN);
 			cells[i].setOnMouseClicked(e -> {
 				handleClick(new Move(x, y));

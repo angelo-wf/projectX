@@ -9,6 +9,8 @@ import gamehandler.GamePlayer;
 import gamehandler.GameView;
 import gamehandler.RealPlayer;
 import gamehandler.RemotePlayer;
+import javafx.scene.Scene;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import reversi.ReversiAI;
 import reversi.ReversiModel;
@@ -31,24 +33,24 @@ public class ApplicationHandler {
 	
 	public ApplicationHandler(Stage primaryStage) {
 		
-//		// make window
-//		VBox game = new VBox();
-//		// TEMP: Create gameview here
-//		gameView = new ReversiView();
-//		game.getChildren().add(gameView.getBoardView());
-//		game.getChildren().add(gameView.getStatsPane());
-//		
-//		Scene scene = new Scene(game);
-//		primaryStage.setScene(scene);
-//		primaryStage.setTitle("Reversi");
-//		
-//		primaryStage.show();
-//		
-//		setServer("b", "localhost:7789");
-//		//connection.challengePlayer("b", "Reversi");
-//		connection.subscirbe("Reversi");
+		// make window
+		VBox game = new VBox();
+		// TEMP: Create gameview here
+		gameView = new ReversiView();
+		game.getChildren().add(gameView.getBoardView());
+		game.getChildren().add(gameView.getStatsPane());
 		
-		gui = new Gui(primaryStage, this);
+		Scene scene = new Scene(game);
+		primaryStage.setScene(scene);
+		primaryStage.setTitle("Reversi");
+		
+		primaryStage.show();
+		
+		setServer("b", "localhost:7789");
+		//connection.challengePlayer("b", "Reversi");
+		connection.subscirbe("Reversi");
+		
+		//gui = new Gui(primaryStage, this);
 		
 	}
 	
@@ -108,6 +110,7 @@ public class ApplicationHandler {
 			throw new IllegalArgumentException("Unknown match-type");
 		}
 		model.initGame(beginningPlayer);
+		// TODO: tell ui game started, provide pane for board and label for status
 	}
 	
 	public void setUpGame(String game, String playerType1, String playerType2) {
@@ -120,7 +123,7 @@ public class ApplicationHandler {
 			if(playerType2.equals("AI")) {
 				player2 = new ReversiAI(2);
 			}
-			gameView = new ReversiView();
+			//gameView = new ReversiView();
 			break;
 		case "Tic-tac-toe":
 			model = new TicTacToeModel();
