@@ -118,6 +118,7 @@ public class AI extends ReversiPlayer {
         int bestValue = Integer.MIN_VALUE;
 
         //Corner Detection
+        //Corner Grab Move (Move that leads to capturing a corner)
         ArrayList<Point> corners = new ArrayList<>();
         corners.add(new Point(0,0));
         corners.add(new Point(0,7));
@@ -144,6 +145,7 @@ public class AI extends ReversiPlayer {
         bestValue = Integer.MIN_VALUE;
 
         //Blocking Move Detection
+        //(Move that blocks the oponent on the next move)
         for(Point move : moves){
             int[][] resBoard = BoardHelper.getNewBoardAfterMove(board,move,myMark);
             if(BoardHelper.getAllPossibleMoves(resBoard,opMark).size() == 0){ //if opponent has no moves

@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import java.awt.font.FontRenderContext;
 import java.awt.font.LineMetrics;
 
+
 public class BoardCell extends JLabel implements MouseListener{
 
     int i;
@@ -37,7 +38,7 @@ public class BoardCell extends JLabel implements MouseListener{
 
         //draw highlight
         if(highlight == 1) {
-            g.setColor(new Color(138, 177, 62));
+            g.setColor(new Color(177, 23, 49));
             g.fillRect(0,0,this.getWidth(),this.getHeight());
             g.setColor(parent.getBackground());
             g.fillRect(4,4,this.getWidth()-8,this.getHeight()-8);

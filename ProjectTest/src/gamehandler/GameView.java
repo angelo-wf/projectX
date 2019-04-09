@@ -1,16 +1,17 @@
 package gamehandler;
 
+import ai.AI;
 import javafx.scene.layout.Pane;
 
 public abstract class GameView {
 	
-	protected GamePlayer player;
+	protected AI player;
 	protected GameModel model;
 	
 	protected Pane statsPane;
 	protected Pane boardView;
 	
-	public void setPlayer(GamePlayer player) {
+	public void setPlayer(AI player) {
 		this.player = player;
 	}
 	
@@ -29,6 +30,6 @@ public abstract class GameView {
 	public abstract void update();
 	
 	public void handleClick(Move move) {
-		player.handleClick(move);
+		//player.handleClick(move);
 	}
 }

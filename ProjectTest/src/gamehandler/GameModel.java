@@ -5,7 +5,7 @@ import ai.AI;
 public abstract class GameModel {
 	
 	protected GameView view;
-	protected GamePlayer player1;
+	protected AI player1;
 	protected AI player2;
 	
 	public void setView(GameView view) {
@@ -24,7 +24,7 @@ public abstract class GameModel {
 	
 	public abstract int getWidth();
 	
-	public void setPlayer1(GamePlayer player) {
+	public void setPlayer1(AI player) {
 		this.player1 = player;
 	}
 	
@@ -32,6 +32,5 @@ public abstract class GameModel {
 		this.player2 = player;
 	}
 
-	public void setPlayer2(GamePlayer player2) {
-	}
+
 }

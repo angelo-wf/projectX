@@ -57,4 +57,5 @@ public class TicTacToeAI extends GamePlayer {
 		// stop thread
 		running = false;
 	}
+
 }

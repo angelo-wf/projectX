@@ -74,16 +74,8 @@ public class GamePanel extends JPanel implements GameEngine {
         tscore1 = new JLabel("Total Score 1");
         tscore2 = new JLabel("Total Score 2");
 
-        sidebar.add(score1);
-        sidebar.add(score2);
-
-        sidebar.add(new JLabel("-----------"));
-
-        sidebar.add(tscore1);
-        sidebar.add(tscore2);
 
 
-        this.add(sidebar,BorderLayout.WEST);
         this.add(reversiBoard);
 
         //

@@ -67,6 +67,7 @@ public class ClientSocket {
 	
 	public void close() {
 		//close the connection safely
+		running = false;
 		if(inputStream != null) {
 			try {
 				inputStream.close();

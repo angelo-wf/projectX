@@ -10,6 +10,7 @@ public class Runner extends Application {
 	public void start(Stage primaryStage) {
 //		
 		ApplicationHandler app = new ApplicationHandler(primaryStage);
+		GameWindow window = new GameWindow();
 		
 	}
 	

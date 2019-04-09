@@ -88,6 +88,7 @@ public class RealtimeEvaluator implements Evaluator {
             {-10 , -25 ,  -4, -4 , -4 , -4 , -25 , -10 },
             {100 , -10 , 8  ,  6 ,  6 , 8  , -10 ,  100}};
 
+    //Placment (piece placement score of the current player minus the piece placement score of the opponent.)
     public static int placement(int[][] board , int player){
         int oplayer = (player==1) ? 2 : 1;
 
@@ -104,6 +105,7 @@ public class RealtimeEvaluator implements Evaluator {
         return myW - opW;
     }
 
+    //Stability (Measures the number of discs that cannot be flipped for the rest of the game. Weighted highly at all times.)
     public static int stability(int[][] board , int player){
         int oplayer = (player==1) ? 2 : 1;
 
@@ -123,15 +125,19 @@ public class RealtimeEvaluator implements Evaluator {
         return 100 * (myS - opS) / (myS + opS + 1);
     }
 
+    //Mobility (Measures the number of moves the player is currently able to make.
+    //Has significant weight in the opening game, but diminishes to zero weight towards the endgame.)
     public static int mobility(int[][] board , int player){
         int oplayer = (player==1) ? 2 : 1;
 
         int myMoveCount = getAllPossibleMoves(board,player).size();
         int opMoveCount = getAllPossibleMoves(board,oplayer).size();
 
-        return 100 * (myMoveCount - opMoveCount) / (myMoveCount + opMoveCount + 1);
-    }
 
+        return 100 * (myMoveCount - opMoveCount) / (myMoveCount + opMoveCount + 1);
+
+    }
+    //Frontier Discs (number of spaces contignous to opponent pieces minus the the number of spaces contignuous to the current player's pieces.)
     public static int frontier(int[][] board , int player){
         int oplayer = (player==1) ? 2 : 1;
 
@@ -141,6 +147,8 @@ public class RealtimeEvaluator implements Evaluator {
         return 100 * (myF - opF) / (myF + opF + 1);
     }
 
+    //Corner Grab (Measures if the current player can take a corner with its next move,
+    // Weighted highly at all times.)
     public static int cornerGrab(int[][] board , int player){
         ArrayList<Point> moves = BoardHelper.getAllPossibleMoves(board,player);
 
