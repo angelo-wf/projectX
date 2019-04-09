@@ -3,6 +3,7 @@ package application;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import gamehandler.EndReason;
 import gamehandler.GameModel;
 import gamehandler.GamePlayer;
 import gamehandler.GameView;
@@ -79,6 +80,10 @@ public class ApplicationHandler {
 	
 	public void challengePlayer(String name, String gameType) {
 		connection.challengePlayer(name, gameType);
+	}
+	
+	public void acceptChallenge(int number) {
+		connection.challengeAccept(number);
 	}
 	
 	public void subscribe(String gameType) {
@@ -169,13 +174,16 @@ public class ApplicationHandler {
 			}
 			break;
 		case "WIN":
-			System.out.println(type);
+			//System.out.println(type);
+			model.endGame(EndReason.WIN1);
 			break;
 		case "LOSS":
-			System.out.println(type);
+			//System.out.println(type);
+			model.endGame(EndReason.WIN2);
 			break;
 		case "DRAW":
-			System.out.println(type);
+			//System.out.println(type);
+			model.endGame(EndReason.DRAW);
 			break;
 		case "CHALLENGE":
 			System.out.println(type);

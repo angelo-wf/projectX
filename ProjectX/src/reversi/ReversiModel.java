@@ -77,11 +77,13 @@ public class ReversiModel extends GameModel {
 
 	@Override
 	public void endGame(EndReason reason) {
-		player1.endGame();
-		player2.endGame();
-		turn = Turn.ENDED;
-		this.reason = reason;
-		view.update();
+		if(turn != Turn.ENDED) {
+			player1.endGame();
+			player2.endGame();
+			turn = Turn.ENDED;
+			this.reason = reason;
+			view.update();
+		}
 	}
 	
 	@Override
