@@ -27,6 +27,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -37,6 +38,8 @@ import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import gamehandler.GameView;
 
 public class Gui {
         
@@ -52,11 +55,13 @@ public class Gui {
 	private ArrayList<Player> inviteArrayList = new ArrayList<>();
 	private String currentGame = "Reversi";
 	private ArrayList<String> challengedPlayers = null;
+   	StackPane root = new StackPane();
+	HBox drieBox = new HBox();
+
     
     public Gui(Stage primaryStage, ApplicationHandler app) {
     	this.app = app;
     	primaryStage.setTitle("Game");
-       	StackPane root = new StackPane();
     	//showBoth(root);
         makeLogin(root);
         //makeLobby(root);
@@ -144,21 +149,21 @@ public class Gui {
         hBox.getChildren().add(grid1);
     }
     
-    public void makeGame() {
-    	 GridPane grid2 = new GridPane();
-         grid2.setAlignment(Pos.CENTER);
-         grid2.setPadding(new Insets(15));
-         grid2.setMinWidth(400);
-         grid2.setMaxWidth(400);
+    public void makeGame(Pane board) {
+    	 //GridPane grid2 = new GridPane();
+         //grid2.setAlignment(Pos.CENTER);
+         //grid2.setPadding(new Insets(15));
+         //grid2.setMinWidth(400);
+         //grid2.setMaxWidth(400);
          
-         
-         grid2.setStyle("-fx-background-color: #C0C0C0;");
-         hBox.getChildren().add(grid2);
+         //grid2.add(board);
+         //grid2.setStyle("-fx-background-color: #C0C0C0;");
+         hBox.getChildren().add(board);
     }
     
-    public void showBoth(StackPane root) {
+    public void showBoth(StackPane root, GameView gameview) {
     	makeStats();
-    	makeGame();
+    	makeGame(gameview.getBoardView());
     	root.getChildren().add(hBox);
     }
     
@@ -550,13 +555,26 @@ public class Gui {
     	
     }
     
-    
+public void setGameScreen(GameView gameview) {
+    	
+    	
+    	
+    	
+    	
+    	Platform.runLater(() -> {
+    		inviteGrid.getChildren().clear();
+    		
+    		root.getChildren().remove(drieBox);
+        	root.getChildren().remove(toolbarbox);
+    		showBoth(root, gameview);
+    	});
+    	
+    }
     
     
 	public void makeLobby(StackPane root) {
 			
 		
-			HBox drieBox = new HBox();
 			
 			lobbyGrid = new GridPane();
 			
