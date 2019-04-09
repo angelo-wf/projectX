@@ -3,23 +3,25 @@ package application;
 public class Player {
 	String name;
 	String game;
-	Boolean invited;
+	int chalNumber;
 	
-	Player(String name, String game, Boolean invited){
+	Player(String name, String game, int chalNumber){
 		this.name = name;
 		this.game = game;
-		this.invited = invited;
+		this.chalNumber = chalNumber;
 	}
 	
 	String getName() {
 		return name;
 	}
 	
-	String getStatus() {
+	String getGame() {
 		return game;
 	}
 	
-	Boolean invited() {
-		return invited;
+	int getChalNumber() {
+		return chalNumber;
 	}
+	
+	
 }

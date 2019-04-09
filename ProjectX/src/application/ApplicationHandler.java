@@ -196,7 +196,7 @@ public class ApplicationHandler {
 			break;
 		case "CHALLENGE":
 			System.out.println(type);
-			// gui.setChallenge((String) map.get("CHALLENGER"), (String) map.get("GAMETYPE"), Integer.parseInt((String) map.get("CHALLENGENUMBER")));
+			gui.setChallenge((String) map.get("CHALLENGER"), (String) map.get("GAMETYPE"), Integer.parseInt((String) map.get("CHALLENGENUMBER")));
 			break;
 		case "CHALLENGE_CANCELLED":
 			System.out.println(type);

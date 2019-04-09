@@ -49,7 +49,7 @@ public class Gui {
 	private ArrayList<String> playerArrayList;
 	private VBox toolbarbox;
 	private GridPane inviteGrid;
-	private ArrayList<String> inviteArrayList;
+	private ArrayList<Player> inviteArrayList = new ArrayList<>();
 	private String currentGame = "Reversi";
 	private ArrayList<String> challengedPlayers = null;
     
@@ -418,6 +418,11 @@ public class Gui {
         						app.challengePlayer(currentPlayer, currentGame);
         						//challengedPlayers.add(currentPlayer);
         					});
+        					
+        				if(currentPlayer.length() > 18) {
+        					r=r+1;
+        				}
+        				
     					//Button.setId("button-small");
     				}
     				
@@ -435,8 +440,11 @@ public class Gui {
     	
     }
     
-    public void setInviteList(ArrayList<String> inviteArray) {
-    	this.inviteArrayList = inviteArray;
+    public void setChallenge(String name, String gameType, int chalNumber) {
+    	
+    	
+    	Player tempPlayer = new Player(name, gameType, chalNumber);
+    	inviteArrayList.add(tempPlayer);
     	
     	
     	
@@ -478,30 +486,32 @@ public class Gui {
     		inviteGrid.getChildren().clear();
     		
     		
+    		
+        	//inviteGrid.add(inviteTitle, 0, 0);
+        	
+        	
+        	
+        	
+            //Button refreshBtn = new Button("refresh");
+        	//refreshBtn.setId("refresh-button");
+        	
+        	//inviteGrid.add(refreshBtn, 3, 1);
+        	
+        	//refreshBtn.setOnAction(e -> {
+        	//	app.requestPlayerList();
+        	//});
+
     		Label playerLobbyLabel = new Label("Invite");
         	Label gameLobbyLabel = new Label("Game");
         	//Label inviteTitle = new Label("Invites");
         	
         	inviteGrid.add(playerLobbyLabel, 0, 1);
         	inviteGrid.add(gameLobbyLabel, 1, 1);
-        	//inviteGrid.add(inviteTitle, 0, 0);
-        	
+	    	
         	playerLobbyLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
             gameLobbyLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
             playerLobbyLabel.setId("label-big");
             gameLobbyLabel.setId("label-big");
-        	
-        	
-            Button refreshBtn = new Button("refresh");
-        	refreshBtn.setId("refresh-button");
-        	
-        	inviteGrid.add(refreshBtn, 3, 1);
-        	
-        	refreshBtn.setOnAction(e -> {
-        		app.requestPlayerList();
-        	});
-
-    		
 
     		
     		int playerCount = inviteArrayList.size();
@@ -509,15 +519,30 @@ public class Gui {
     			for (int r = 0; r < playerCount; r++) {
                   //for (int c = 0; c < 3; c++) {
     				
+    				Player currentPlayer = inviteArrayList.get(r);
     				//if(!(inviteArrayList.get(r).equals(nameUser))) {
-    					inviteGrid.add(new Label(inviteArrayList.get(r)), 0, r+2);
+    				Label tempLabel = new Label(currentPlayer.getName());	
+    				Label tempGameLabel = new Label(currentPlayer.getGame());
+    				inviteGrid.add(tempLabel, 0, r+2);
+    				inviteGrid.add(tempGameLabel, 1, r+2);
+    				int currentIndex = r;
     				//}
                       	//lobbyGrid.add(new Label(currentPlayer.getStatus()), 1, r+1);
                       	//lobbyGrid.add(new Label("You got invited!"), 1, r+2);
-                      	lobbyGrid.add(new Button("Accept"), 2, r+2);
-                      	lobbyGrid.add(new Button("Decline"), 3, r+2);        	
+    					Button tempAccept = new Button("Accept");
+    					tempAccept.setOnAction(e -> {
+    						app.acceptChallenge(chalNumber);
+    						int acceptIndex = currentIndex;
+    						inviteArrayList.remove(acceptIndex);
+    					});
+    					
+                      	inviteGrid.add(tempAccept, 2, r+2);
+                      	tempAccept.setId("small-button");
+                      	//lobbyGrid.add(new Button("Decline"), 3, r+2);        	
                   	
                   }
+    			
+    		
      // }
           // }
     		
@@ -545,6 +570,18 @@ public class Gui {
 	    	inviteGrid.setAlignment(Pos.CENTER);
 	    	inviteGrid.setPadding(new Insets(15));
 	    	
+	    	Label playerLobbyLabel = new Label("Invite");
+        	Label gameLobbyLabel = new Label("Game");
+        	//Label inviteTitle = new Label("Invites");
+        	
+        	inviteGrid.add(playerLobbyLabel, 0, 1);
+        	inviteGrid.add(gameLobbyLabel, 1, 1);
+	    	
+        	playerLobbyLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
+            gameLobbyLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
+            playerLobbyLabel.setId("label-big");
+            gameLobbyLabel.setId("label-big");
+	    	
 	    	VBox inviteVbox = new VBox();
 	    	
 	    	
@@ -554,6 +591,9 @@ public class Gui {
 	    	
 	    	Label optionsGameLabel = new Label("Game:");
 	    	Label optionsModeLabel = new Label("mode:");
+	    	
+	    	
+	    	
 	    	
 	    	ObservableList<String> lobbyOptionsGame = 
 	    		    FXCollections.observableArrayList(
@@ -613,7 +653,7 @@ public class Gui {
 	        dummyInvites.add("a");
 	        dummyInvites.add("a");
 	        
-	        setInviteList(dummyInvites);
+	        //setInviteList(dummyInvites);
 	    	
 	    	
 	    	Separator separator1 = new Separator();
@@ -653,6 +693,8 @@ public class Gui {
 	    	scrollpane.setId("scroll-pane");
 	    	drieBox.minHeight(400);
 	    	drieBox.prefHeight(400);
+	    	scrollpane.minHeight(400);
+	    	scrollpane.prefHeight(400);
 	    	root.getChildren().add(toolbarbox);
 	    	toolbarbox.getChildren().add(scrollpane);
 	        
@@ -673,7 +715,13 @@ public class Gui {
 	    	inviteGrid.setHgap(10);
 	    	inviteGrid.setVgap(10);
 	    	inviteGrid.setPadding(new Insets(10, 10, 10, 10));
-	
+	    	
+	    	inviteGrid.minHeight(400);
+	    	inviteGrid.minWidth(100);
+	    	
+	    	inviteGrid.prefHeight(400);
+	    	inviteGrid.prefWidth(100);
+	    	
 	    	optionsGrid.setHgap(10);
 	    	optionsGrid.setVgap(10);
 	    	optionsGrid.setPadding(new Insets(10, 10, 10, 10));
