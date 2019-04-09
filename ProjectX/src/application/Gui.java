@@ -50,6 +50,7 @@ public class Gui {
 	private VBox toolbarbox;
 	private GridPane inviteGrid;
 	private ArrayList<String> inviteArrayList;
+	private String currentGame = "Reversi";
     
     public Gui(Stage primaryStage, ApplicationHandler app) {
     	this.app = app;
@@ -387,7 +388,13 @@ public class Gui {
     				if(!(playerArrayList.get(r).equals(nameUser))) {
     					lobbyGrid.add(new Label(playerArrayList.get(r)), 0, r+2);
     					//lobbyGrid.add(new Button ("invite", null, css.style.Button_Plain), 1, r+2);
-    					lobbyGrid.add(new Button("invite"), 1, r+2);
+    					Button tempBtn = new Button("Invite");
+    					lobbyGrid.add(tempBtn, 1, r+2);
+    					String currentPlayer = playerArrayList.get(r);
+    					tempBtn.setOnAction(e -> {
+    						app.challengePlayer(currentPlayer, currentGame);
+    					});
+    					tempBtn.setId("small-button");
     					//Button.setId("button-small");
     				}
     				
@@ -527,18 +534,26 @@ public class Gui {
 	    	
 	    	ObservableList<String> lobbyOptionsGame = 
 	    		    FXCollections.observableArrayList(
-	    		        "Tic-Tac-Toe",
-	    		        "Reversi"
+	    		        "Reversi",
+	    		        "Tic-tac-toe"
 	    		    );
 	    	
 	    	
 	    	ComboBox<String> lobbySelectGame = new ComboBox(lobbyOptionsGame);
 	        lobbySelectGame.getSelectionModel().selectFirst();
 	        
+	        lobbySelectGame.setOnAction(e -> {
+	            String selectedGame = lobbySelectGame.getSelectionModel().getSelectedItem();
+	            
+	            currentGame = selectedGame;
+	        });
+	        
+	        
+	        
 	        ObservableList<String> lobbyOptionsMode = 
 	    		    FXCollections.observableArrayList(
-	    		        "You",
-	    		        "AI"
+	    		        "AI",
+	    		        "You"
 	    		    );
 	    	
 	    	
