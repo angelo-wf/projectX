@@ -13,6 +13,12 @@ public class TicTacToeAI extends GamePlayer {
 			while(running) {
 				if(moveRequested) {
 					moveRequested = false;
+					try {
+						Thread.sleep(500);
+					} catch(InterruptedException e) {
+						System.out.println("AI thread failed to sleep:");
+						e.printStackTrace();
+					}
 					while(true) {
 						int[] board = ((TicTacToeModel) model).getBoard();
 						
