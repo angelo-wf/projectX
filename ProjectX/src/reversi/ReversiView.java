@@ -46,7 +46,8 @@ public class ReversiView extends GameView {
 			updateBoard();
 		});
 		int[] values = ((ReversiModel) model).getStats();
-		gui.updateStats(values[0], values[1], values[2]);
+		String reason = ((ReversiModel) model).getEndReason();
+		gui.updateStats(values[0], values[1], values[2], reason);
 	}
 	
 	private void updateBoard() {

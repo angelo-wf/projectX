@@ -119,6 +119,13 @@ public class ReversiModel extends GameModel {
 		return values;
 	}
 	
+	public String getEndReason() {
+		if(reason != null) {
+			return reason.getNiceString();
+		}
+		return "";
+	}
+	
 	private int[] getPieceCount() {
 		int[] counts = new int[] {0, 0, 0};
 		for(int i = 0; i < 64; i++) {
