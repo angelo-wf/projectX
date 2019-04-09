@@ -14,18 +14,14 @@ public class ClientSocket {
 	private Socket socket;
 	private Connection connection;
 	
-	public ClientSocket(String address, int port, Connection connection) {
-		try { 
-			socket = new Socket(address, port);
-			this.connection = connection;
-			running = true;
-			outputStream = new OutputStreamWriter(socket.getOutputStream());
-			inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-			Thread serverThread = new Thread(new ServerWorker());
-			serverThread.start();
-		} catch(IOException ex) {
-			System.out.println(ex);
-		}
+	public ClientSocket(String address, int port, Connection connection) throws IOException {
+		socket = new Socket(address, port);
+		this.connection = connection;
+		running = true;
+		outputStream = new OutputStreamWriter(socket.getOutputStream());
+		inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+		Thread serverThread = new Thread(new ServerWorker());
+		serverThread.start();
 	}
 	
 	public void sendToServer(String message) {

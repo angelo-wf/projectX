@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -13,7 +14,7 @@ public class Connection {
     
     private ApplicationHandler app;
 
-    public Connection(String address, int port, ApplicationHandler app) {
+    public Connection(String address, int port, ApplicationHandler app) throws IOException {
     	clientSocket = new ClientSocket(address, port, this);
     	this.app = app;
     }

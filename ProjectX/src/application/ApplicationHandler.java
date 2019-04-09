@@ -1,5 +1,6 @@
 package application;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,8 +10,6 @@ import gamehandler.GamePlayer;
 import gamehandler.GameView;
 import gamehandler.RealPlayer;
 import gamehandler.RemotePlayer;
-import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import reversi.ReversiAI;
 import reversi.ReversiModel;
@@ -54,7 +53,7 @@ public class ApplicationHandler {
 		
 	}
 	
-	public void setServer(String name, String address) {
+	public boolean setServer(String name, String address) {
 		username = name;
 		String ip = address;
 		int port = 7789;
@@ -63,8 +62,15 @@ public class ApplicationHandler {
 			ip = parts[0];
 			port = Integer.parseInt(parts[1]);
 		}
-		connection = new Connection(ip, port, this);
-		connection.login(name);
+		boolean success = true;
+		try {
+			connection = new Connection(ip, port, this);
+			connection.login(name);
+		} catch(IOException e) {
+			success = false;
+			System.out.println("Failed to connect to server.");
+		}
+		return success;
 	}
 	
 	public void disconnect() {
