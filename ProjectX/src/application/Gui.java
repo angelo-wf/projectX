@@ -108,8 +108,8 @@ public class Gui {
         turnLabel.setFont(Font.font("Verdana", 20));
         turnLabel.setTextFill(Color.GREEN);
         turnLabel.setStyle("-fx-padding: 100 0 0 0;");
-        timeLabel.setFont(Font.font("Verdana", 20));
-        timeLabel.setStyle("-fx-padding: 0 0 100 0;");
+//        timeLabel.setFont(Font.font("Verdana", 20));
+//        timeLabel.setStyle("-fx-padding: 0 0 100 0;");
         ffBtn.setFont(Font.font("Verdana", 20));
         ffBtn.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00);\r\n" + 
         		"    -fx-background-radius: 30;\r\n" + 
