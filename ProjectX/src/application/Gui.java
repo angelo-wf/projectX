@@ -531,7 +531,7 @@ public class Gui {
                       	//lobbyGrid.add(new Label("You got invited!"), 1, r+2);
     					Button tempAccept = new Button("Accept");
     					tempAccept.setOnAction(e -> {
-    						app.acceptChallenge(chalNumber);
+    						app.acceptChallenge(currentPlayer.getChalNumber());
     						int acceptIndex = currentIndex;
     						inviteArrayList.remove(acceptIndex);
     					});
