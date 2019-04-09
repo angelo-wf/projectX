@@ -53,7 +53,14 @@ public class ApplicationHandler {
 	
 	public void setServer(String name, String address) {
 		username = name;
-		connection = new Connection(address.split(":")[0], Integer.parseInt(address.split(":")[1]), this);
+		String ip = address;
+		int port = 7789;
+		String[] parts = ip.split(":");
+		if(parts.length > 1) {
+			ip = parts[0];
+			port = Integer.parseInt(parts[1]);
+		}
+		connection = new Connection(ip, port, this);
 		connection.login(name);
 	}
 	
@@ -70,8 +77,31 @@ public class ApplicationHandler {
 		}
 	}
 	
-	public void startGame(int beginningPlayer) {
-		setUpGame("Reversi", "Real", "Remote");
+	public void challengePlayer(String name, String gameType) {
+		connection.challengePlayer(name, gameType);
+	}
+	
+	public void subscribe(String gameType) {
+		connection.subscirbe(gameType);
+	}
+	
+	public void startGame(String gameName, int beginningPlayer, int type) {
+		switch(type) {
+		case 0:
+			setUpGame(gameName, "Real", "AI");
+			break;
+		case 1:
+			setUpGame(gameName, "Real", "Remote");
+			break;
+		case 2:
+			setUpGame(gameName, "AI", "Remote");
+			break;
+		case 3:
+			setUpGame(gameName, "AI", "AI");
+			break;
+		default:
+			throw new IllegalArgumentException("Unknown match-type");
+		}
 		model.initGame(beginningPlayer);
 	}
 	
@@ -121,10 +151,11 @@ public class ApplicationHandler {
 		switch (type) {
 		case "MATCH":
 			//System.out.println(type);
+			// TODO: Get match-type from gui
 			if(map.get("PLAYERTOMOVE").equals(username)) {
-				startGame(1);
+				startGame((String) map.get("GAMETYPE"), 1, 2);
 			} else {
-				startGame(2);
+				startGame((String) map.get("GAMETYPE"), 2, 2);
 			}
 			break;
 		case "YOURTURN":
@@ -148,16 +179,19 @@ public class ApplicationHandler {
 			break;
 		case "CHALLENGE":
 			System.out.println(type);
+			// gui.setChallenge((String) map.get("CHALLENGER"), (String) map.get("GAMETYPE"), Integer.parseInt((String) map.get("CHALLENGENUMBER")));
 			break;
 		case "CHALLENGE_CANCELLED":
 			System.out.println(type);
+			// gui.cancelChallenge(Integer.parseInt((String) map.get("CHALLENGENUMBER")));
 			break;
 		case "PLAYERLIST":
 			//System.out.println(type);
 			gui.setPlayerList((ArrayList<String>) map.get("LIST"));
 			break;
 		case "GAMELIST":
-			System.out.println(type);
+			//System.out.println(type);
+			// not used
 			break;
 		default:
 			break;
