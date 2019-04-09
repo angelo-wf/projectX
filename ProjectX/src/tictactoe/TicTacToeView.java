@@ -1,5 +1,6 @@
 package tictactoe;
 
+import application.Gui;
 import gamehandler.GameView;
 import gamehandler.Move;
 import javafx.application.Platform;
@@ -13,7 +14,8 @@ public class TicTacToeView extends GameView {
 	private Rectangle[] cells;
 	private Label stats;
 	
-	public TicTacToeView() {
+	public TicTacToeView(Gui gui) {
+		super(gui);
 		boardView = new Pane();
 		boardView.setPrefSize(384, 384);
 		cells = new Rectangle[9];

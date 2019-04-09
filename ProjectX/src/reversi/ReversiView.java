@@ -1,5 +1,6 @@
 package reversi;
 
+import application.Gui;
 import gamehandler.GameView;
 import gamehandler.Move;
 import javafx.application.Platform;
@@ -16,7 +17,8 @@ public class ReversiView extends GameView {
 	private Circle[] cells;
 	private Label stats;
 	
-	public ReversiView() {
+	public ReversiView(Gui gui) {
+		super(gui);
 		boardView = new Pane();
 		boardView.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
 		boardView.setPrefSize(400, 400);
@@ -43,6 +45,8 @@ public class ReversiView extends GameView {
 			stats.setText(stateString);
 			updateBoard();
 		});
+		int[] values = ((ReversiModel) model).getStats();
+		gui.updateStats(values[0], values[1], values[2]);
 	}
 	
 	private void updateBoard() {

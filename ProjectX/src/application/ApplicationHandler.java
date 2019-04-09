@@ -100,7 +100,11 @@ public class ApplicationHandler {
 		connection.subscirbe(gameType);
 	}
 	
-	public void startGame(String gameName, int beginningPlayer, int type) {
+	public void forfeit() {
+		connection.forfeit();
+	}
+	
+	private void startGame(String gameName, int beginningPlayer, int type) {
 		switch(type) {
 		case 0:
 			setUpGame(gameName, "Real", "AI");
@@ -122,7 +126,7 @@ public class ApplicationHandler {
 		gui.setGameScreen(gameView);
 	}
 	
-	public void setUpGame(String game, String playerType1, String playerType2) {
+	private void setUpGame(String game, String playerType1, String playerType2) {
 		switch(game) {
 		case "Reversi":
 			model = new ReversiModel();
@@ -132,7 +136,7 @@ public class ApplicationHandler {
 			if(playerType2.equals("AI")) {
 				player2 = new ReversiAI(2);
 			}
-			gameView = new ReversiView();
+			gameView = new ReversiView(gui);
 			break;
 		case "Tic-tac-toe":
 			model = new TicTacToeModel();
@@ -142,7 +146,7 @@ public class ApplicationHandler {
 			if(playerType2.equals("AI")) {
 				player2 = new TicTacToeAI(2);
 			}
-			gameView = new TicTacToeView();
+			gameView = new TicTacToeView(gui);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown Game-type");

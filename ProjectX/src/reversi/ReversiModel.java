@@ -110,6 +110,15 @@ public class ReversiModel extends GameModel {
 		return startingPlayer;
 	}
 	
+	public int[] getStats() {
+		int[] values = new int[] {0, 0, 0};
+		int[] counts = getPieceCount();
+		values[0] = counts[1];
+		values[1] = counts[2];
+		values[3] = turn.getPieceNum();
+		return values;
+	}
+	
 	private int[] getPieceCount() {
 		int[] counts = new int[] {0, 0, 0};
 		for(int i = 0; i < 64; i++) {
