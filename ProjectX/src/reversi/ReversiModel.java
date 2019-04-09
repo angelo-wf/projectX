@@ -115,7 +115,7 @@ public class ReversiModel extends GameModel {
 		int[] counts = getPieceCount();
 		values[0] = counts[1];
 		values[1] = counts[2];
-		values[3] = turn.getPieceNum();
+		values[2] = turn.getPieceNum();
 		return values;
 	}
 	
