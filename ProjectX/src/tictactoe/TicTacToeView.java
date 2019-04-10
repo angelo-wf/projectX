@@ -8,6 +8,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import reversi.ReversiModel;
 
 public class TicTacToeView extends GameView {
 	
@@ -41,6 +42,10 @@ public class TicTacToeView extends GameView {
 			stats.setText(stateString);
 			updateBoard();
 		});
+		int[] values = ((TicTacToeModel) model).getStats();
+		String reason = ((TicTacToeModel) model).getEndReason();
+		gui.updateStats(values[0], values[1], values[2], reason);
+		
 	}
 	
 	private void updateBoard() {

@@ -81,6 +81,30 @@ public class TicTacToeModel extends GameModel {
 		return board;
 	}
 	
+	public int[] getStats() {
+		int[] values = new int[] {0, 0, 0};
+		int[] counts = getPieceCount();
+		values[0] = counts[1];
+		values[1] = counts[2];
+		values[2] = turn.getPieceNum();
+		return values;
+	}
+	
+	public String getEndReason() {
+		if(reason != null) {
+			return reason.getNiceString();
+		}
+		return "";
+	}
+	
+	private int[] getPieceCount() {
+		int[] counts = new int[] {0, 0, 0};
+		for(int i = 0; i < 9; i++) {
+			counts[board[i]]++;
+		}
+		return counts;
+	}
+	
 	public String getStateString() {
 		if(turn == Turn.ENDED) {
 			return turn.getNiceString() + ", " + reason.getNiceString();
