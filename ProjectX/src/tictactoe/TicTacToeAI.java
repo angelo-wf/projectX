@@ -66,52 +66,67 @@ public class TicTacToeAI extends GamePlayer {
 		
 	}
 	
+	private class Result {
+		
+		private int score;
+		private int spot;
+		
+		public Result(int score, int spot) {
+			this.score = score;
+			this.spot = spot;
+		}
+		
+		public int getScore() {
+			return score;
+		}
+		
+		public int getSpot() {
+			return spot;
+		}
+	}
+	
 	private Move getBestMove(int[] board) {
-		int best = minimax(board, playerNumber, "")[0];
+		int best = minimax(board, playerNumber, "").getSpot();
 		return Move.getFromInt(3, best);
 	}
 	
-	private int[] minimax(int[] board, int playernum, String depth) {
+	private Result minimax(int[] board, int playernum, String depth) {
 		// adapted from https://github.com/ahmadabdolsaheb/minimaxarticle/blob/master/index.js
 		if(checkWin(board, playerNumber)) {
-			return new int[] {0, 1};
+			return new Result(1, 0);
 		} else if(checkWin(board, playerNumber == 2 ? 1 : 2)) {
-			return new int[] {0, -1};
+			return new Result(-1, 0);
 		} else if(checkFull(board)) {
-			return new int[] {0, 0};
+			return new Result(0, 0);
 		}
-		ArrayList<Integer> moves = new ArrayList<>();
-		ArrayList<Integer> spots = new ArrayList<>(); 
+		ArrayList<Result> moves = new ArrayList<>();
 		for(int i = 0; i < 9; i++) {
 			if(board[i] == 0) {
 				board[i] = playernum;
-				moves.add(minimax(cloneBoard(board), playernum == 2 ? 1 : 2, depth + "->")[1]);
-				spots.add(i);
+				moves.add(new Result(minimax(cloneBoard(board), playernum == 2 ? 1 : 2, depth + "->").getScore(), i));
 				board[i] = 0;
 			}
 		}
 		int bestResult;
-		int spot = 0;
+		Result retMove = null;
 		if(playernum == playerNumber) {
 			bestResult = -9;
-			for(int i = 0; i < moves.size(); i++) {
-				int move = moves.get(i);
-				if(move > bestResult) {
-					bestResult = move;
-					spot = spots.get(i);
+			for(Result move : moves) {
+				if(move.getScore() > bestResult) {
+					bestResult = move.getScore();
+					retMove = move;
 				}
 			}
 		} else {
 			bestResult = 9;
-			for(int i = 0; i < moves.size(); i++) {
-				int move = moves.get(i);
-				if(move < bestResult) {
-					bestResult = move;
-					spot = spots.get(i);
+			for(Result move : moves) {
+				if(move.getScore() < bestResult) {
+					bestResult = move.getScore();
+					retMove = move;
 				}
 			}
 		}
-		return new int[] {spot, bestResult};
+		return retMove;
 	}
 	
 	private int[] cloneBoard(int[] board) {
