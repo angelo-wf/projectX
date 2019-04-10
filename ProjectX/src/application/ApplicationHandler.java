@@ -173,8 +173,11 @@ public class ApplicationHandler {
 			//System.out.println(type);
 			if(map.get("PLAYERTOMOVE").equals(username)) {
 				startGame((String) map.get("GAMETYPE"), 1, gui.getMode() ? 2 : 1);
+				//startGame((String) map.get("GAMETYPE"), 1, 2);
 			} else {
+				System.out.println(map + ", " + gui);
 				startGame((String) map.get("GAMETYPE"), 2, gui.getMode() ? 2 : 1);
+				//startGame((String) map.get("GAMETYPE"), 2, 2);
 			}
 			break;
 		case "YOURTURN":
