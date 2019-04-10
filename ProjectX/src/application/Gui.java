@@ -15,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Labeled;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
@@ -61,6 +62,8 @@ public class Gui {
 	private Label oppScoreNumberLabel;
 	private Label timeLabel;
 	private Label turnLabel;
+	private Button ffBtn;
+	private Button ffBackBtn;
 
     
     public Gui(Stage primaryStage, ApplicationHandler app) {
@@ -99,8 +102,8 @@ public class Gui {
         //timeLabel = new Label("8.32 sec left");
         
         //Button
-        Button ffBtn = new Button("Forfeit");
-                
+        ffBtn = new Button("Forfeit");
+        ffBackBtn = new Button("Back");        
         //styles
         statLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 40));
         yourScoreLabel.setFont(Font.font("Verdana", 20));
@@ -126,10 +129,39 @@ public class Gui {
         		"    -fx-background-radius: 30;\r\n" + 
         		"    -fx-background-insets: 0;\r\n" + 
         		"    -fx-text-fill: white;"));
+        
+        ffBackBtn.setFont(Font.font("Verdana", 20));
+        ffBackBtn.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00);\r\n" + 
+        		"    -fx-background-radius: 30;\r\n" + 
+        		"    -fx-background-insets: 0;\r\n" + 
+        		"    -fx-text-fill: white;");
+                
+        //Button interactie en stijl
+        ffBackBtn.setOnMouseEntered(e -> ffBackBtn.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00);\r\n" + 
+        		"    -fx-background-radius: 30;\r\n" + 
+        		"    -fx-background-insets: 0;\r\n" + 
+        		"    -fx-text-fill: white; -fx-opacity: 0.5;"));
+                
+        ffBackBtn.setOnMouseExited(e -> ffBackBtn.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00);\r\n" + 
+        		"    -fx-background-radius: 30;\r\n" + 
+        		"    -fx-background-insets: 0;\r\n" + 
+        		"    -fx-text-fill: white;"));
 
         ffBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                System.out.println("btn werkt");
+                app.forfeit();
+                root.getChildren().clear();
+                makeLobby(root);
+            }
+        });
+        
+        ffBackBtn.setVisible(false);
+        
+        ffBackBtn.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+            	root.getChildren().clear();
+                makeLobby(root);
+                
             }
         });
         
@@ -147,7 +179,7 @@ public class Gui {
         grid1.add(vBoxScores, 1, 0);
         
         //vul vboxes
-        vBoxLabels.getChildren().addAll(statLabel, yourScoreLabel, oppScoreLabel, turnLabel, ffBtn);
+        vBoxLabels.getChildren().addAll(statLabel, yourScoreLabel, oppScoreLabel, turnLabel, ffBtn, ffBackBtn);
         vBoxScores.getChildren().addAll(scoreNumberLabel, oppScoreNumberLabel);
         
         hBox.getChildren().add(grid1);
@@ -168,7 +200,10 @@ public class Gui {
 			}
 			if(beurt==0) {
 				turnLabel.setText(endreason);
+				ffBtn.setVisible(false);
+				ffBackBtn.setVisible(true);
 			}
+			
     		//}
     		//timeLabel.setText(secondenOver + "seconds left!");
     	});
@@ -601,7 +636,7 @@ public void setGameScreen(GameView gameview) {
     
 	public void makeLobby(StackPane root) {
 			
-		
+			root.getChildren().clear();
 			
 			lobbyGrid = new GridPane();
 			
@@ -727,12 +762,14 @@ public void setGameScreen(GameView gameview) {
 	    	inviteVbox.getChildren().add(inviteGrid);
 	    	optionsVbox.getChildren().add(optionsGrid);
 	    	
+	    	drieBox.getChildren().clear();
 	    	drieBox.getChildren().add(lobbyVbox);
 	    	drieBox.getChildren().add(inviteVbox);
 	    	drieBox.getChildren().add(optionsVbox);
 
 	    	
 	    	ScrollPane scrollpane = new ScrollPane();
+	    	scrollpane.setContent(null);
 	    	scrollpane.setContent(drieBox);
 	    	
 	    	scrollpane.setId("scroll-pane");
@@ -748,9 +785,11 @@ public void setGameScreen(GameView gameview) {
 	    	
 	    	backToLoginBtn.setOnAction(e -> {
         		app.disconnect();
+        		//scrollpane.setContent(null);
+        		root.getChildren().clear();
+	        	toolbarbox.getChildren().clear();
 	        	makeLogin(root);
-	        	root.getChildren().remove(drieBox);
-	        	root.getChildren().remove(toolbarbox);
+	        	
 	        });
 	    	
 	    	lobbyGrid.setHgap(10);
