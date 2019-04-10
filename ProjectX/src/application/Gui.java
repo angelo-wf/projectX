@@ -64,7 +64,7 @@ public class Gui {
 	private Label turnLabel;
 	private Button ffBtn;
 	private Button ffBackBtn;
-	private boolean currentMode = false;
+	private boolean currentMode = true;
 
     
     public Gui(Stage primaryStage, ApplicationHandler app) {
@@ -792,7 +792,7 @@ public void setGameScreen(GameView gameview) {
 	    	drieBox.getChildren().add(lobbyVbox);
 	    	drieBox.getChildren().add(inviteVbox);
 	    	drieBox.getChildren().add(optionsVbox);
-
+	    	
 	    	
 	    	ScrollPane scrollpane = new ScrollPane();
 	    	scrollpane.setContent(null);
@@ -800,6 +800,8 @@ public void setGameScreen(GameView gameview) {
 	    	
 	    	scrollpane.setId("scroll-pane");
 	    	drieBox.minHeight(400);
+	    	drieBox.minWidth(800);
+	    	drieBox.prefWidth(800);
 	    	drieBox.prefHeight(400);
 	    	scrollpane.minHeight(400);
 	    	scrollpane.prefHeight(400);
