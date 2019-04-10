@@ -1,7 +1,5 @@
 package tictactoe;
 
-import java.util.ArrayList;
-
 import gamehandler.GamePlayer;
 import gamehandler.Move;
 
@@ -86,11 +84,11 @@ public class TicTacToeAI extends GamePlayer {
 	}
 	
 	private Move getBestMove(int[] board) {
-		int best = minimax(board, playerNumber, "").getSpot();
+		int best = minimax(board, playerNumber).getSpot();
 		return Move.getFromInt(3, best);
 	}
 	
-	private Result minimax(int[] board, int playernum, String depth) {
+	private Result minimax(int[] board, int playernum) {
 		// adapted from https://github.com/ahmadabdolsaheb/minimaxarticle/blob/master/index.js
 		if(checkWin(board, playerNumber)) {
 			return new Result(1, 0);
@@ -99,34 +97,29 @@ public class TicTacToeAI extends GamePlayer {
 		} else if(checkFull(board)) {
 			return new Result(0, 0);
 		}
-		ArrayList<Result> moves = new ArrayList<>();
+		int highestScore = -2;
+		Result highestMove = null;
+		int lowestScore = 2;
+		Result lowestMove = null;
 		for(int i = 0; i < 9; i++) {
 			if(board[i] == 0) {
 				board[i] = playernum;
-				moves.add(new Result(minimax(cloneBoard(board), playernum == 2 ? 1 : 2, depth + "->").getScore(), i));
+				Result move = new Result(minimax(cloneBoard(board), playernum == 2 ? 1 : 2).getScore(), i);
 				board[i] = 0;
+				if(move.getScore() > highestScore) {
+					highestScore = move.getScore();
+					highestMove = move;
+				}
+				if(move.getScore() < lowestScore) {
+					lowestScore = move.getScore();
+					lowestMove = move;
+				}
 			}
 		}
-		int bestResult;
-		Result retMove = null;
 		if(playernum == playerNumber) {
-			bestResult = -9;
-			for(Result move : moves) {
-				if(move.getScore() > bestResult) {
-					bestResult = move.getScore();
-					retMove = move;
-				}
-			}
-		} else {
-			bestResult = 9;
-			for(Result move : moves) {
-				if(move.getScore() < bestResult) {
-					bestResult = move.getScore();
-					retMove = move;
-				}
-			}
+			return highestMove;
 		}
-		return retMove;
+		return lowestMove;
 	}
 	
 	private int[] cloneBoard(int[] board) {
