@@ -712,8 +712,6 @@ public class Gui {
 	        lobbySelectMode.getSelectionModel().selectFirst();
 	    	
 	        
-	        
-	        
 	        lobbySelectMode.setOnAction(e -> {
 	            
 	        	
