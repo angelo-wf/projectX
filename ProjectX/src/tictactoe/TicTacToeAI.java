@@ -19,7 +19,7 @@ public class TicTacToeAI extends GamePlayer {
 						System.out.println("AI thread failed to sleep:");
 						e.printStackTrace();
 					}
-					int[] board = cloneBoard(((TicTacToeModel) model).getBoard());
+					int[] board = ((TicTacToeModel) model).getBoard().clone();
 					Move move = getBestMove(board);
 					model.doMove(move);
 				} else {
@@ -104,7 +104,7 @@ public class TicTacToeAI extends GamePlayer {
 		for(int i = 0; i < 9; i++) {
 			if(board[i] == 0) {
 				board[i] = playernum;
-				Result move = new Result(minimax(cloneBoard(board), playernum == 2 ? 1 : 2).getScore(), i);
+				Result move = new Result(minimax(board, playernum == 2 ? 1 : 2).getScore(), i);
 				board[i] = 0;
 				if(move.getScore() > highestScore) {
 					highestScore = move.getScore();
@@ -120,14 +120,6 @@ public class TicTacToeAI extends GamePlayer {
 			return highestMove;
 		}
 		return lowestMove;
-	}
-	
-	private int[] cloneBoard(int[] board) {
-		int[] newBoard = new int[board.length];
-		for(int i = 0; i < board.length; i++) {
-			newBoard[i] = board[i];
-		}
-		return newBoard;
 	}
 	
 	private boolean checkWin(int[] board, int playerNum) {
