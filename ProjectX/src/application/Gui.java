@@ -64,7 +64,7 @@ public class Gui {
 	private Label turnLabel;
 	private Button ffBtn;
 	private Button ffBackBtn;
-	private Boolean currentMode;
+	private boolean currentMode = false;
 
     
     public Gui(Stage primaryStage, ApplicationHandler app) {
@@ -711,6 +711,9 @@ public void setGameScreen(GameView gameview) {
 	    	ComboBox<String> lobbySelectMode = new ComboBox(lobbyOptionsMode);
 	        lobbySelectMode.getSelectionModel().selectFirst();
 	    	
+	        
+	        
+	        
 	        lobbySelectMode.setOnAction(e -> {
 	            
 	        	
@@ -720,7 +723,7 @@ public void setGameScreen(GameView gameview) {
 	        	if(selectedLobbyMode.equals("AI")) {
 		            currentMode = true;
 	        	}
-	        	else {
+	        	if(selectedLobbyMode.equals("You")) {
 	        		currentMode= false;
 	        	}
 	        });
@@ -837,7 +840,7 @@ public void setGameScreen(GameView gameview) {
 	    }
 	    
 	
-	public Boolean getMode() {
+	public boolean getMode() {
 		return currentMode;
 	}
 	
