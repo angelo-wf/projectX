@@ -122,7 +122,6 @@ public class ApplicationHandler {
 			throw new IllegalArgumentException("Unknown match-type");
 		}
 		model.initGame(beginningPlayer);
-		// TODO: tell ui game started, provide pane for board and label for status
 		gui.setGameScreen(gameView);
 	}
 	
@@ -172,11 +171,10 @@ public class ApplicationHandler {
 		switch (type) {
 		case "MATCH":
 			//System.out.println(type);
-			// TODO: Get match-type from gui
 			if(map.get("PLAYERTOMOVE").equals(username)) {
-				startGame((String) map.get("GAMETYPE"), 1, 2);
+				startGame((String) map.get("GAMETYPE"), 1, gui.getMode() ? 2 : 1);
 			} else {
-				startGame((String) map.get("GAMETYPE"), 2, 2);
+				startGame((String) map.get("GAMETYPE"), 2, gui.getMode() ? 2 : 1);
 			}
 			break;
 		case "YOURTURN":
@@ -207,6 +205,7 @@ public class ApplicationHandler {
 			break;
 		case "CHALLENGE_CANCELLED":
 			System.out.println(type);
+			// TODO
 			// gui.cancelChallenge(Integer.parseInt((String) map.get("CHALLENGENUMBER")));
 			break;
 		case "PLAYERLIST":
