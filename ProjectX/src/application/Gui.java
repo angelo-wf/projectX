@@ -82,10 +82,11 @@ public class Gui {
     }
     
     public void makeStats() {
-
         //grid1: 
         //hier zitten twee VBoxen in (vBoxLabels en vBoxScores)
         GridPane grid1 = new GridPane();
+    	//grid1.getChildren().clear();
+
         grid1.setAlignment(Pos.CENTER);
         grid1.setPadding(new Insets(15));
         grid1.setMinWidth(400);
@@ -152,6 +153,8 @@ public class Gui {
                 app.forfeit();
                 root.getChildren().clear();
                 makeLobby(root);
+
+        		app.requestPlayerList();
             }
         });
         
@@ -160,7 +163,9 @@ public class Gui {
         ffBackBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
             	root.getChildren().clear();
-                makeLobby(root);
+            	makeLobby(root);
+
+        		app.requestPlayerList();
                 
             }
         });
@@ -181,7 +186,7 @@ public class Gui {
         //vul vboxes
         vBoxLabels.getChildren().addAll(statLabel, yourScoreLabel, oppScoreLabel, turnLabel, ffBtn, ffBackBtn);
         vBoxScores.getChildren().addAll(scoreNumberLabel, oppScoreNumberLabel);
-        
+        //hBox.getChildren().clear();
         hBox.getChildren().add(grid1);
     }
     
@@ -220,10 +225,12 @@ public class Gui {
          
          //grid2.add(board);
          //grid2.setStyle("-fx-background-color: #C0C0C0;");
+    	 //hBox.getChildren().clear();
          hBox.getChildren().add(board);
     }
     
     public void showBoth(StackPane root, GameView gameview) {
+    	hBox.getChildren().clear();
     	makeStats();
     	makeGame(gameview.getBoardView());
     	root.getChildren().add(hBox);
