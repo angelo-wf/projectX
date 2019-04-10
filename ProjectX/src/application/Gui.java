@@ -625,21 +625,21 @@ public class Gui {
     	
     }
     
-public void setGameScreen(GameView gameview) {
-    	
-    	
-    	
-    	
-    	
-    	Platform.runLater(() -> {
-    		inviteGrid.getChildren().clear();
-    		
-    		root.getChildren().remove(drieBox);
-        	root.getChildren().remove(toolbarbox);
-    		showBoth(root, gameview);
-    	});
-    	
-    }
+	public void setGameScreen(GameView gameview) {
+	    	
+	    	
+	    	
+	    	
+	    	
+	    	Platform.runLater(() -> {
+	    		inviteGrid.getChildren().clear();
+	    		
+	    		root.getChildren().remove(drieBox);
+	        	root.getChildren().remove(toolbarbox);
+	    		showBoth(root, gameview);
+	    	});
+	    	
+	    }
     
     
 	public void makeLobby(StackPane root) {
@@ -712,8 +712,6 @@ public void setGameScreen(GameView gameview) {
 	        lobbySelectMode.getSelectionModel().selectFirst();
 	    	
 	        
-	        
-	        
 	        lobbySelectMode.setOnAction(e -> {
 	            
 	        	
@@ -783,7 +781,8 @@ public void setGameScreen(GameView gameview) {
 	    	
 	    	
 	    	
-	    	
+	    	inviteGrid.minHeight(200);
+	    	inviteGrid.minWidth(200);
 	    	lobbyVbox.getChildren().add(lobbyGrid);
 	    	inviteVbox.getChildren().add(inviteGrid);
 	    	optionsVbox.getChildren().add(optionsGrid);
@@ -878,7 +877,7 @@ public void setGameScreen(GameView gameview) {
 		final ToggleGroup toggle = new ToggleGroup();
 		
 		RadioButton rb1 = new RadioButton();
-		rb1.setText("Tic-Tac-Toe");
+		rb1.setText("Tic-tac-toe");
 		rb1.setToggleGroup(toggle);
 		RadioButton rb2 = new RadioButton();
 		rb2.setText("Reversi");
@@ -898,6 +897,39 @@ public void setGameScreen(GameView gameview) {
 		toolbarboxLocal.getChildren().add(toolbarLocal);
 		//root.getChildren().add(lobbyGrid);
 	
+		
+		
+//		toggle.setOnAction(e -> {
+//            
+//        	
+//        	
+//        	String selectedLobbyMode = lobbySelectMode.getSelectionModel().getSelectedItem();
+//            
+//        	if(selectedLobbyMode.equals("AI")) {
+//	            currentMode = true;
+//        	}
+//        	if(selectedLobbyMode.equals("You")) {
+//        		currentMode= false;
+//        	}
+//        });
+        
+		
+		
+		playBtn.setOnAction(e ->{
+			RadioButton selectedRadioButton = (RadioButton) toggle.getSelectedToggle();
+			String toggleGroupValue = selectedRadioButton.getText();
+			
+			if(toggleGroupValue.equals("Reversi")) {
+				//app.
+			}
+			if(toggleGroupValue.equals("Tic-tac-toe")) {
+							
+			}
+		});
+		
+		
+		
+		
 		backToLoginBtn.setOnAction(e -> {
 	    	makeLogin(root);
 	    	root.getChildren().remove(localLobbyGrid);
@@ -907,7 +939,7 @@ public void setGameScreen(GameView gameview) {
 		toolbarboxLocal.getChildren().add(localLobbyGrid);
 		
 		
-		app.requestPlayerList();
+		//app.requestPlayerList();
 		root.getChildren().add(toolbarboxLocal);
 	}
 }
