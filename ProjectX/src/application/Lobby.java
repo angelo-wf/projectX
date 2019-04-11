@@ -88,7 +88,7 @@ public class Lobby {
     	
     	Label optionsGameLabel = new Label("Game:");
     	Label optionsModeLabel = new Label("mode:");
-    	CheckBox subBtn= new CheckBox("subscribe");
+    	Button subBtn= new Button("subscribe");
     	subBtn.setId("small-button");
     	
     	
@@ -145,14 +145,9 @@ public class Lobby {
     	optionsGrid.add(subBtn, 1, 3);
     	
     	
-    	subBtn.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            public void changed(ObservableValue<? extends Boolean> ov,
-                Boolean old_val, Boolean new_val) {
-            	if(new_val){
-                    app.subscribe(getSelectedGame());
-                }
-            }
-        });
+    	subBtn.setOnAction(e ->{
+            app.subscribe(getSelectedGame());
+    	});
     	
     	
     	lobbySelectMode.setId("small-dropdown");

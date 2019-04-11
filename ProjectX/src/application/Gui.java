@@ -73,8 +73,8 @@ public class Gui {
 	
 	private Login login;
 	private Lobby lobby;
-	//private Game game;
-	//private LocalLobby localLobby;
+	private Game game;
+	private LocalLobby localLobby;
 	
 	
 	private String nameUser;
@@ -123,6 +123,17 @@ public class Gui {
     	
     }
     
+    
+    public void gameToLobby(){
+    	game.setInvisible();
+    	lobby.setVisible();
+    }
+    
+    public void lobbyToGame() {
+    	game.setVisible();
+    	lobby.setInvisible();
+    }
+    
     public void setPlayerList(ArrayList<String> playerArray) {
     	lobby.setPlayerList(playerArray);
     }
@@ -155,159 +166,16 @@ public class Gui {
     
     
     public void makeStats() {
-        //grid1: 
-        //hier zitten twee VBoxen in (vBoxLabels en vBoxScores)
-        GridPane grid1 = new GridPane();
-    	//grid1.getChildren().clear();
-
-        grid1.setAlignment(Pos.CENTER);
-        grid1.setPadding(new Insets(15));
-        grid1.setMinWidth(400);
-        grid1.setMaxWidth(400);  
         
-        VBox vBoxLabels = new VBox();
-        VBox vBoxScores = new VBox();
-        
-        //labels for stats screen
-        Label statLabel = new Label("Stats");
-        Label yourScoreLabel = new Label("Your score: ");
-        Label oppScoreLabel = new Label("Opponent's score: ");
-        turnLabel = new Label();
-        //timeLabel = new Label("8.32 sec left");
-        
-        //Button
-        ffBtn = new Button("Forfeit");
-        ffBackBtn = new Button("Back");        
-        //styles
-        statLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 40));
-        yourScoreLabel.setFont(Font.font("Verdana", 20));
-        oppScoreLabel.setFont(Font.font("Verdana", 20));
-        turnLabel.setFont(Font.font("Verdana", 20));
-        turnLabel.setTextFill(Color.GREEN);
-        turnLabel.setStyle("-fx-padding: 100 0 0 0;");
-//        timeLabel.setFont(Font.font("Verdana", 20));
-//        timeLabel.setStyle("-fx-padding: 0 0 100 0;");
-        ffBtn.setFont(Font.font("Verdana", 20));
-        ffBtn.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00);\r\n" + 
-        		"    -fx-background-radius: 30;\r\n" + 
-        		"    -fx-background-insets: 0;\r\n" + 
-        		"    -fx-text-fill: white;");
-                
-        //Button interactie en stijl
-        ffBtn.setOnMouseEntered(e -> ffBtn.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00);\r\n" + 
-        		"    -fx-background-radius: 30;\r\n" + 
-        		"    -fx-background-insets: 0;\r\n" + 
-        		"    -fx-text-fill: white; -fx-opacity: 0.5;"));
-                
-        ffBtn.setOnMouseExited(e -> ffBtn.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00);\r\n" + 
-        		"    -fx-background-radius: 30;\r\n" + 
-        		"    -fx-background-insets: 0;\r\n" + 
-        		"    -fx-text-fill: white;"));
-        
-        ffBackBtn.setFont(Font.font("Verdana", 20));
-        ffBackBtn.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00);\r\n" + 
-        		"    -fx-background-radius: 30;\r\n" + 
-        		"    -fx-background-insets: 0;\r\n" + 
-        		"    -fx-text-fill: white;");
-                
-        //Button interactie en stijl
-        ffBackBtn.setOnMouseEntered(e -> ffBackBtn.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00);\r\n" + 
-        		"    -fx-background-radius: 30;\r\n" + 
-        		"    -fx-background-insets: 0;\r\n" + 
-        		"    -fx-text-fill: white; -fx-opacity: 0.5;"));
-                
-        ffBackBtn.setOnMouseExited(e -> ffBackBtn.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00);\r\n" + 
-        		"    -fx-background-radius: 30;\r\n" + 
-        		"    -fx-background-insets: 0;\r\n" + 
-        		"    -fx-text-fill: white;"));
-
-        ffBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                app.forfeit();
-                root.getChildren().clear();
-                makeLobby(root);
-
-        		app.requestPlayerList();
-            }
-        });
-        
-        ffBackBtn.setVisible(false);
-        
-        ffBackBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-            	root.getChildren().clear();
-            	makeLobby(root);
-
-        		app.requestPlayerList();
-                
-            }
-        });
-        
-        //labels for stats screen
-        scoreNumberLabel = new Label();
-        oppScoreNumberLabel = new Label();
-
-        //styles
-        scoreNumberLabel.setFont(Font.font("Verdana", 20));
-        oppScoreNumberLabel.setFont(Font.font("Verdana", 20));
-        scoreNumberLabel.setStyle("-fx-padding:18 0 0 0");
-
-        //vboxes op de grid (zodat het in het midden zit)
-        grid1.add(vBoxLabels, 0, 0);
-        grid1.add(vBoxScores, 1, 0);
-        
-        //vul vboxes
-        vBoxLabels.getChildren().addAll(statLabel, yourScoreLabel, oppScoreLabel, turnLabel, ffBtn, ffBackBtn);
-        vBoxScores.getChildren().addAll(scoreNumberLabel, oppScoreNumberLabel);
-        //hBox.getChildren().clear();
-        hBox.getChildren().add(grid1);
-    }
-    
-    public void updateStats(int yourPoints, int oppPoints, int beurt, String endreason) {
-    	
-    	Platform.runLater(() -> {
-    		scoreNumberLabel.setText("" + yourPoints);
-    		oppScoreNumberLabel.setText("" + oppPoints);
-    		
-    		if(beurt == 1) {
-    			turnLabel.setText("It's your turn!");
-    		}
-    		//else {
-			if(beurt==2) {
-				turnLabel.setText("opponent's turn");
-			}
-			if(beurt==0) {
-				turnLabel.setText(endreason);
-				ffBtn.setVisible(false);
-				ffBackBtn.setVisible(true);
-			}
-			
-    		//}
-    		//timeLabel.setText(secondenOver + "seconds left!");
-    	});
     }
     
     
     
-    public void makeGame(Pane board) {
-    	 //GridPane grid2 = new GridPane();
-         //grid2.setAlignment(Pos.CENTER);
-         //grid2.setPadding(new Insets(15));
-         //grid2.setMinWidth(400);
-         //grid2.setMaxWidth(400);
-         
-         //grid2.add(board);
-         //grid2.setStyle("-fx-background-color: #C0C0C0;");
-    	 //hBox.getChildren().clear();
-         hBox.getChildren().add(board);
-    }
     
-    public void showBoth(StackPane root, GameView gameview) {
-    	hBox.getChildren().clear();
-    	makeStats();
-    	makeGame(gameview.getBoardView());
-    	root.getChildren().add(hBox);
-    }
+    
+    
+    
+    
     
     public void makeLogin(StackPane root) {
     	
@@ -319,16 +187,17 @@ public class Gui {
     
 	public void setGameScreen(GameView gameview) {
 	    	
-	    	
-	    	
+	    	lobbyToGame();
 	    	
 	    	
 	    	Platform.runLater(() -> {
-	    		inviteGrid.getChildren().clear();
+		    	game.setGameView(gameview.getBoardView());
+
+	    		//inviteGrid.getChildren().clear();
 	    		
-	    		root.getChildren().remove(drieBox);
-	        	root.getChildren().remove(toolbarbox);
-	    		showBoth(root, gameview);
+	    		//root.getChildren().remove(drieBox);
+	        	//root.getChildren().remove(toolbarbox);
+	    		//showBoth(root, gameview);
 	    	});
 	    	
 	    }
@@ -442,5 +311,9 @@ public class Gui {
 		
 		//app.requestPlayerList();
 		root.getChildren().add(toolbarboxLocal);
+	}
+	
+	public void updateStats(int yourPoints, int oppPoints, int beurt, String endReason) {
+		game.updateStats(yourPoints, oppPoints, beurt, endReason);
 	}
 }
