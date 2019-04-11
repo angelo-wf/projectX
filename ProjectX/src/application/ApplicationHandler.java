@@ -208,8 +208,8 @@ public class ApplicationHandler {
 			break;
 		case "CHALLENGE_CANCELLED":
 			System.out.println(type);
-			// TODO
-			// gui.cancelChallenge(Integer.parseInt((String) map.get("CHALLENGENUMBER")));
+			
+			gui.cancelChallenge(Integer.parseInt((String) map.get("CHALLENGENUMBER")));
 			break;
 		case "PLAYERLIST":
 			//System.out.println(type);
