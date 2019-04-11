@@ -45,8 +45,7 @@ import gamehandler.GameView;
 public class Gui {
         
     HBox hBox = new HBox();
-    String nameUser;
-    String nameServer;
+    
     ApplicationHandler app;
 	private GridPane lobbyGrid;
 	//private ArrayList<String> playerArray;
@@ -65,14 +64,37 @@ public class Gui {
 	private Button ffBtn;
 	private Button ffBackBtn;
 	private boolean currentMode = true;
-
+	
+	
+	private StackPane loginPane = new StackPane();
+	private StackPane lobbyPane = new StackPane();
+	private StackPane gamePane = new StackPane();
+	private StackPane localLobbyPane = new StackPane();
+	
+	private Login login;
+	private Lobby lobby;
+	//private Game game;
+	//private LocalLobby localLobby;
+	
+	
+	private String nameUser;
+	private String nameServer;
     
     public Gui(Stage primaryStage, ApplicationHandler app) {
     	this.app = app;
     	primaryStage.setTitle("Game");
     	//showBoth(root);
-        makeLogin(root);
+        //makeLogin(root);
         //makeLobby(root);
+
+    	//StackPane mainPane;
+        
+        login = new Login(loginPane, this, app);
+        lobby = new Lobby(lobbyPane, this, app);
+        lobby.setInvisible();
+        
+        
+        root.getChildren().addAll(loginPane, lobbyPane);
         
         Scene scene = new Scene(root, 800, 400);
 
@@ -81,6 +103,56 @@ public class Gui {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+    
+    public void loginToLobby(String username, String servername) {
+    	if(app.setServer(username, servername)) {
+    		
+    		Platform.runLater(() -> {
+        		lobby.lobbyUsernameLabel.setText("Logged in as " + nameUser + "  ");
+            	lobby.lobbyServerLabel.setText("  server: " + nameServer);
+            	
+        	});
+    		
+    		nameUser = username;
+    		nameServer = servername;
+    		app.requestPlayerList();
+    		login.setInvisible();
+        	lobby.setVisible();
+    	}
+    	
+    	
+    }
+    
+    public void setPlayerList(ArrayList<String> playerArray) {
+    	lobby.setPlayerList(playerArray);
+    }
+    
+    public void setChallenge(String name, String gameType, int chalNumber) {
+    	lobby.setChallenge(name, gameType, chalNumber);
+    }
+
+    public void cancelChallenge(int chalNumber) {
+    	lobby.cancelChallenge(chalNumber);
+    }
+    
+    
+    public void lobbyToLogin() {
+    	
+    	
+    	
+    	
+    	app.disconnect();
+    	login.setVisible();
+    	lobby.setInvisible();
+    }
+    
+    public String getName() {
+    	return nameUser;
+    }
+    public String getServerName() {
+    	return nameServer;
+    }
+    
     
     public void makeStats() {
         //grid1: 
@@ -239,394 +311,11 @@ public class Gui {
     
     public void makeLogin(StackPane root) {
     	
-    	ObservableList<String> options = 
-    		    FXCollections.observableArrayList(
-    		        "Online",
-    		        "Local"
-    		    );
-    	
-    	GridPane loginGrid = new GridPane();
-    	loginGrid.setAlignment(Pos.CENTER);
-    	loginGrid.setPadding(new Insets(15));
-            	
-        Label loginName = new Label("Username: ");
-        Label serverName = new Label("Server: ");
-        Label nameError = new Label("name required");
-        Label serverError = new Label("server required");
-        Label nameErrorInvisible = new Label("name required");
-        Label serverErrorInvisible = new Label("server required");
-        
-        nameErrorInvisible.setVisible(false);
-        serverErrorInvisible.setVisible(false);
-
-        nameError.setId("inputError");
-        serverError.setId("inputError");
-        
-        TextField loginInput = new TextField();
-        TextField serverInput = new TextField();
-        
-        
-        if(nameUser != null) {
-        	loginInput.setText(nameUser);
-        }
-        if(nameServer != null) {
-        	serverInput.setText(nameServer);
-        }
-    	        
-        ComboBox<String> selectMode = new ComboBox(options);
-        selectMode.getSelectionModel().selectFirst();
-
-        selectMode.setOnAction(e -> {
-            String selectedMode = selectMode.getSelectionModel().getSelectedItem();
-            
-            if(selectedMode == "Local") {
-                serverName.setVisible(false);
-                serverInput.setVisible(false);
-                serverError.setVisible(false);
-            }
-            
-            if(selectedMode == "Online") {
-            	serverName.setVisible(true);
-                serverInput.setVisible(true);
-                serverError.setVisible(false);
-                nameError.setVisible(false);
-                
-            }
-        });
-        
-    	Button enterButton = new Button("Enter lobby");
-        
-    	loginGrid.add(loginName, 1, 1);
-    	loginGrid.add(loginInput, 1, 2);
-    	loginGrid.add(serverName, 1, 3);
-    	loginGrid.add(serverInput, 1, 4);
-    	
-    	loginGrid.add(selectMode, 1, 0);
-    	loginGrid.add(enterButton, 1, 5);
-    	
-    	loginGrid.add(nameErrorInvisible, 0, 2);
-    	loginGrid.add(serverErrorInvisible, 0, 2);
-    	
-		loginGrid.add(nameError, 2, 2);
-		loginGrid.add(serverError, 2, 4);
-		serverError.setVisible(false);
-		nameError.setVisible(false);
-	
-        enterButton.setOnAction(e -> {
-        	nameUser = loginInput.getText();
-        	nameServer = serverInput.getText();
-        	Boolean userGoed = false;
-        	Boolean serverGoed = false;
-        	Boolean canLogin = false;
-        	
-        	String selectedMode1 = selectMode.getSelectionModel().getSelectedItem();
-  	
-        	if(selectedMode1.equals("Online")) {
-        		if(nameUser.equals("") | nameUser == null) {
-        			nameError.setVisible(true);
-            	}
-        		else {
-        			nameError.setVisible(false);
-        			userGoed=true;
-        		}
-            	if(nameServer.equals("") | nameServer == null) {
-        			serverError.setVisible(true);
-            	}
-            	else {
-            		serverError.setVisible(false);
-            		serverGoed = true;
-            	}
-            	if(userGoed == true && serverGoed == true) {
-            		canLogin = true;
-            	}
-        	}
-//        	else {
-//        		canLogin = true;
-//        	}
-        	if(selectedMode1.equals("Local")) {
-        		serverError.setVisible(false);
-        		nameServer = "";
-        		if(nameUser.equals("") | nameUser == null) {
-        			nameError.setVisible(true);
-            	}
-            	else {
-            		nameError.setVisible(false);
-            		canLogin = true;
-            	}
-        		
-        	}
-        	
-        	
-        	
-	        	if(canLogin == true && selectedMode1 == "Online") {
-	        		boolean succes = app.setServer(nameUser, nameServer);
-	        		if(succes) {
-	        			root.getChildren().remove(loginGrid);
-
-		        		makeLobby(root);
-
-		        		app.requestPlayerList();
-	        		}
-	            	
-	        	}
-	        	if(canLogin == true && selectedMode1 == "Local") {
-	        		makeLocalLobby(root);
-	            	root.getChildren().remove(loginGrid);
-	        	}
-        	
-        });
-    	
-//    	enterButton.setStyle("-fx-background-color: linear-gradient(#15b700, #75ff63);\r\n" + 
-//    			"    -fx-background-radius: 30;\r\n" + 
-//    			"    -fx-background-insets: 0;\r\n" + 
-//    			"    -fx-text-fill: white;");
-//    	
-    	
-    	enterButton.setId("record-sales");
-    	
-    	//selectMode.setStyle()
-    	
-    	loginGrid.setHgap(10);
-    	loginGrid.setVgap(10);
-    	loginGrid.setPadding(new Insets(10, 10, 10, 10));
-    	
-    	root.getChildren().add(loginGrid);
-    }
-    
-    public void setPlayerList(ArrayList<String> playerArray) {
-    	this.playerArrayList = playerArray;
-    	
-    	//lobbyGrid = new GridPane();
-    	
-    	//dummy speler:
-//    	Player player1 = new Player("player123", "none", false);
-//    	Player player2 = new Player("speler123132", "none", false);
-//    	Player player3 = new Player("hallo23", "Invited you!", true);
-//    	
-//    	playerArray.add(player1);
-//    	playerArray.add(player2);
-//    	playerArray.add(player3);
-    	
-    	//int aantalSpelers = playerArrayList.size();
-    	
-//    	for (int r = 0; r < aantalSpelers; r++) {
-//            //for (int c = 0; c < 3; c++) {
-//            	//Player currentPlayer = playerArrayList.get(r);
-//            	//lobbyGrid.add(new Label(currentPlayer.getName()), 0, r+2);
-//            	
-//            	if(currentPlayer.invited() == true) {
-//                	//lobbyGrid.add(new Label(currentPlayer.getStatus()), 1, r+1);
-//                	lobbyGrid.add(new Label("You got invited!"), 1, r+2);
-//                	lobbyGrid.add(new Button("Accept"), 2, r+2);
-//                	lobbyGrid.add(new Button("Decline"), 3, r+2);        	
-//            	}
-//            //}
-//}
-
-    	
-    
-
-    	
-    	
-    	
-    	
-    	Platform.runLater(() -> {
-    		lobbyGrid.getChildren().clear();
-    		
-    		
-    		Label playerLobbyLabel = new Label("Player");
-        	Label gameLobbyLabel = new Label("Status");
-        	
-        	lobbyGrid.add(playerLobbyLabel, 0, 1);
-        	lobbyGrid.add(gameLobbyLabel, 1, 1);
-        	
-        	
-        	playerLobbyLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
-            gameLobbyLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
-            playerLobbyLabel.setId("label-big");
-            gameLobbyLabel.setId("label-big");
-        	
-        	
-            Button refreshBtn = new Button("refresh");
-        	refreshBtn.setId("refresh-button");
-        	
-        	lobbyGrid.add(refreshBtn, 2, 1);
-        	
-        	refreshBtn.setOnAction(e -> {
-        		app.requestPlayerList();
-        	});
-
-    		
-
-    		
-    		int playerCount = playerArrayList.size();
-    		//for (String username : playerArrayList) { 		      
-    			for (int r = 0; r < playerCount; r++) {
-                  //for (int c = 0; c < 3; c++) {
-    				;
-    				if(!(playerArrayList.get(r).equals(nameUser))) {
-    					lobbyGrid.add(new Label(playerArrayList.get(r)), 0, r+2);
-    					//lobbyGrid.add(new Button ("invite", null, css.style.Button_Plain), 1, r+2);
-    					
-    					
-    					String currentPlayer = playerArrayList.get(r);
-    					
-    					Button tempBtn = new Button("Invite");
-    					//Button tempBtn2 = new Button("Cancel Invite");
-
-    					
-    					
-    					//tempBtn2.setOnAction(e -> {
-    					//	challengedPlayers = null;
-    					//});
-    					
-    					tempBtn.setId("small-button");
-    					//tempBtn2.setId("small-button");
-    					
-    					
-//    					if(challengedPlayers == null){
-        					lobbyGrid.add(tempBtn, 1, r+2);    						
-//    					}
-//    					else {
-//	    					if(challengedPlayers.contains(currentPlayer)) {
-//	    						lobbyGrid.add(tempBtn2, 1, r+2);  
-//	    					}
-//    					}
-        					tempBtn.setOnAction(e -> {
-        						app.challengePlayer(currentPlayer, currentGame);
-        						//challengedPlayers.add(currentPlayer);
-        					});
-        					
-        				if(currentPlayer.length() > 18) {
-        					r=r+1;
-        				}
-        				
-    					//Button.setId("button-small");
-    				}
-    				
-//                  	if(currentPlayer.invited() == true) {
-//                      	//lobbyGrid.add(new Label(currentPlayer.getStatus()), 1, r+1);
-//                      	lobbyGrid.add(new Label("You got invited!"), 1, r+2);
-//                      	lobbyGrid.add(new Button("Accept"), 2, r+2);
-//                      	lobbyGrid.add(new Button("Decline"), 3, r+2);        	
-//                  	}
-                  //}
-      }
-          // }
-    		
-    	});
     	
     }
     
-    public void setChallenge(String name, String gameType, int chalNumber) {
-    	
-    	
-    	Player tempPlayer = new Player(name, gameType, chalNumber);
-    	inviteArrayList.add(tempPlayer);
-    	
-    	
-    	
-    	//lobbyGrid = new GridPane();
-    	
-    	//dummy speler:
-//    	Player player1 = new Player("player123", "none", false);
-//    	Player player2 = new Player("speler123132", "none", false);
-//    	Player player3 = new Player("hallo23", "Invited you!", true);
-//    	
-//    	playerArray.add(player1);
-//    	playerArray.add(player2);
-//    	playerArray.add(player3);
-    	
-    	//int aantalSpelers = playerArrayList.size();
-    	
-//    	for (int r = 0; r < aantalSpelers; r++) {
-//            //for (int c = 0; c < 3; c++) {
-//            	//Player currentPlayer = playerArrayList.get(r);
-//            	//lobbyGrid.add(new Label(currentPlayer.getName()), 0, r+2);
-//            	
-//            	if(currentPlayer.invited() == true) {
-//                	//lobbyGrid.add(new Label(currentPlayer.getStatus()), 1, r+1);
-//                	lobbyGrid.add(new Label("You got invited!"), 1, r+2);
-//                	lobbyGrid.add(new Button("Accept"), 2, r+2);
-//                	lobbyGrid.add(new Button("Decline"), 3, r+2);        	
-//            	}
-//            //}
-//}
-
-    	
     
-
-    	
-    	
-    	
-    	
-    	Platform.runLater(() -> {
-    		inviteGrid.getChildren().clear();
-    		
-    		
-    		
-        	//inviteGrid.add(inviteTitle, 0, 0);
-        	
-        	
-        	
-        	
-            //Button refreshBtn = new Button("refresh");
-        	//refreshBtn.setId("refresh-button");
-        	
-        	//inviteGrid.add(refreshBtn, 3, 1);
-        	
-        	//refreshBtn.setOnAction(e -> {
-        	//	app.requestPlayerList();
-        	//});
-
-    		Label playerLobbyLabel = new Label("Invite");
-        	Label gameLobbyLabel = new Label("Game");
-        	//Label inviteTitle = new Label("Invites");
-        	
-        	inviteGrid.add(playerLobbyLabel, 0, 1);
-        	inviteGrid.add(gameLobbyLabel, 1, 1);
-	    	
-        	playerLobbyLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
-            gameLobbyLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
-            playerLobbyLabel.setId("label-big");
-            gameLobbyLabel.setId("label-big");
-
-    		
-    		int playerCount = inviteArrayList.size();
-    		//for (String username : playerArrayList) { 		      
-    			for (int r = 0; r < playerCount; r++) {
-                  //for (int c = 0; c < 3; c++) {
-    				
-    				Player currentPlayer = inviteArrayList.get(r);
-    				//if(!(inviteArrayList.get(r).equals(nameUser))) {
-    				Label tempLabel = new Label(currentPlayer.getName());	
-    				Label tempGameLabel = new Label(currentPlayer.getGame());
-    				inviteGrid.add(tempLabel, 0, r+2);
-    				inviteGrid.add(tempGameLabel, 1, r+2);
-    				int currentIndex = r;
-    				//}
-                      	//lobbyGrid.add(new Label(currentPlayer.getStatus()), 1, r+1);
-                      	//lobbyGrid.add(new Label("You got invited!"), 1, r+2);
-    					Button tempAccept = new Button("Accept");
-    					tempAccept.setOnAction(e -> {
-    						app.acceptChallenge(currentPlayer.getChalNumber());
-    						int acceptIndex = currentIndex;
-    						inviteArrayList.remove(acceptIndex);
-    					});
-    					
-                      	inviteGrid.add(tempAccept, 2, r+2);
-                      	tempAccept.setId("small-button");
-                      	//lobbyGrid.add(new Button("Decline"), 3, r+2);        	
-                  	
-                  }
-    			
-    		
-     // }
-          // }
-    		
-    	});
-    	
-    }
+    
     
 	public void setGameScreen(GameView gameview) {
 	    	
@@ -647,201 +336,7 @@ public class Gui {
     
 	public void makeLobby(StackPane root) {
 			
-			root.getChildren().clear();
 			
-			lobbyGrid = new GridPane();
-			
-	    	lobbyGrid.setAlignment(Pos.CENTER);
-	    	lobbyGrid.setPadding(new Insets(15));
-		
-	    	VBox lobbyVbox = new VBox();
-	    	
-	    	inviteGrid = new GridPane();
-			
-	    	inviteGrid.setAlignment(Pos.CENTER);
-	    	inviteGrid.setPadding(new Insets(15));
-	    	
-	    	Label playerLobbyLabel = new Label("Invite");
-        	Label gameLobbyLabel = new Label("Game");
-        	//Label inviteTitle = new Label("Invites");
-        	
-        	inviteGrid.add(playerLobbyLabel, 0, 1);
-        	inviteGrid.add(gameLobbyLabel, 1, 1);
-	    	
-        	playerLobbyLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
-            gameLobbyLabel.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
-            playerLobbyLabel.setId("label-big");
-            gameLobbyLabel.setId("label-big");
-	    	
-	    	VBox inviteVbox = new VBox();
-	    	
-	    	
-	    	GridPane optionsGrid = new GridPane();
-	    	
-	    	VBox optionsVbox = new VBox();
-	    	
-	    	Label optionsGameLabel = new Label("Game:");
-	    	Label optionsModeLabel = new Label("mode:");
-	    	
-	    	
-	    	
-	    	
-	    	ObservableList<String> lobbyOptionsGame = 
-	    		    FXCollections.observableArrayList(
-	    		        "Reversi",
-	    		        "Tic-tac-toe"
-	    		    );
-	    	
-	    	
-	    	ComboBox<String> lobbySelectGame = new ComboBox(lobbyOptionsGame);
-	        lobbySelectGame.getSelectionModel().selectFirst();
-	        
-	        lobbySelectGame.setOnAction(e -> {
-	            String selectedGame = lobbySelectGame.getSelectionModel().getSelectedItem();
-	            
-	            currentGame = selectedGame;
-	        });
-	        
-	        
-	        
-	        ObservableList<String> lobbyOptionsMode = 
-	    		    FXCollections.observableArrayList(
-	    		        "AI",
-	    		        "You"
-	    		    );
-	    	
-	    	
-	    	ComboBox<String> lobbySelectMode = new ComboBox(lobbyOptionsMode);
-	        lobbySelectMode.getSelectionModel().selectFirst();
-	    	
-	        
-	        lobbySelectMode.setOnAction(e -> {
-	            
-	        	
-	        	
-	        	String selectedLobbyMode = lobbySelectMode.getSelectionModel().getSelectedItem();
-	            
-	        	if(selectedLobbyMode.equals("AI")) {
-		            currentMode = true;
-	        	}
-	        	if(selectedLobbyMode.equals("You")) {
-	        		currentMode= false;
-	        	}
-	        });
-	        
-	        
-	    	optionsGrid.add(optionsGameLabel, 0, 1);
-	    	optionsGrid.add(optionsModeLabel, 0, 2);
-	    	
-	    	optionsGrid.add(lobbySelectGame, 1, 1);
-	    	optionsGrid.add(lobbySelectMode, 1, 2);
-	    	
-	    	
-	    	lobbySelectMode.setId("small-dropdown");
-	    	lobbySelectGame.setId("small-dropdown");
-	    	
-	    	
-		
-			ToolBar toolbar = new ToolBar();
-	    	
-	    	Label lobbyUsernameLabel = new Label("Logged in as " + nameUser + "  ");
-	    	Label lobbyServerLabel = new Label("  server: " + nameServer);
-	    	lobbyUsernameLabel.setId("toolbar-content");
-	    	lobbyServerLabel.setId("toolbar-content");
-	
-	    	Button backToLoginBtn = new Button("Back");
-	    	backToLoginBtn.setId("back-button");
-	    	
-	    	
-	    	ArrayList<String> dummyInvites = new ArrayList<>();
-	        dummyInvites.add("a");
-	        dummyInvites.add("a");
-	        dummyInvites.add("a");
-	        dummyInvites.add("a");
-	        dummyInvites.add("a");
-	        
-	        //setInviteList(dummyInvites);
-	    	
-	    	
-	    	Separator separator1 = new Separator();
-	    	separator1.setOrientation(Orientation.VERTICAL);
-	    	
-	    	Separator separator2 = new Separator();
-	    	separator2.setOrientation(Orientation.VERTICAL);
-	    	
-	    	
-	    	toolbar.getItems().add(backToLoginBtn);
-	    	toolbar.getItems().add(separator2);
-	    	toolbar.getItems().add(lobbyUsernameLabel);
-	    	toolbar.getItems().add(separator1);
-	    	toolbar.getItems().add(lobbyServerLabel);
-	    	
-	    	toolbarbox = new VBox();
-	    	toolbarbox.getChildren().add(toolbar);
-	    	//root.getChildren().add(lobbyGrid);
-	
-	    	inviteGrid.setId("invites-table");
-	    	
-	    	
-	    	
-	    	inviteGrid.minHeight(200);
-	    	inviteGrid.minWidth(200);
-	    	lobbyVbox.getChildren().add(lobbyGrid);
-	    	inviteVbox.getChildren().add(inviteGrid);
-	    	optionsVbox.getChildren().add(optionsGrid);
-	    	
-	    	drieBox.getChildren().clear();
-	    	drieBox.getChildren().add(lobbyVbox);
-	    	drieBox.getChildren().add(inviteVbox);
-	    	drieBox.getChildren().add(optionsVbox);
-	    	
-	    	
-	    	ScrollPane scrollpane = new ScrollPane();
-	    	scrollpane.setContent(null);
-	    	scrollpane.setContent(drieBox);
-	    	
-	    	scrollpane.setId("scroll-pane");
-	    	drieBox.minHeight(400);
-	    	drieBox.minWidth(800);
-	    	drieBox.prefWidth(800);
-	    	drieBox.prefHeight(400);
-	    	scrollpane.minHeight(400);
-	    	scrollpane.prefHeight(400);
-	    	root.getChildren().add(toolbarbox);
-	    	toolbarbox.getChildren().add(scrollpane);
-	        
-	    	
-	    	
-	    	
-	    	backToLoginBtn.setOnAction(e -> {
-        		app.disconnect();
-        		//scrollpane.setContent(null);
-//        		root.getChildren().clear();
-//	        	toolbarbox.getChildren().clear();
-//	        	makeLogin(root);
-        		loginMenu();
-	        	
-	        });
-	    	
-	    	
-	    	
-	    	lobbyGrid.setHgap(10);
-	    	lobbyGrid.setVgap(10);
-	    	lobbyGrid.setPadding(new Insets(10, 10, 10, 10));
-	    	
-	    	inviteGrid.setHgap(10);
-	    	inviteGrid.setVgap(10);
-	    	inviteGrid.setPadding(new Insets(10, 10, 10, 10));
-	    	
-	    	inviteGrid.minHeight(400);
-	    	inviteGrid.minWidth(100);
-	    	
-	    	inviteGrid.prefHeight(400);
-	    	inviteGrid.prefWidth(100);
-	    	
-	    	optionsGrid.setHgap(10);
-	    	optionsGrid.setVgap(10);
-	    	optionsGrid.setPadding(new Insets(10, 10, 10, 10));
 	    	
 	    	
 	    }
@@ -851,11 +346,6 @@ public class Gui {
 		return currentMode;
 	}
 	
-	public void loginMenu() {
-//		root.getChildren().clear();
-//    	toolbarbox.getChildren().clear();
-    	makeLogin(root);
-	}
 	
 	public void makeLocalLobby(StackPane root) {
 		ToolBar toolbarLocal = new ToolBar();
