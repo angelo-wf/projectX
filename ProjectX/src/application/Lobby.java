@@ -399,6 +399,7 @@ private void updateChalList() {
 						app.acceptChallenge(currentPlayer.getChalNumber());
 						int acceptIndex = currentIndex;
 						inviteArrayList.remove(acceptIndex);
+						updateChalList();
 					});
 					
                   	inviteGrid.add(tempAccept, 2, r+2);
