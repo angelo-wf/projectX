@@ -31,7 +31,7 @@ public class Game {
 	private Button ffBackBtn;
 	private Label scoreNumberLabel;
 	private Label oppScoreNumberLabel;
-	private HBox hBox;
+	private HBox hBox = new HBox();
 
 	Game(StackPane mainPane, Gui gui, ApplicationHandler app){
 		this.gamePane = mainPane;

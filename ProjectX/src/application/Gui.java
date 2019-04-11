@@ -91,10 +91,12 @@ public class Gui {
         
         login = new Login(loginPane, this, app);
         lobby = new Lobby(lobbyPane, this, app);
+        game = new Game(gamePane, this, app);
         lobby.setInvisible();
+        game.setInvisible();
         
         
-        root.getChildren().addAll(loginPane, lobbyPane);
+        root.getChildren().addAll(loginPane, lobbyPane, gamePane);
         
         Scene scene = new Scene(root, 800, 400);
 
