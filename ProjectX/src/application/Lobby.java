@@ -10,6 +10,7 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBase;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -85,7 +86,8 @@ public class Lobby {
     	
     	Label optionsGameLabel = new Label("Game:");
     	Label optionsModeLabel = new Label("mode:");
-    	
+    	CheckBox subBtn= new CheckBox("subscribe");
+    	subBtn.setId("small-button");
     	
     	
     	
@@ -138,6 +140,7 @@ public class Lobby {
     	
     	optionsGrid.add(lobbySelectGame, 1, 1);
     	optionsGrid.add(lobbySelectMode, 1, 2);
+    	optionsGrid.add(subBtn, 1, 3);
     	
     	
     	lobbySelectMode.setId("small-dropdown");
@@ -156,13 +159,6 @@ public class Lobby {
     	backToLoginBtn.setId("back-button");
     	
     	
-    	ArrayList<String> dummyInvites = new ArrayList<>();
-        dummyInvites.add("a");
-        dummyInvites.add("a");
-        dummyInvites.add("a");
-        dummyInvites.add("a");
-        dummyInvites.add("a");
-        
         //setInviteList(dummyInvites);
     	
     	
@@ -260,6 +256,10 @@ public class Lobby {
 		lobbyPane.setVisible(false);
 	}
 	
+	public String getSelectedGame() {
+		return lobbySelectGame.getSelectionModel().getSelectedItem();
+	}
+	
 	public void setPlayerList(ArrayList<String> playerArray) {
     	this.playerArrayList = playerArray;
     	
@@ -309,9 +309,11 @@ public class Lobby {
 					
 					lobbyGrid.add(tempBtn, 1, r+2);
 //    				
-					String gameCurrent = lobbySelectGame.getSelectionModel().getSelectedItem();
+					
+					//System.out.println(gameCurrent);
 					
 					tempBtn.setOnAction(e -> {
+						String gameCurrent = getSelectedGame();
 						app.challengePlayer(currentPlayer, gameCurrent);
 					});
     					
