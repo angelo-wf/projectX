@@ -3,6 +3,8 @@ package application;
 import java.util.ArrayList;
 
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -141,6 +143,16 @@ public class Lobby {
     	optionsGrid.add(lobbySelectGame, 1, 1);
     	optionsGrid.add(lobbySelectMode, 1, 2);
     	optionsGrid.add(subBtn, 1, 3);
+    	
+    	
+    	subBtn.selectedProperty().addListener(new ChangeListener<Boolean>() {
+            public void changed(ObservableValue<? extends Boolean> ov,
+                Boolean old_val, Boolean new_val) {
+            	if(new_val){
+                    app.subscribe(getSelectedGame());
+                }
+            }
+        });
     	
     	
     	lobbySelectMode.setId("small-dropdown");
