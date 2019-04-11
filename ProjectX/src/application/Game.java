@@ -32,6 +32,7 @@ public class Game {
 	private Label scoreNumberLabel;
 	private Label oppScoreNumberLabel;
 	private HBox hBox = new HBox();
+	private Pane currentGamePane;
 
 	Game(StackPane mainPane, Gui gui, ApplicationHandler app){
 		this.gamePane = mainPane;
@@ -44,7 +45,13 @@ public class Game {
 	
 	public void setGameView(Pane gamePane) {
 		//hBox.getChildren().clear();
+		if(currentGamePane != null) {
+			hBox.getChildren().remove(currentGamePane);
+		}
+		currentGamePane = gamePane;
 		hBox.getChildren().add(gamePane);
+		ffBtn.setVisible(true);
+		ffBackBtn.setVisible(false);
 	}
 	
 	
