@@ -21,6 +21,7 @@ public class ReversiAI extends GamePlayer {
 			3,   1, 6,  6,  6,  6,  1, 3,
 			100, 3, 20, 12, 12, 20, 3, 100
 	};
+	public static final int END_PIECE_WEIGHT = 25; 
 	
 	class AiThread implements Runnable {
 		public void run() {
@@ -126,7 +127,15 @@ public class ReversiAI extends GamePlayer {
 			for(Move turn : move) {
 				newBoard[turn.getAsInt(8)] = playernum;
 			}
-			Result res = new Result(minimax(newBoard, playernum == 2 ? 1 : 2, depth + 1).getScore(), move.get(move.size() - 1).getAsInt(8));
+			Result res;
+			// check if the other player can do a move
+			if(getPossibleMoves(newBoard, playernum == 2 ? 1 : 2).size() > 0) {
+				// other player can move, get minimax from him
+				res = new Result(minimax(newBoard, playernum == 2 ? 1 : 2, depth + 1).getScore(), move.get(move.size() - 1).getAsInt(8));
+			} else {
+				// get minimax for ourselvses instead
+				res = new Result(minimax(newBoard, playernum, depth + 1).getScore(), move.get(move.size() - 1).getAsInt(8));
+			}
 			if(res.getScore() > highestScore) {
 				highestScore = res.getScore();
 				highestMove = res;
@@ -137,10 +146,16 @@ public class ReversiAI extends GamePlayer {
 			}
 		}
 		if(highestMove == null) {
-			// the player couldn't do a move
-			// assume as being bad
-			// TODO: handle properly
-			return new Result(0, 0);
+			// this can only be reached if neither player could move, get weight from pieces on board
+			int total = 0;
+			for(int i = 0; i < 64; i++) {
+				if(board[i] == playerNumber) {
+					total += END_PIECE_WEIGHT;
+				} else if(board[i] != 0) {
+					total -= END_PIECE_WEIGHT;
+				}
+			}
+			return new Result(total, 0);
 		}
 		if(playernum == playerNumber) {
 			return highestMove;
