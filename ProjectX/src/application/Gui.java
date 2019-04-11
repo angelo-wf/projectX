@@ -359,12 +359,15 @@ public class Gui {
         	
         	
 	        	if(canLogin == true && selectedMode1 == "Online") {
-	        		app.setServer(nameUser, nameServer);
-	            	root.getChildren().remove(loginGrid);
+	        		boolean succes = app.setServer(nameUser, nameServer);
+	        		if(succes) {
+	        			root.getChildren().remove(loginGrid);
 
-	        		makeLobby(root);
+		        		makeLobby(root);
 
-	        		app.requestPlayerList();
+		        		app.requestPlayerList();
+	        		}
+	            	
 	        	}
 	        	if(canLogin == true && selectedMode1 == "Local") {
 	        		makeLocalLobby(root);
@@ -813,11 +816,14 @@ public class Gui {
 	    	backToLoginBtn.setOnAction(e -> {
         		app.disconnect();
         		//scrollpane.setContent(null);
-        		root.getChildren().clear();
-	        	toolbarbox.getChildren().clear();
-	        	makeLogin(root);
+//        		root.getChildren().clear();
+//	        	toolbarbox.getChildren().clear();
+//	        	makeLogin(root);
+        		loginMenu();
 	        	
 	        });
+	    	
+	    	
 	    	
 	    	lobbyGrid.setHgap(10);
 	    	lobbyGrid.setVgap(10);
@@ -845,6 +851,11 @@ public class Gui {
 		return currentMode;
 	}
 	
+	public void loginMenu() {
+//		root.getChildren().clear();
+//    	toolbarbox.getChildren().clear();
+    	makeLogin(root);
+	}
 	
 	public void makeLocalLobby(StackPane root) {
 		ToolBar toolbarLocal = new ToolBar();
