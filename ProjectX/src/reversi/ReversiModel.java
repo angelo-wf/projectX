@@ -40,7 +40,10 @@ public class ReversiModel extends GameModel {
 	}
 
 	@Override
-	public boolean doMove(Move move) {
+	public synchronized boolean doMove(Move move) {
+		if(move.getAsInt(8) < 0 || move.getAsInt(8) >= 64) {
+			return false;
+		}
 		ArrayList<Move> moves = handleTurn(move, turn);
 		if(moves == null) {
 			return false;

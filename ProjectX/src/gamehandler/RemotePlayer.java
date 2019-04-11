@@ -26,7 +26,13 @@ public class RemotePlayer extends GamePlayer {
 		case "MOVE":
 			if(moveExpected) {
 				moveExpected = false;
-				model.doMove(Move.getFromInt(model.getWidth(), Integer.parseInt((String) map.get("MOVE"))));
+				int moveNum;
+				try {
+					moveNum = Integer.parseInt((String) map.get("MOVE"));
+				} catch(NumberFormatException e) {
+					moveNum = -1;
+				}
+				model.doMove(Move.getFromInt(model.getWidth(), moveNum));
 			} else {
 				// something went wrong...
 				System.out.println("ERROR: Got move while not expecting one");
