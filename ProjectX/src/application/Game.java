@@ -43,7 +43,7 @@ public class Game {
 	}
 	
 	public void setGameView(Pane gamePane) {
-		hBox.getChildren().clear();
+		//hBox.getChildren().clear();
 		hBox.getChildren().add(gamePane);
 	}
 	
@@ -187,7 +187,7 @@ public void updateStats(int yourPoints, int oppPoints, int beurt, String endreas
    }
 	
 	private void showBoth(Pane gameview) {
-    	hBox.getChildren().clear();
+    	gamePane.getChildren().clear();
     	makeStats();
     	makeGame(gameview);
     	gamePane.getChildren().add(hBox);
