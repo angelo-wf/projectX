@@ -3,8 +3,6 @@ package application;
 import java.util.ArrayList;
 
 import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -12,7 +10,6 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBase;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -98,7 +95,7 @@ public class Lobby {
     		    );
     	
     	
-    	lobbySelectGame = new ComboBox(lobbyOptionsGame);
+    	lobbySelectGame = new ComboBox<String>(lobbyOptionsGame);
         lobbySelectGame.getSelectionModel().selectFirst();
         
         
@@ -110,7 +107,7 @@ public class Lobby {
     		    );
     	
     	
-    	lobbySelectMode = new ComboBox(lobbyOptionsMode);
+    	lobbySelectMode = new ComboBox<String>(lobbyOptionsMode);
         lobbySelectMode.getSelectionModel().selectFirst();
         
         
