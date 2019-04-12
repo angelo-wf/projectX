@@ -255,6 +255,7 @@ public class Lobby {
 	
 	public void clearInvites() {
 		inviteArrayList.clear();
+		updateChalList();
 	}
 	
 	public void setPlayerList(ArrayList<String> playerArray) {

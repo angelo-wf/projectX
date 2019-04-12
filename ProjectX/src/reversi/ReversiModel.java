@@ -54,7 +54,6 @@ public class ReversiModel extends GameModel {
 		} else {
 			player2.tellMove(move);
 		}
-		System.out.println("Move done: " + move.getAsInt(8));
 		for(Move m : moves) {
 			board[m.getAsInt(8)] = turn.getPieceNum();
 		}
@@ -69,10 +68,8 @@ public class ReversiModel extends GameModel {
 			}
 		}
 		if(turn == Turn.PLAYER1) {
-			System.out.println("Requested from player 1");
 			player1.requestMove();
 		} else {
-			System.out.println("Requested from player 2");
 			player2.requestMove();
 		}
 		view.update();
