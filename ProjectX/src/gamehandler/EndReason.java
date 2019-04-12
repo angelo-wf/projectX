@@ -1,7 +1,7 @@
 package gamehandler;
 
 public enum EndReason {
-	WIN1("You won!"), WIN2("The opponent won."), DRAW("It's a draw!");
+	WIN1("You won!"), WIN2("You lost."), DRAW("It's a draw!");
 	
 	private final String niceString;
 	
