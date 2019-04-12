@@ -22,14 +22,16 @@ public class ReversiAI extends GamePlayer {
             -10 , -25 ,  -4, -4 , -4 , -4 , -25 , -10 ,
             100 , -10 , 8  ,  6 ,  6 , 8  , -10 ,  100};
 	public static final int END_PIECE_WEIGHT = 25; 
+	public static final int TIME_LIMIT = 8500;
 	private boolean nearingTimeout = false;
+	
 	class AiThread implements Runnable {
 		public void run() {
 			while(running) {
 				if(moveRequested) {
 					moveRequested = false;
 					try {
-						Thread.sleep(500);
+						Thread.sleep(300);
 					} catch(InterruptedException e) {
 						System.out.println("AI thread failed to sleep:");
 						e.printStackTrace();
@@ -83,7 +85,7 @@ public class ReversiAI extends GamePlayer {
 	private Move getBestMove(int[] board) {
 		Thread timeoutThread = new Thread(()-> {
 			try {
-				Thread.sleep(8500);
+				Thread.sleep(TIME_LIMIT);
 				System.out.println("Nearing Timeout");
 				nearingTimeout = true;
 			} catch (InterruptedException e) {

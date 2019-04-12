@@ -15,7 +15,7 @@ public class TicTacToeAI extends GamePlayer {
 				if(moveRequested) {
 					moveRequested = false;
 					try {
-						Thread.sleep(500);
+						Thread.sleep(300);
 					} catch(InterruptedException e) {
 						System.out.println("AI thread failed to sleep:");
 						e.printStackTrace();

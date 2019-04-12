@@ -58,7 +58,7 @@ public class Login {
 	    	serverInput.setText(nameServer);
 	    }
 		        
-	    ComboBox<String> selectMode = new ComboBox(options);
+	    ComboBox<String> selectMode = new ComboBox<String>(options);
 	    selectMode.getSelectionModel().selectFirst();
 
 	    selectMode.setOnAction(e -> {
