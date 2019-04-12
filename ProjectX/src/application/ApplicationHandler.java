@@ -93,7 +93,9 @@ public class ApplicationHandler {
 		if(model != null) {
 			model.endGame(EndReason.WIN2, "App closing");
 		}
-		connection.close();
+		if(connection != null) {
+			connection.close();
+		}
 	}
 	
 	public void connectionLost() {

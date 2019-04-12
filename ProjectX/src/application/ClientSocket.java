@@ -90,7 +90,7 @@ public class ClientSocket {
 //			}
 //		}
 		// those get closed when socket gets closed, will throw an exception, but it doesn't matter
-		if(socket != null) {
+		if(socket != null && !socket.isClosed()) {
 			try {
 				socket.close();
 			} catch (IOException e) {

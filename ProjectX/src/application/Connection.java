@@ -37,17 +37,17 @@ public class Connection {
 
     public void sendMessage(String toServer){
         // send to socket
-    	System.out.println("toServer: " + toServer);
+    	System.out.println("Client: " + toServer);
     	clientSocket.sendToServer(toServer);
     }
     
     public void checkInput(String fromServer){
-    	System.out.println(fromServer);
+    	System.out.println("Server: " + fromServer);
     	// check server message word by word
     	String firstWord[] = fromServer.split(" ",2);
     	switch (firstWord[0]) {
         	case "OK":
-        		System.out.println("OK: OK");
+        		//System.out.println("OK: OK");
         		break;
         	case "ERR":
         		setErrorInHashMap(firstWord[1], "ERROR");
@@ -78,10 +78,10 @@ public class Connection {
         			}
         		break;
         	case "Strategic":
-        		System.out.println("STARTMESSAGE: " + fromServer);
+        		//System.out.println("STARTMESSAGE: " + fromServer);
         		break;
         	case "(C)":
-        		System.out.println("STARTMESSAGE: " + fromServer);
+        		//System.out.println("STARTMESSAGE: " + fromServer);
         		break;
         default:
         // not recognized
@@ -104,7 +104,6 @@ public class Connection {
         }
         // Enter HashMap in message queue
         messageQueue.add(gameMap);
-        System.out.println("setMap: " + gameMap.toString());
         
         app.recieveMessage(gameMap);
     }
@@ -123,7 +122,6 @@ public class Connection {
         gameMap.put("LIST", output);
         // Enter HashMap in message queue
         messageQueue.add(gameMap);
-        System.out.println("setList: " + gameMap.toString());
         
         app.recieveMessage(gameMap);
     }
@@ -133,7 +131,6 @@ public class Connection {
         HashMap<String, Object> gameMap = new HashMap<>();
         gameMap.put("MESSAGETYPE", messageType);
         gameMap.put("ERRORMESSAGE", errorMessage);
-        System.out.println("setError: " + gameMap.toString());
         
         app.recieveMessage(gameMap);
     }
