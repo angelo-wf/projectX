@@ -2,6 +2,7 @@ package tictactoe;
 
 import gamehandler.GamePlayer;
 import gamehandler.Move;
+import gamehandler.Result;
 
 public class TicTacToeAI extends GamePlayer {
 	
@@ -64,31 +65,12 @@ public class TicTacToeAI extends GamePlayer {
 		
 	}
 	
-	private class Result {
-		
-		private int score;
-		private int spot;
-		
-		public Result(int score, int spot) {
-			this.score = score;
-			this.spot = spot;
-		}
-		
-		public int getScore() {
-			return score;
-		}
-		
-		public int getSpot() {
-			return spot;
-		}
-	}
-	
 	private Move getBestMove(int[] board) {
-		int best = minimax(board, playerNumber).getSpot();
+		int best = minimax(board, playerNumber, Integer.MIN_VALUE, Integer.MAX_VALUE).getSpot();
 		return Move.getFromInt(3, best);
 	}
 	
-	private Result minimax(int[] board, int playernum) {
+	private Result minimax(int[] board, int playernum, int alpha, int beta) {
 		// adapted from https://github.com/ahmadabdolsaheb/minimaxarticle/blob/master/index.js
 		if(checkWin(board, playerNumber)) {
 			return new Result(1, 0);
@@ -101,25 +83,51 @@ public class TicTacToeAI extends GamePlayer {
 		Result highestMove = null;
 		int lowestScore = 2;
 		Result lowestMove = null;
-		for(int i = 0; i < 9; i++) {
-			if(board[i] == 0) {
-				board[i] = playernum;
-				Result move = new Result(minimax(board, playernum == 2 ? 1 : 2).getScore(), i);
-				board[i] = 0;
-				if(move.getScore() > highestScore) {
-					highestScore = move.getScore();
-					highestMove = move;
-				}
-				if(move.getScore() < lowestScore) {
-					lowestScore = move.getScore();
-					lowestMove = move;
+		
+		if(playernum == playerNumber) {
+			// maximizing
+			int value = Integer.MIN_VALUE;
+			for(int i=0; i <9; i++) {
+				if(board[i] == 0) {
+					board[i] = playernum;
+					value = minimax(board, playernum == 2 ? 1 : 2, alpha, beta).getScore();
+					Result move = new Result(value, i);
+					board[i] = 0;
+					if(move.getScore() > highestScore) {
+						highestScore = move.getScore();
+						highestMove = move;
+					}
+					alpha = Math.max(alpha, value);
+					if(alpha > beta) {
+						break;
+					}
+						
 				}
 			}
-		}
-		if(playernum == playerNumber) {
 			return highestMove;
+			
+		}else {
+			// minimizing
+			int value = Integer.MAX_VALUE;
+			for(int i=0; i <9; i++) {
+				if(board[i] == 0) {
+					board[i] = playernum;
+					value = minimax(board, playernum == 2 ? 1 : 2, alpha, beta).getScore();
+					Result move = new Result(value, i);
+					board[i] = 0;
+					if(move.getScore() < lowestScore) {
+						lowestScore = move.getScore();
+						lowestMove = move;
+					}
+					beta = Math.min(beta, value);
+					if(alpha > beta) {
+						break;
+					}	
+				}
+			}
+			return lowestMove;
+			
 		}
-		return lowestMove;
 	}
 	
 	private boolean checkWin(int[] board, int playerNum) {
