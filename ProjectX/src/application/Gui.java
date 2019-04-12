@@ -112,6 +112,7 @@ public class Gui {
         	app.appClosing();
         });
         primaryStage.setResizable(false);
+        primaryStage.getIcons().add(new Image("file:reversi_icon.jpg"));
         primaryStage.show();
     }
     
