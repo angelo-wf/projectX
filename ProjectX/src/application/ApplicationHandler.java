@@ -65,17 +65,20 @@ public class ApplicationHandler {
 		String[] parts = ip.split(":");
 		if(parts.length > 1) {
 			ip = parts[0];
-			port = Integer.parseInt(parts[1]);
+			try {
+				port = Integer.parseInt(parts[1]);
+			} catch(NumberFormatException e) {
+				return false;
+			}
 		}
-		boolean success = true;
 		try {
 			connection = new Connection(ip, port, this);
 			connection.login(name);
 		} catch(IOException e) {
-			success = false;
 			System.out.println("Failed to connect to server.");
+			return false;
 		}
-		return success;
+		return true;
 	}
 	
 	public boolean setLocal(String name) {
@@ -101,7 +104,7 @@ public class ApplicationHandler {
 	public void connectionLost() {
 		if(!closing) {
 			Platform.runLater(() -> {
-				Alert alert = new Alert(AlertType.ERROR, "Server connection lost.", ButtonType.OK);
+				Alert alert = new Alert(AlertType.ERROR, "Server connection lost", ButtonType.OK);
 				alert.showAndWait();
 			});
 			if(model != null) {

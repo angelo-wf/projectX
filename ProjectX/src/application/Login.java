@@ -96,6 +96,10 @@ public class Login {
 		loginGrid.add(serverError, 2, 4);
 		serverError.setVisible(false);
 		nameError.setVisible(false);
+		
+		serverInput.setOnAction(e -> {
+			enterButton.fire();
+		});
 
 	    enterButton.setOnAction(e -> {
 	    	nameUser = loginInput.getText();

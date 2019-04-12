@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import gamehandler.GameView;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -84,6 +87,11 @@ public class Gui {
     		app.requestPlayerList();
     		login.setInvisible();
         	lobby.setVisible();
+    	} else {
+    		Platform.runLater(() -> {
+				Alert alert = new Alert(AlertType.ERROR, "Can't connect to the server", ButtonType.OK);
+				alert.showAndWait();
+			});
     	}
     	
     	
