@@ -68,6 +68,8 @@ public class LocalLobby {
 		rb2.setText("Reversi");
 		rb2.setToggleGroup(toggle);
 		
+		rb1.setSelected(true);
+		
 		 ObservableList<String> localLobbyOptions = 
 	    		    FXCollections.observableArrayList(
 	    		    	"AI vs AI",
