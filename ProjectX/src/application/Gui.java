@@ -85,7 +85,7 @@ public class Gui {
 
     public Gui(Stage primaryStage, ApplicationHandler app) {
     	this.app = app;
-    	primaryStage.setTitle("Game");
+    	primaryStage.setTitle("Project X UltraBotMaximum");
     	//showBoth(root);
         //makeLogin(root);
         //makeLobby(root);
@@ -111,6 +111,7 @@ public class Gui {
         primaryStage.setOnCloseRequest(e -> {
         	app.appClosing();
         });
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
     
