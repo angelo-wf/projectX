@@ -30,6 +30,9 @@ public class TicTacToeModel extends GameModel {
 	
 	@Override
 	public synchronized boolean doMove(Move move) {
+		if(turn == Turn.ENDED) {
+			return false;
+		}
 		if(move.getAsInt(3) < 0 || move.getAsInt(3) >= 9) {
 			return false;
 		}
