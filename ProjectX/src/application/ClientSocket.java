@@ -13,6 +13,7 @@ public class ClientSocket {
 	private BufferedReader inputStream;
 	private Socket socket;
 	private Connection connection;
+	private boolean intendedClose;
 	
 	public ClientSocket(String address, int port, Connection connection) throws IOException {
 		socket = new Socket(address, port);
@@ -21,6 +22,7 @@ public class ClientSocket {
 		outputStream = new OutputStreamWriter(socket.getOutputStream());
 		inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		Thread serverThread = new Thread(new ServerWorker());
+		intendedClose = false;
 		serverThread.start();
 	}
 	
@@ -55,29 +57,39 @@ public class ClientSocket {
 					// process line
 					connection.checkInput(line);
 				}
+				System.out.println("Server closed connection.");
+				if(!intendedClose) {
+					connection.notifyConnectionLost();
+				}
 			} catch(IOException e) {
 				System.out.println(e);
 			}
 		}
 	}
 	
+	public void setIntendedClose() {
+		intendedClose = true;
+	}
+	
 	public void close() {
 		//close the connection safely
+		intendedClose = true;
 		running = false;
-		if(inputStream != null) {
-			try {
-				inputStream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		if(outputStream != null) {
-			try {
-				outputStream.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
+//		if(inputStream != null) {
+//			try {
+//				inputStream.close();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		if(outputStream != null) {
+//			try {
+//				outputStream.close();
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		}
+		// those get closed when socket gets closed, will throw an exception, but it doesn't matter
 		if(socket != null) {
 			try {
 				socket.close();

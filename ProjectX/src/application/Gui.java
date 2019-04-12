@@ -102,6 +102,9 @@ public class Gui {
         //scene.getStylesheets().add(css);
         scene.getStylesheets().add("/style.css");
         primaryStage.setScene(scene);
+        primaryStage.setOnCloseRequest(e -> {
+        	app.appClosing();
+        });
         primaryStage.show();
     }
     
@@ -125,6 +128,7 @@ public class Gui {
     
     
     public void gameToLobby(){
+    	app.requestPlayerList();
     	game.setInvisible();
     	lobby.setVisible();
     }
@@ -146,6 +150,13 @@ public class Gui {
     	lobby.cancelChallenge(chalNumber);
     }
     
+    public void straightToLogin() {
+    	lobby.setInvisible();
+    	game.setInvisible();
+    	login.setVisible();
+    	lobby.clearInvites();
+    }
+    
     
     public void lobbyToLogin() {
     	
@@ -153,6 +164,7 @@ public class Gui {
     	
     	
     	app.disconnect();
+    	lobby.clearInvites();
     	login.setVisible();
     	lobby.setInvisible();
     }

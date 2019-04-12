@@ -10,8 +10,10 @@ import gamehandler.GamePlayer;
 import gamehandler.GameView;
 import gamehandler.RealPlayer;
 import gamehandler.RemotePlayer;
-import javafx.scene.Scene;
-import javafx.scene.layout.VBox;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import reversi.ReversiAI;
 import reversi.ReversiModel;
@@ -31,6 +33,7 @@ public class ApplicationHandler {
 	
 	private String username;
 	private Gui gui;
+	private boolean closing;
 	
 	public ApplicationHandler(Stage primaryStage) {
 		
@@ -50,7 +53,7 @@ public class ApplicationHandler {
 //		setServer("b", "localhost:7789");
 //		//connection.challengePlayer("b", "Reversi");
 //		connection.subscirbe("Reversi");
-		
+		closing = false;
 		gui = new Gui(primaryStage, this);
 		
 	}
@@ -75,9 +78,35 @@ public class ApplicationHandler {
 		return success;
 	}
 	
+	public boolean setLocal(String name) {
+		username = name;
+		return true;
+	}
+	
 	public void disconnect() {
 		connection.logout();
+		connection.setIntendedClose();
+	}
+	
+	public void appClosing() {
+		closing = true;
+		if(model != null) {
+			model.endGame(EndReason.WIN2, "App closing");
+		}
 		connection.close();
+	}
+	
+	public void connectionLost() {
+		if(!closing) {
+			Platform.runLater(() -> {
+				Alert alert = new Alert(AlertType.ERROR, "Server connection lost.", ButtonType.OK);
+				alert.showAndWait();
+			});
+			if(model != null) {
+				model.endGame(EndReason.WIN2, "Connection lost");
+			}
+			gui.straightToLogin();
+		}
 	}
 	
 	public void requestPlayerList() {
@@ -102,6 +131,10 @@ public class ApplicationHandler {
 	
 	public void forfeit() {
 		connection.forfeit();
+	}
+	
+	public void localForfeit() {
+		model.endGame(EndReason.WIN2, "player forfeited match");
 	}
 	
 	private void startGame(String gameName, int beginningPlayer, int type, String player2name) {
@@ -170,54 +203,49 @@ public class ApplicationHandler {
 		String type = (String) map.get("MESSAGETYPE");
 		switch (type) {
 		case "MATCH":
-			//System.out.println(type);
 			if(map.get("PLAYERTOMOVE").equals(username)) {
 				startGame((String) map.get("GAMETYPE"), 1, gui.getMode() ? 2 : 1, (String) map.get("OPPONENT"));
 				//startGame((String) map.get("GAMETYPE"), 1, 2);
 			} else {
-				System.out.println(map + ", " + gui);
 				startGame((String) map.get("GAMETYPE"), 2, gui.getMode() ? 2 : 1, (String) map.get("OPPONENT"));
 				//startGame((String) map.get("GAMETYPE"), 2, 2);
 			}
 			break;
 		case "YOURTURN":
-			//System.out.println(type);
 			((RemotePlayer) player2).onMessage(map);
 			break;
 		case "MOVE":
-			//System.out.println(type);
 			if(!map.get("PLAYER").equals(username)) {
 				((RemotePlayer) player2).onMessage(map);
 			}
 			break;
 		case "WIN":
-			//System.out.println(type);
 			model.endGame(EndReason.WIN1, (String) map.get("COMMENT"));
 			break;
 		case "LOSS":
-			//System.out.println(type);
 			model.endGame(EndReason.WIN2, (String) map.get("COMMENT"));
 			break;
 		case "DRAW":
-			//System.out.println(type);
 			model.endGame(EndReason.DRAW, (String) map.get("COMMENT"));
 			break;
 		case "CHALLENGE":
-			System.out.println(type);
 			gui.setChallenge((String) map.get("CHALLENGER"), (String) map.get("GAMETYPE"), Integer.parseInt((String) map.get("CHALLENGENUMBER")));
 			break;
 		case "CHALLENGE_CANCELLED":
-			System.out.println(type);
-			
 			gui.cancelChallenge(Integer.parseInt((String) map.get("CHALLENGENUMBER")));
 			break;
 		case "PLAYERLIST":
-			//System.out.println(type);
 			gui.setPlayerList((ArrayList<String>) map.get("LIST"));
 			break;
 		case "GAMELIST":
 			//System.out.println(type);
 			// not used
+			break;
+		case "ERROR":
+			Platform.runLater(() -> {
+				Alert alert = new Alert(AlertType.ERROR, "Error from server: " + map.get("ERRORMESSAGE"), ButtonType.OK);
+				alert.showAndWait();
+			});
 			break;
 		default:
 			break;

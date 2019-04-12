@@ -23,6 +23,14 @@ public class Connection {
     	clientSocket.close();
     }
     
+    public void notifyConnectionLost() {
+    	app.connectionLost();
+    }
+    
+    public void setIntendedClose() {
+    	clientSocket.setIntendedClose();
+    }
+    
     public LinkedBlockingQueue<HashMap<String, Object>> getQueue(){
         return messageQueue;
     }

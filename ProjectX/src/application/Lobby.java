@@ -31,8 +31,6 @@ public class Lobby {
 	private GridPane lobbyGrid;
 	private GridPane inviteGrid;
 	private Gui gui;
-	private boolean currentMode = true;
-	private String currentGame = "Reversi";
 	private VBox toolbarbox;
 	//private String nameUser;
 	//private String nameServer;
@@ -45,7 +43,6 @@ public class Lobby {
 	private Label lobbyUsernameLabel = new Label();
 	private Label lobbyServerLabel = new Label();
 	private ArrayList<Player> inviteArrayList = new ArrayList<Player>();
-	private ArrayList<String> challengedPlayers = null;
 
 	
 	Lobby(StackPane mainPane, Gui gui, ApplicationHandler app){
@@ -104,12 +101,6 @@ public class Lobby {
     	lobbySelectGame = new ComboBox(lobbyOptionsGame);
         lobbySelectGame.getSelectionModel().selectFirst();
         
-        lobbySelectGame.setOnAction(e -> {
-            String selectedGame = lobbySelectGame.getSelectionModel().getSelectedItem();
-            
-            currentGame = selectedGame;
-        });
-        
         
         
         ObservableList<String> lobbyOptionsMode = 
@@ -121,21 +112,6 @@ public class Lobby {
     	
     	lobbySelectMode = new ComboBox(lobbyOptionsMode);
         lobbySelectMode.getSelectionModel().selectFirst();
-    	
-        
-        lobbySelectMode.setOnAction(e -> {
-            
-        	
-        	
-        	String selectedLobbyMode = lobbySelectMode.getSelectionModel().getSelectedItem();
-            
-        	if(selectedLobbyMode.equals("AI")) {
-	            currentMode = true;
-        	}
-        	if(selectedLobbyMode.equals("You")) {
-        		currentMode= false;
-        	}
-        });
         
         
     	optionsGrid.add(optionsGameLabel, 0, 1);
@@ -275,6 +251,10 @@ public class Lobby {
 	
 	public boolean getSelectedMode() {
 		return lobbySelectMode.getSelectionModel().getSelectedItem().equals("AI");
+	}
+	
+	public void clearInvites() {
+		inviteArrayList.clear();
 	}
 	
 	public void setPlayerList(ArrayList<String> playerArray) {
