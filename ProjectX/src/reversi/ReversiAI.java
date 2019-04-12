@@ -10,7 +10,7 @@ public class ReversiAI extends GamePlayer {
 	private boolean running;
 	private boolean moveRequested;
 	
-	public static final int RECURSION_DEPTH = 5;
+	public static final int RECURSION_DEPTH = 7;
 	// adapted from the weights at https://github.com/arminkz/Reversi/blob/master/src/player/ai/RealtimeEvaluator.java
 	public static final int[] BOARD_WEIGHTS = {
 			100, 3, 20, 12, 12, 20, 3, 100,
@@ -80,11 +80,11 @@ public class ReversiAI extends GamePlayer {
 	}
 	
 	private Move getBestMove(int[] board) {
-		int best = minimax(board, playerNumber, 0).getSpot();
+		int best = minimax(board, playerNumber, 0, Integer.MIN_VALUE, Integer.MAX_VALUE).getSpot();
 		return Move.getFromInt(8, best);
 	}
 	
-	private Result minimax(int[] board, int playernum, int depth) {
+	private Result minimax(int[] board, int playernum, int depth, int alpha, int beta) {
 		if(depth > RECURSION_DEPTH) {
 			// calculate board state with cell weights and return it
 			int total = 0;
@@ -97,52 +97,141 @@ public class ReversiAI extends GamePlayer {
 			}
 			return new Result(total, 0);
 		}
-		int highestScore = Integer.MIN_VALUE;
-		Result highestMove = null;
-		int lowestScore = Integer.MAX_VALUE;
-		Result lowestMove = null;
-		// else, check for all possible moves what the score is
-		ArrayList<ArrayList<Move>> possibleMoves = getPossibleMoves(board, playernum);
-		for(ArrayList<Move> move : possibleMoves) {
-			// for each possible move, apply it, and get the minimax for the other player
-			int[] newBoard = board.clone();
-			for(Move turn : move) {
-				newBoard[turn.getAsInt(8)] = playernum;
-			}
-			Result res;
-			// check if the other player can do a move
-			if(getPossibleMoves(newBoard, playernum == 2 ? 1 : 2).size() > 0) {
-				// other player can move, get minimax from him
-				res = new Result(minimax(newBoard, playernum == 2 ? 1 : 2, depth + 1).getScore(), move.get(move.size() - 1).getAsInt(8));
-			} else {
-				// get minimax for ourselvses instead
-				res = new Result(minimax(newBoard, playernum, depth + 1).getScore(), move.get(move.size() - 1).getAsInt(8));
-			}
-			if(res.getScore() > highestScore) {
-				highestScore = res.getScore();
-				highestMove = res;
-			}
-			if(res.getScore() < lowestScore) {
-				lowestScore = res.getScore();
-				lowestMove = res;
-			}
-		}
-		if(highestMove == null) {
-			// this can only be reached if neither player could move, get weight from pieces on board
-			int total = 0;
-			for(int i = 0; i < 64; i++) {
-				if(board[i] == playerNumber) {
-					total += END_PIECE_WEIGHT;
-				} else if(board[i] != 0) {
-					total -= END_PIECE_WEIGHT;
+		
+		if(playernum == playerNumber) {
+			int highestScore = Integer.MIN_VALUE;
+			Result highestMove = null;
+			int value = Integer.MIN_VALUE;
+			// else, check for all possible moves what the score is
+			ArrayList<ArrayList<Move>> possibleMoves = getPossibleMoves(board, playernum);
+			for(ArrayList<Move> move : possibleMoves) {
+				// for each possible move, apply it, and get the minimax for the other player
+				int[] newBoard = board.clone();
+				for(Move turn : move) {
+					newBoard[turn.getAsInt(8)] = playernum;
+				}
+				Result res;
+				// check if the other player can do a move
+				if(getPossibleMoves(newBoard, playernum == 2 ? 1 : 2).size() > 0) {
+					// other player can move, get minimax from him
+					value = minimax(newBoard, playernum == 2 ? 1 : 2, depth + 1, alpha, beta).getScore();
+					res = new Result(value , move.get(move.size() - 1).getAsInt(8));
+				} else {
+					// get minimax for ourselvses instead
+					value = minimax(newBoard, playernum, depth + 1, alpha, beta).getScore();
+					res = new Result(value, move.get(move.size() - 1).getAsInt(8));
+				}
+				if(res.getScore() > highestScore) {
+					highestScore = res.getScore();
+					highestMove = res;
+				}
+				alpha = Math.max(alpha, value);
+				if(alpha > beta) {
+					break;
 				}
 			}
-			return new Result(total, 0);
-		}
-		if(playernum == playerNumber) {
+			if(highestMove == null) {
+				// this can only be reached if neither player could move, get weight from pieces on board
+				int total = 0;
+				for(int i = 0; i < 64; i++) {
+					if(board[i] == playerNumber) {
+						total += END_PIECE_WEIGHT;
+					} else if(board[i] != 0) {
+						total -= END_PIECE_WEIGHT;
+					}
+				}
+				return new Result(total, 0);
+			}
 			return highestMove;
+		} else {
+			int lowestScore = Integer.MAX_VALUE;
+			Result lowestMove = null;
+			int value = Integer.MAX_VALUE;
+			// else, check for all possible moves what the score is
+			ArrayList<ArrayList<Move>> possibleMoves = getPossibleMoves(board, playernum);
+			for(ArrayList<Move> move : possibleMoves) {
+				// for each possible move, apply it, and get the minimax for the other player
+				int[] newBoard = board.clone();
+				for(Move turn : move) {
+					newBoard[turn.getAsInt(8)] = playernum;
+				}
+				Result res;
+				// check if the other player can do a move
+				if(getPossibleMoves(newBoard, playernum == 2 ? 1 : 2).size() > 0) {
+					// other player can move, get minimax from him
+					value = minimax(newBoard, playernum == 2 ? 1 : 2, depth + 1, alpha, beta).getScore();
+					res = new Result(value , move.get(move.size() - 1).getAsInt(8));
+				} else {
+					value = minimax(newBoard, playernum, depth + 1, alpha, beta).getScore();
+					// get minimax for ourselvses instead
+					res = new Result(value, move.get(move.size() - 1).getAsInt(8));
+				}
+				if(res.getScore() < lowestScore) {
+					lowestScore = res.getScore();
+					lowestMove = res;
+				}
+				beta = Math.min(beta, value);
+				if(alpha > beta) {
+					break;
+				}
+			}
+			// check for highestMove == null, but it always is in this loop
+			if(lowestMove == null) {
+				// this can only be reached if neither player could move, get weight from pieces on board
+				int total = 0;
+				for(int i = 0; i < 64; i++) {
+					if(board[i] == playerNumber) {
+						total += END_PIECE_WEIGHT;
+					} else if(board[i] != 0) {
+						total -= END_PIECE_WEIGHT;
+					}
+				}
+				return new Result(total, 0);
+			}
+			return lowestMove;
 		}
-		return lowestMove;
+		// else, check for all possible moves what the score is
+//		ArrayList<ArrayList<Move>> possibleMoves = getPossibleMoves(board, playernum);
+//		for(ArrayList<Move> move : possibleMoves) {
+//			// for each possible move, apply it, and get the minimax for the other player
+//			int[] newBoard = board.clone();
+//			for(Move turn : move) {
+//				newBoard[turn.getAsInt(8)] = playernum;
+//			}
+//			Result res;
+//			// check if the other player can do a move
+//			if(getPossibleMoves(newBoard, playernum == 2 ? 1 : 2).size() > 0) {
+//				// other player can move, get minimax from him
+//				res = new Result(minimax(newBoard, playernum == 2 ? 1 : 2, depth + 1).getScore(), move.get(move.size() - 1).getAsInt(8));
+//			} else {
+//				// get minimax for ourselvses instead
+//				res = new Result(minimax(newBoard, playernum, depth + 1).getScore(), move.get(move.size() - 1).getAsInt(8));
+//			}
+//			if(res.getScore() > highestScore) {
+//				highestScore = res.getScore();
+//				highestMove = res;
+//			}
+//			if(res.getScore() < lowestScore) {
+//				lowestScore = res.getScore();
+//				lowestMove = res;
+//			}
+//		}
+//		if(highestMove == null) {
+//			// this can only be reached if neither player could move, get weight from pieces on board
+//			int total = 0;
+//			for(int i = 0; i < 64; i++) {
+//				if(board[i] == playerNumber) {
+//					total += END_PIECE_WEIGHT;
+//				} else if(board[i] != 0) {
+//					total -= END_PIECE_WEIGHT;
+//				}
+//			}
+//			return new Result(total, 0);
+//		}
+//		if(playernum == playerNumber) {
+//			return highestMove;
+//		}
+//		return lowestMove;
 	}
 	
 	private ArrayList<ArrayList<Move>> getPossibleMoves(int[] board, int playernum) {
