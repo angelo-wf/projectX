@@ -151,7 +151,13 @@ public void updateStats(int yourPoints, int oppPoints, int beurt, String endreas
 
         ffBtn.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                app.forfeit();
+                
+            	if(gui.getOnline()) {
+                	app.forfeit();
+            	}
+            	else {
+            		app.localForfeit();
+            	}
                 //root.getChildren().clear();
                 //makeLobby(root);
                 //gui.gameToLobby();
@@ -165,7 +171,16 @@ public void updateStats(int yourPoints, int oppPoints, int beurt, String endreas
             @Override public void handle(ActionEvent e) {
             	//root.getChildren().clear();
             	//makeLobby(root);
-            	gui.gameToLobby();
+            	
+            	
+            	
+            	
+            	if(gui.getOnline()) {
+                	gui.gameToLobby();
+            	}
+            	else {
+                	gui.gameToLocalLobby();
+            	}
         		//app.requestPlayerList();
                 
             }

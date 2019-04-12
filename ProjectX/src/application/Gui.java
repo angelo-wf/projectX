@@ -78,7 +78,11 @@ public class Gui {
 	
 	private String nameUser;
 	private String nameServer;
-    
+
+	
+	
+	private boolean isOnline;
+
     public Gui(Stage primaryStage, ApplicationHandler app) {
     	this.app = app;
     	primaryStage.setTitle("Game");
@@ -118,6 +122,7 @@ public class Gui {
             	
         	});
     		
+    		isOnline = true;
     		nameUser = username;
     		nameServer = servername;
     		app.requestPlayerList();
@@ -135,9 +140,16 @@ public class Gui {
     		
     	});
     	
+    	isOnline = false;
+    	app.setLocal(nameUser);
+    	
     	nameUser = username;
     	login.setInvisible();
     	localLobby.setVisible();
+    }
+    
+    public boolean getOnline() {
+    	return isOnline;
     }
     
     
@@ -208,7 +220,15 @@ public class Gui {
     
 	public void setGameScreen(GameView gameview, String player2name) {
 	    	
-	    	lobbyToGame();
+		
+			
+	    	
+	    	if(getOnline()) {
+		    	lobbyToGame();
+        	}
+        	else {
+    	    	localLobbyToGame();
+        	}
 	    	
 	    	
 	    	Platform.runLater(() -> {

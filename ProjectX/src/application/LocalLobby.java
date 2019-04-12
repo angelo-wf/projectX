@@ -1,9 +1,12 @@
 package application;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.Separator;
@@ -21,6 +24,7 @@ public class LocalLobby {
 	private Gui gui;
 	private ApplicationHandler app;
 	private Label lobbyUsernameLabel;
+	private ComboBox<String> localLobbySelectMode;
 
 	LocalLobby(StackPane mainPane, Gui gui, ApplicationHandler app){
 		this.localLobbyPane = mainPane;
@@ -64,11 +68,24 @@ public class LocalLobby {
 		rb2.setText("Reversi");
 		rb2.setToggleGroup(toggle);
 		
+		 ObservableList<String> localLobbyOptions = 
+	    		    FXCollections.observableArrayList(
+	    		    	"AI vs AI",
+	    		        "YOU vs AI",
+	    		        "AI vs YOU"
+	    		    );
+	    	
+	    	
+	    	localLobbySelectMode = new ComboBox<String>(localLobbyOptions);
+	    	localLobbySelectMode.getSelectionModel().selectFirst();
+		
+		localLobbySelectMode.setId("small-dropdown");
 		
 		toolbarLocal.getItems().add(backToLoginBtn);
 		toolbarLocal.getItems().add(separator3);
 		toolbarLocal.getItems().add(lobbyUsernameLabel);
 		
+		localLobbyGrid.add(localLobbySelectMode, 1, 0);
 		localLobbyGrid.add(rb1, 1, 1);
 		localLobbyGrid.add(rb2, 1, 2);
 		//localLobbyGrid.add(playerLobbyLabel, 0, 1);
@@ -99,12 +116,36 @@ public class LocalLobby {
 		playBtn.setOnAction(e ->{
 			RadioButton selectedRadioButton = (RadioButton) toggle.getSelectedToggle();
 			String toggleGroupValue = selectedRadioButton.getText();
+			String modeSelected = localLobbySelectMode.getSelectionModel().getSelectedItem();
+			
 			
 			if(toggleGroupValue.equals("Reversi")) {
-				//app.
+				switch(modeSelected) {
+					case "YOU vs AI":
+						app.startGame("Reversi", 1, 0, "CPU");
+					break;
+					case "AI vs YOU":
+						app.startGame("Reversi", 2, 0, "CPU");
+					break;
+					case "AI vs AI":
+						app.startGame("Reversi", 1, 3, "CPU");
+					break;
+					
+				}
 			}
 			if(toggleGroupValue.equals("Tic-tac-toe")) {
-							
+				switch(modeSelected) {
+				case "YOU vs AI":
+					app.startGame("Tic-tac-toe", 1, 0, "CPU");
+				break;
+				case "AI vs YOU":
+					app.startGame("Tic-tac-toe", 2, 0, "CPU");
+				break;
+				case "AI vs AI":
+					app.startGame("Tic-tac-toe", 1, 3, "CPU");
+				break;
+				
+			}		
 			}
 		});
 		

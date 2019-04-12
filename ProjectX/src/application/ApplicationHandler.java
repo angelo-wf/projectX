@@ -139,7 +139,7 @@ public class ApplicationHandler {
 		model.endGame(EndReason.WIN2, "player forfeited match");
 	}
 	
-	private void startGame(String gameName, int beginningPlayer, int type, String player2name) {
+	public void startGame(String gameName, int beginningPlayer, int type, String player2name) {
 		switch(type) {
 		case 0:
 			setUpGame(gameName, "Real", "AI");
