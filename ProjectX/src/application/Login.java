@@ -154,6 +154,7 @@ public class Login {
 	        	if(canLogin == true && selectedMode1 == "Local") {
 	        		//makeLocalLobby(root);
 	            	//root.getChildren().remove(loginGrid);
+	        		gui.loginToLocalLobby(nameUser);
 	        	}
 	    	
 	    });

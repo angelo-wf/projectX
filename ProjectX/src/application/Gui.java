@@ -91,11 +91,13 @@ public class Gui {
         login = new Login(loginPane, this, app);
         lobby = new Lobby(lobbyPane, this, app);
         game = new Game(gamePane, this, app);
+        localLobby = new LocalLobby(localLobbyPane, this, app);
         lobby.setInvisible();
         game.setInvisible();
+        localLobby.setInvisible();
         
         
-        root.getChildren().addAll(loginPane, lobbyPane, gamePane);
+        root.getChildren().addAll(loginPane, lobbyPane, gamePane, localLobbyPane);
         
         Scene scene = new Scene(root, 800, 400);
 
@@ -126,6 +128,18 @@ public class Gui {
     	
     }
     
+    public void loginToLocalLobby(String username) {
+    	
+    	Platform.runLater(()-> {
+    		localLobby.setName(nameUser);
+    		
+    	});
+    	
+    	nameUser = username;
+    	login.setInvisible();
+    	localLobby.setVisible();
+    }
+    
     
     public void gameToLobby(){
     	app.requestPlayerList();
@@ -136,6 +150,16 @@ public class Gui {
     public void lobbyToGame() {
     	game.setVisible();
     	lobby.setInvisible();
+    }
+    
+    public void localLobbyToGame(){
+    	localLobby.setInvisible();
+    	game.setVisible();
+    }
+    
+    public void gameToLocalLobby() {
+    	game.setInvisible();
+    	localLobby.setVisible();
     }
     
     public void setPlayerList(ArrayList<String> playerArray) {
@@ -157,6 +181,12 @@ public class Gui {
     	lobby.clearInvites();
     }
     
+    
+    
+    public void localLobbyToLogin() {
+    	 localLobby.setInvisible();
+    	 login.setVisible();
+    }
     
     public void lobbyToLogin() {
     	
@@ -195,104 +225,6 @@ public class Gui {
     
 	public boolean getMode() {
 		return lobby.getSelectedMode();
-	}
-	
-	
-	public void makeLocalLobby(StackPane root) {
-		ToolBar toolbarLocal = new ToolBar();
-		GridPane localLobbyGrid = new GridPane();
-		
-		localLobbyGrid.setAlignment(Pos.CENTER);
-		localLobbyGrid.setPadding(new Insets(15));
-		
-		localLobbyGrid.setHgap(10);
-		localLobbyGrid.setVgap(30);
-		localLobbyGrid.setPadding(new Insets(10, 10, 10, 10));
-		
-		//Label playerLobbyLabel = new Label("Player");
-		//Label gameLobbyLabel = new Label("Status");
-		Label lobbyUsernameLabel = new Label("Logged in as " + nameUser + "  ");
-		
-		Button playBtn = new Button("play");
-		
-		
-		lobbyUsernameLabel.setId("toolbar-content");
-	
-		Button backToLoginBtn = new Button("Back");
-		backToLoginBtn.setId("back-button");
-		
-		
-		
-		Separator separator3 = new Separator();
-		separator3.setOrientation(Orientation.VERTICAL);
-		
-		final ToggleGroup toggle = new ToggleGroup();
-		
-		RadioButton rb1 = new RadioButton();
-		rb1.setText("Tic-tac-toe");
-		rb1.setToggleGroup(toggle);
-		RadioButton rb2 = new RadioButton();
-		rb2.setText("Reversi");
-		rb2.setToggleGroup(toggle);
-		
-		
-		toolbarLocal.getItems().add(backToLoginBtn);
-		toolbarLocal.getItems().add(separator3);
-		toolbarLocal.getItems().add(lobbyUsernameLabel);
-		
-		localLobbyGrid.add(rb1, 1, 1);
-		localLobbyGrid.add(rb2, 1, 2);
-		//localLobbyGrid.add(playerLobbyLabel, 0, 1);
-		//localLobbyGrid.add(gameLobbyLabel, 0, 2);
-		localLobbyGrid.add(playBtn, 1, 3);
-		VBox toolbarboxLocal = new VBox();
-		toolbarboxLocal.getChildren().add(toolbarLocal);
-		//root.getChildren().add(lobbyGrid);
-	
-		
-		
-//		toggle.setOnAction(e -> {
-//            
-//        	
-//        	
-//        	String selectedLobbyMode = lobbySelectMode.getSelectionModel().getSelectedItem();
-//            
-//        	if(selectedLobbyMode.equals("AI")) {
-//	            currentMode = true;
-//        	}
-//        	if(selectedLobbyMode.equals("You")) {
-//        		currentMode= false;
-//        	}
-//        });
-        
-		
-		
-		playBtn.setOnAction(e ->{
-			RadioButton selectedRadioButton = (RadioButton) toggle.getSelectedToggle();
-			String toggleGroupValue = selectedRadioButton.getText();
-			
-			if(toggleGroupValue.equals("Reversi")) {
-				//app.
-			}
-			if(toggleGroupValue.equals("Tic-tac-toe")) {
-							
-			}
-		});
-		
-		
-		
-		
-		backToLoginBtn.setOnAction(e -> {
-	    	//makeLogin(root);
-	    	root.getChildren().remove(localLobbyGrid);
-	    	root.getChildren().remove(toolbarboxLocal);
-	    });
-		
-		toolbarboxLocal.getChildren().add(localLobbyGrid);
-		
-		
-		//app.requestPlayerList();
-		root.getChildren().add(toolbarboxLocal);
 	}
 	
 	public void updateStats(int yourPoints, int oppPoints, int beurt, String endReason) {
