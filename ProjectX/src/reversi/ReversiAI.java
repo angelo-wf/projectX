@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import gamehandler.GamePlayer;
 import gamehandler.Move;
+import gamehandler.Result;
 
 public class ReversiAI extends GamePlayer {
 	private boolean running;
@@ -81,25 +82,6 @@ public class ReversiAI extends GamePlayer {
 	private Move getBestMove(int[] board) {
 		int best = minimax(board, playerNumber, 0).getSpot();
 		return Move.getFromInt(8, best);
-	}
-	
-	private class Result {
-		
-		private int score;
-		private int spot;
-		
-		public Result(int score, int spot) {
-			this.score = score;
-			this.spot = spot;
-		}
-		
-		public int getScore() {
-			return score;
-		}
-		
-		public int getSpot() {
-			return spot;
-		}
 	}
 	
 	private Result minimax(int[] board, int playernum, int depth) {

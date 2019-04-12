@@ -4,34 +4,37 @@ import application.Gui;
 import gamehandler.GameView;
 import gamehandler.Move;
 import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 
 public class ReversiView extends GameView {
-	private Circle[] cells;
+	
+	private ImageView[] cells;
 	private Label stats;
+	
+	private Image empty;
+	private Image black;
+	private Image white;
 	
 	public ReversiView(Gui gui) {
 		super(gui);
-		boardView = new Pane();
-		boardView.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
+		empty = new Image("assets/reversi_empty.png");
+		black = new Image("assets/reversi_black.png");
+		white = new Image("assets/reversi_white.png");
+		boardView = new GridPane();
 		boardView.setPrefSize(400, 400);
-		cells = new Circle[64];
+		cells = new ImageView[64];
 		for(int i = 0; i < cells.length; i++) {
 			final int x = i % 8;
 			final int y = i / 8;
-			cells[i] = new Circle(x * 50 + 25, y * 50 + 25, 23);
-			cells[i].setFill(Color.GREEN);
+			cells[i] = new ImageView(empty);
 			cells[i].setOnMouseClicked(e -> {
 				handleClick(new Move(x, y));
 			});
-			boardView.getChildren().add(cells[i]);
+			((GridPane) boardView).add(cells[i], x, y);
 		}
 		stats = new Label("Stats");
 		statsPane = new Pane();
@@ -40,9 +43,7 @@ public class ReversiView extends GameView {
 	
 	@Override
 	public void update() {
-		String stateString = ((ReversiModel) model).getStateString();
 		Platform.runLater(() -> {
-			stats.setText(stateString);
 			updateBoard();
 		});
 		int[] values = ((ReversiModel) model).getStats();
@@ -51,7 +52,6 @@ public class ReversiView extends GameView {
 	}
 	
 	private void updateBoard() {
-		// TODO: Should getBoard and getStateString be part of the GameView?
 		int[] board = ((ReversiModel) model).getBoard();
 		int startingPlayer = ((ReversiModel) model).getStartingPlayer();
 		
@@ -59,21 +59,29 @@ public class ReversiView extends GameView {
 			int value = board[i];
 			if(startingPlayer == 1) {
 				if(value == 1) {
-					cells[i].setFill(Color.BLACK);
+					cells[i].setImage(black);
 				} else if(value == 2) {
-					cells[i].setFill(Color.WHITE);
+					cells[i].setImage(white);
 				} else {
-					cells[i].setFill(Color.GREEN);
+					cells[i].setImage(empty);
 				}
 			} else {
 				if(value == 1) {
-					cells[i].setFill(Color.WHITE);
+					cells[i].setImage(white);
 				} else if(value == 2) {
-					cells[i].setFill(Color.BLACK);
+					cells[i].setImage(black);
 				} else {
-					cells[i].setFill(Color.GREEN);
+					cells[i].setImage(empty);
 				}
 			}
 		}
+	}
+
+	@Override
+	public String[] getPieceNames() {
+		if(((ReversiModel) model).getStartingPlayer() == 2) {
+			return new String[] {"white", "black"};
+		}
+		return new String[] {"black", "white"};
 	}
 }

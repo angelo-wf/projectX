@@ -37,4 +37,6 @@ public abstract class GameView {
 	public void handleClick(Move move) {
 		player.handleClick(move);
 	}
+	
+	public abstract String[] getPieceNames();
 }

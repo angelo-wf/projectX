@@ -33,6 +33,8 @@ public class Game {
 	private Label oppScoreNumberLabel;
 	private HBox hBox = new HBox();
 	private Pane currentGamePane;
+	private Label yourScoreLabel = new Label("");
+    private Label oppScoreLabel = new Label("");
 
 	Game(StackPane mainPane, Gui gui, ApplicationHandler app){
 		this.gamePane = mainPane;
@@ -43,11 +45,13 @@ public class Game {
 		
 	}
 	
-	public void setGameView(Pane gamePane) {
+	public void setGameView(Pane gamePane, String player1name, String player2name, String[] pieceNames) {
 		//hBox.getChildren().clear();
 		if(currentGamePane != null) {
 			hBox.getChildren().remove(currentGamePane);
 		}
+		yourScoreLabel.setText(player1name + " (" + pieceNames[0] + ") : ");
+		oppScoreLabel.setText(player2name + " (" + pieceNames[1] + ") : ");
 		currentGamePane = gamePane;
 		hBox.getChildren().add(gamePane);
 		ffBtn.setVisible(true);
@@ -66,7 +70,7 @@ public void updateStats(int yourPoints, int oppPoints, int beurt, String endreas
     		}
     		//else {
 			if(beurt==2) {
-				turnLabel.setText("opponent's turn");
+				turnLabel.setText("Opponent's turn.");
 			}
 			if(beurt==0) {
 				turnLabel.setText(endreason);
@@ -96,8 +100,6 @@ public void updateStats(int yourPoints, int oppPoints, int beurt, String endreas
         
         //labels for stats screen
         Label statLabel = new Label("Stats");
-        Label yourScoreLabel = new Label("Your score: ");
-        Label oppScoreLabel = new Label("Opponent's score: ");
         turnLabel = new Label();
         //timeLabel = new Label("8.32 sec left");
         

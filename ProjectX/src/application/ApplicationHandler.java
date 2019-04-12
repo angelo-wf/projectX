@@ -104,7 +104,7 @@ public class ApplicationHandler {
 		connection.forfeit();
 	}
 	
-	private void startGame(String gameName, int beginningPlayer, int type) {
+	private void startGame(String gameName, int beginningPlayer, int type, String player2name) {
 		switch(type) {
 		case 0:
 			setUpGame(gameName, "Real", "AI");
@@ -122,7 +122,7 @@ public class ApplicationHandler {
 			throw new IllegalArgumentException("Unknown match-type");
 		}
 		model.initGame(beginningPlayer);
-		gui.setGameScreen(gameView);
+		gui.setGameScreen(gameView, player2name);
 	}
 	
 	private void setUpGame(String game, String playerType1, String playerType2) {
@@ -172,11 +172,11 @@ public class ApplicationHandler {
 		case "MATCH":
 			//System.out.println(type);
 			if(map.get("PLAYERTOMOVE").equals(username)) {
-				startGame((String) map.get("GAMETYPE"), 1, gui.getMode() ? 2 : 1);
+				startGame((String) map.get("GAMETYPE"), 1, gui.getMode() ? 2 : 1, (String) map.get("OPPONENT"));
 				//startGame((String) map.get("GAMETYPE"), 1, 2);
 			} else {
 				System.out.println(map + ", " + gui);
-				startGame((String) map.get("GAMETYPE"), 2, gui.getMode() ? 2 : 1);
+				startGame((String) map.get("GAMETYPE"), 2, gui.getMode() ? 2 : 1, (String) map.get("OPPONENT"));
 				//startGame((String) map.get("GAMETYPE"), 2, 2);
 			}
 			break;
@@ -192,15 +192,15 @@ public class ApplicationHandler {
 			break;
 		case "WIN":
 			//System.out.println(type);
-			model.endGame(EndReason.WIN1);
+			model.endGame(EndReason.WIN1, (String) map.get("COMMENT"));
 			break;
 		case "LOSS":
 			//System.out.println(type);
-			model.endGame(EndReason.WIN2);
+			model.endGame(EndReason.WIN2, (String) map.get("COMMENT"));
 			break;
 		case "DRAW":
 			//System.out.println(type);
-			model.endGame(EndReason.DRAW);
+			model.endGame(EndReason.DRAW, (String) map.get("COMMENT"));
 			break;
 		case "CHALLENGE":
 			System.out.println(type);

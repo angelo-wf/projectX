@@ -63,7 +63,6 @@ public class Gui {
 	private Label turnLabel;
 	private Button ffBtn;
 	private Button ffBackBtn;
-	private boolean currentMode = true;
 	
 	
 	private StackPane loginPane = new StackPane();
@@ -110,8 +109,7 @@ public class Gui {
     	if(app.setServer(username, servername)) {
     		
     		Platform.runLater(() -> {
-        		lobby.lobbyUsernameLabel.setText("Logged in as " + nameUser + "  ");
-            	lobby.lobbyServerLabel.setText("  server: " + nameServer);
+        		lobby.setNameServer(nameUser, nameServer);
             	
         	});
     		
@@ -166,34 +164,13 @@ public class Gui {
     	return nameServer;
     }
     
-    
-    public void makeStats() {
-        
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    public void makeLogin(StackPane root) {
-    	
-    	
-    }
-    
-    
-    
-    
-	public void setGameScreen(GameView gameview) {
+	public void setGameScreen(GameView gameview, String player2name) {
 	    	
 	    	lobbyToGame();
 	    	
 	    	
 	    	Platform.runLater(() -> {
-		    	game.setGameView(gameview.getBoardView());
+		    	game.setGameView(gameview.getBoardView(), nameUser, player2name, gameview.getPieceNames());
 
 	    		//inviteGrid.getChildren().clear();
 	    		
@@ -204,17 +181,8 @@ public class Gui {
 	    	
 	    }
     
-    
-	public void makeLobby(StackPane root) {
-			
-			
-	    	
-	    	
-	    }
-	    
-	
 	public boolean getMode() {
-		return currentMode;
+		return lobby.getSelectedMode();
 	}
 	
 	
@@ -303,7 +271,7 @@ public class Gui {
 		
 		
 		backToLoginBtn.setOnAction(e -> {
-	    	makeLogin(root);
+	    	//makeLogin(root);
 	    	root.getChildren().remove(localLobbyGrid);
 	    	root.getChildren().remove(toolbarboxLocal);
 	    });

@@ -10,6 +10,7 @@ public class TicTacToeModel extends GameModel {
 	private int[] board;
 	private Turn turn;
 	private EndReason reason;
+	private String endInfo;
 	
 	public TicTacToeModel() {
 		board = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -44,13 +45,13 @@ public class TicTacToeModel extends GameModel {
 		board[move.getAsInt(3)] = turn.getPieceNum();
 		if(checkWin()) {
 			if(turn == Turn.PLAYER2) {
-				endGame(EndReason.WIN2);
+				endGame(EndReason.WIN2, "");
 			} else {
-				endGame(EndReason.WIN1);
+				endGame(EndReason.WIN1, "");
 			}
 			return true;
 		} else if(checkFull()) {
-			endGame(EndReason.DRAW);
+			endGame(EndReason.DRAW, "");
 			return true;
 		}
 		if(turn == Turn.PLAYER2) {
@@ -65,14 +66,15 @@ public class TicTacToeModel extends GameModel {
 	}
 
 	@Override
-	public void endGame(EndReason reason) {
+	public void endGame(EndReason reason, String endInfo) {
 		if(turn != Turn.ENDED) {
 			player1.endGame();
 			player2.endGame();
 			turn = Turn.ENDED;
-			this.reason = reason;
-			view.update();
 		}
+		this.reason = reason;
+		this.endInfo = endInfo;
+		view.update();
 	}
 	
 	@Override
@@ -95,7 +97,11 @@ public class TicTacToeModel extends GameModel {
 	
 	public String getEndReason() {
 		if(reason != null) {
-			return reason.getNiceString();
+			String add = "";
+			if(!endInfo.equals("")) {
+				add = " (" + endInfo + ")";
+			}
+			return reason.getNiceString() + add;
 		}
 		return "";
 	}
@@ -106,13 +112,6 @@ public class TicTacToeModel extends GameModel {
 			counts[board[i]]++;
 		}
 		return counts;
-	}
-	
-	public String getStateString() {
-		if(turn == Turn.ENDED) {
-			return turn.getNiceString() + ", " + reason.getNiceString();
-		}
-		return turn.getNiceString();
 	}
 	
 	private boolean checkWin() {

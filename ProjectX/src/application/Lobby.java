@@ -41,8 +41,9 @@ public class Lobby {
 	private ButtonBase refreshBtn;
 	private ApplicationHandler app;
 	private ComboBox<String> lobbySelectGame;
-	public Label lobbyUsernameLabel = new Label();
-	public Label lobbyServerLabel = new Label();
+	private ComboBox<String> lobbySelectMode;
+	private Label lobbyUsernameLabel = new Label();
+	private Label lobbyServerLabel = new Label();
 	private ArrayList<Player> inviteArrayList = new ArrayList<Player>();
 	private ArrayList<String> challengedPlayers = null;
 
@@ -118,7 +119,7 @@ public class Lobby {
     		    );
     	
     	
-    	ComboBox<String> lobbySelectMode = new ComboBox(lobbyOptionsMode);
+    	lobbySelectMode = new ComboBox(lobbyOptionsMode);
         lobbySelectMode.getSelectionModel().selectFirst();
     	
         
@@ -255,6 +256,11 @@ public class Lobby {
     	optionsGrid.setPadding(new Insets(10, 10, 10, 10));
 	}
 	
+	public void setNameServer(String name, String server) {
+		lobbyUsernameLabel.setText("Logged in as " + name + "  ");
+    	lobbyServerLabel.setText("  server: " + server);
+	}
+	
 	public void setVisible() {
 		lobbyPane.setVisible(true);
 	}
@@ -265,6 +271,10 @@ public class Lobby {
 	
 	public String getSelectedGame() {
 		return lobbySelectGame.getSelectionModel().getSelectedItem();
+	}
+	
+	public boolean getSelectedMode() {
+		return lobbySelectMode.getSelectionModel().getSelectedItem().equals("AI");
 	}
 	
 	public void setPlayerList(ArrayList<String> playerArray) {

@@ -1,7 +1,7 @@
 package gamehandler;
 
 public enum Turn {
-	PLAYER1("Player 1's turn", 1), PLAYER2("Player's 2 turn", 2), ENDED("Game ended", 0);
+	PLAYER1("Your turn", 1), PLAYER2("Opponents turn", 2), ENDED("Game ended", 0);
 	
 	private String niceString;
 	private int pieceNum;

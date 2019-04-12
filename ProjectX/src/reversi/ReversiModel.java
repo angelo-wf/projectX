@@ -12,6 +12,7 @@ public class ReversiModel extends GameModel {
 	private int[] board;
 	private Turn turn;
 	private EndReason reason;
+	private String endInfo;
 	private int startingPlayer;
 	
 	public ReversiModel() {
@@ -79,14 +80,15 @@ public class ReversiModel extends GameModel {
 	}
 
 	@Override
-	public void endGame(EndReason reason) {
+	public void endGame(EndReason reason, String endInfo) {
 		if(turn != Turn.ENDED) {
 			player1.endGame();
 			player2.endGame();
 			turn = Turn.ENDED;
-			this.reason = reason;
-			view.update();
 		}
+		this.reason = reason;
+		this.endInfo = endInfo;
+		view.update();
 	}
 	
 	@Override
@@ -96,17 +98,6 @@ public class ReversiModel extends GameModel {
 	
 	public int[] getBoard() {
 		return board;
-	}
-	
-	public String getStateString() {
-		if(turn == Turn.ENDED) {
-			return turn.getNiceString() + ", " + reason.getNiceString();
-		}
-		int[] counts = getPieceCount();
-		if(startingPlayer == 2) {
-			return turn.getNiceString() + ", P1 (white) pieces: " + counts[1] + ", P2 (black) pieces: " + counts[2];
-		}
-		return turn.getNiceString() + ", P1 (black) pieces: " + counts[1] + ", P2 (white) pieces: " + counts[2];
 	}
 	
 	public int getStartingPlayer() {
@@ -124,7 +115,11 @@ public class ReversiModel extends GameModel {
 	
 	public String getEndReason() {
 		if(reason != null) {
-			return reason.getNiceString();
+			String add = "";
+			if(!endInfo.equals("")) {
+				add = " (" + endInfo + ")";
+			}
+			return reason.getNiceString() + add;
 		}
 		return "";
 	}
@@ -140,11 +135,11 @@ public class ReversiModel extends GameModel {
 	private void finishGame() {
 		int[] counts = getPieceCount();
 		if(counts[1] > counts[2]) {
-			endGame(EndReason.WIN1);
+			endGame(EndReason.WIN1, "");
 		} else if(counts[2] > counts[1]) {
-			endGame(EndReason.WIN2);
+			endGame(EndReason.WIN2, "");
 		} else {
-			endGame(EndReason.DRAW);
+			endGame(EndReason.DRAW, "");
 		}
 	}
 	

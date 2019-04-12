@@ -5,30 +5,36 @@ import gamehandler.GameView;
 import gamehandler.Move;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import reversi.ReversiModel;
 
 public class TicTacToeView extends GameView {
 	
-	private Rectangle[] cells;
+	private ImageView[] cells;
 	private Label stats;
+	private Image empty;
+	private Image xImg;
+	private Image oImg;
 	
 	public TicTacToeView(Gui gui) {
 		super(gui);
-		boardView = new Pane();
+		empty = new Image("assets/tictactoe_empty.png");
+		xImg = new Image("assets/tictactoe_x.png");
+		oImg = new Image("assets/tictactoe_o.png");
+		
+		boardView = new GridPane();
 		boardView.setPrefSize(384, 384);
-		cells = new Rectangle[9];
+		cells = new ImageView[9];
 		for(int i = 0; i < cells.length; i++) {
 			final int x = i % 3;
 			final int y = i / 3;
-			cells[i] = new Rectangle(x * 128, y * 128, 128, 128);
-			cells[i].setFill(Color.WHITE);
+			cells[i] = new ImageView(empty);
 			cells[i].setOnMouseClicked(e -> {
 				handleClick(new Move(x, y));
 			});
-			boardView.getChildren().add(cells[i]);
+			((GridPane) boardView).add(cells[i], x, y);
 		}
 		stats = new Label("Stats");
 		statsPane = new Pane();
@@ -37,9 +43,7 @@ public class TicTacToeView extends GameView {
 	
 	@Override
 	public void update() {
-		String stateString = ((TicTacToeModel) model).getStateString();
 		Platform.runLater(() -> {
-			stats.setText(stateString);
 			updateBoard();
 		});
 		int[] values = ((TicTacToeModel) model).getStats();
@@ -49,19 +53,23 @@ public class TicTacToeView extends GameView {
 	}
 	
 	private void updateBoard() {
-		// TODO: Should getBoard and getStateString be part of the GameView?
 		int[] board = ((TicTacToeModel) model).getBoard();
 		
 		for(int i = 0; i < board.length; i++) {
 			int value = board[i];
 			if(value == 1) {
-				cells[i].setFill(Color.RED);
+				cells[i].setImage(xImg);
 			} else if(value == 2) {
-				cells[i].setFill(Color.BLUE);
+				cells[i].setImage(oImg);
 			} else {
-				cells[i].setFill(Color.WHITE);
+				cells[i].setImage(empty);
 			}
 		}
+	}
+
+	@Override
+	public String[] getPieceNames() {
+		return new String[] {"X", "O"};
 	}
 
 }

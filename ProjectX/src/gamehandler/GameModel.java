@@ -18,7 +18,7 @@ public abstract class GameModel {
 	
 	public abstract boolean doMove(Move move);
 	
-	public abstract void endGame(EndReason reason);
+	public abstract void endGame(EndReason reason, String endInfo);
 	
 	public abstract int getWidth();
 	
