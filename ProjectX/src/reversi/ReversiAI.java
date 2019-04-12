@@ -10,7 +10,7 @@ public class ReversiAI extends GamePlayer {
 	private boolean running;
 	private boolean moveRequested;
 	
-	public static final int RECURSION_DEPTH = 7;
+	public static final int RECURSION_DEPTH = 6;
 	// adapted from the weights at https://github.com/arminkz/Reversi/blob/master/src/player/ai/RealtimeEvaluator.java
 	public static final int[] BOARD_WEIGHTS = {
 			100, 3, 20, 12, 12, 20, 3, 100,
@@ -23,7 +23,7 @@ public class ReversiAI extends GamePlayer {
 			100, 3, 20, 12, 12, 20, 3, 100
 	};
 	public static final int END_PIECE_WEIGHT = 25; 
-	
+	private boolean nearingTimeout = false;
 	class AiThread implements Runnable {
 		public void run() {
 			while(running) {
@@ -35,6 +35,8 @@ public class ReversiAI extends GamePlayer {
 						System.out.println("AI thread failed to sleep:");
 						e.printStackTrace();
 					}
+					nearingTimeout = false;
+					
 					int[] board = ((ReversiModel) model).getBoard().clone();
 					Move move = getBestMove(board);
 					model.doMove(move);
@@ -80,12 +82,24 @@ public class ReversiAI extends GamePlayer {
 	}
 	
 	private Move getBestMove(int[] board) {
+		Thread timeoutThread = new Thread(()-> {
+			try {
+				Thread.sleep(8500);
+				System.out.println("Nearing Timeout");
+				nearingTimeout = true;
+			} catch (InterruptedException e) {
+//				e.printStackTrace();				
+			}
+		});	
+		
+		timeoutThread.start();
 		int best = minimax(board, playerNumber, 0, Integer.MIN_VALUE, Integer.MAX_VALUE).getSpot();
+		timeoutThread.interrupt();
 		return Move.getFromInt(8, best);
 	}
 	
 	private Result minimax(int[] board, int playernum, int depth, int alpha, int beta) {
-		if(depth > RECURSION_DEPTH) {
+		if(depth > RECURSION_DEPTH || nearingTimeout) {
 			// calculate board state with cell weights and return it
 			int total = 0;
 			for(int i = 0; i < 64; i++) {
