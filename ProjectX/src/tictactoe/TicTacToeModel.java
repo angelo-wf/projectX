@@ -19,7 +19,6 @@ public class TicTacToeModel extends GameModel {
 	
 	@Override
 	public void initGame(int startingPlayer) {
-		System.out.println("Starting TicTacToe with starting player " + startingPlayer);
 		if(startingPlayer == 2) {
 			player2.requestMove();
 			turn = Turn.PLAYER2;
