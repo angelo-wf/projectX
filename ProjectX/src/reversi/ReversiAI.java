@@ -10,18 +10,17 @@ public class ReversiAI extends GamePlayer {
 	private boolean running;
 	private boolean moveRequested;
 	
-	public static final int RECURSION_DEPTH = 6;
+	public static final int RECURSION_DEPTH = 7;
 	// adapted from the weights at https://github.com/arminkz/Reversi/blob/master/src/player/ai/RealtimeEvaluator.java
 	public static final int[] BOARD_WEIGHTS = {
-			100, 3, 20, 12, 12, 20, 3, 100,
-			3,   1, 6,  6,  6,  6,  1, 3,
-			20,  6, 12, 10, 10, 12, 6, 20,
-			12,  6, 10, 8,  8,  10, 6, 12,
-			12,  6, 10, 8,  8,  10, 6, 12,
-			20,  6, 12, 10, 10, 12, 6, 20,
-			3,   1, 6,  6,  6,  6,  1, 3,
-			100, 3, 20, 12, 12, 20, 3, 100
-	};
+			100 , -10 , 8  ,  6 ,  6 , 8  , -10 ,  100,
+            -10 , -25 ,  -4, -4 , -4 , -4 , -25 , -10 ,
+            8   ,  -4 ,   6,   4,   4,   6,  -4 ,  8  ,
+            6   ,  -4 ,   4,   0,   0,   4,  -4 ,  6  ,
+            6   ,  -4 ,   4,   0,   0,   4,  -4 ,  6  ,
+            8   ,  -4 ,   6,   4,   4,   6,  -4 ,  8  ,
+            -10 , -25 ,  -4, -4 , -4 , -4 , -25 , -10 ,
+            100 , -10 , 8  ,  6 ,  6 , 8  , -10 ,  100};
 	public static final int END_PIECE_WEIGHT = 25; 
 	private boolean nearingTimeout = false;
 	class AiThread implements Runnable {
