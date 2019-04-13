@@ -261,8 +261,8 @@ public class Lobby {
     	
     	Platform.runLater(() -> {
     		lobbyGrid.getChildren().clear();
-    		Label playerLobbyLabel2 = new Label("Player");
-        	Label gameLobbyLabel2 = new Label("Status");
+    		Label playerLobbyLabel2 = new Label("Players");
+        	Label gameLobbyLabel2 = new Label("(" + playerArray.size() + " online)");
         	
         	lobbyGrid.add(playerLobbyLabel2, 0, 1);
         	lobbyGrid.add(gameLobbyLabel2, 1, 1);
