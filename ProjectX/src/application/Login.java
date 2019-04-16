@@ -129,9 +129,6 @@ public class Login {
 	        		canLogin = true;
 	        	}
 	    	}
-//	    	else {
-//	    		canLogin = true;
-//	    	}
 	    	if(selectedMode1.equals("Local")) {
 	    		serverError.setVisible(false);
 	    		nameServer = "";
@@ -148,30 +145,16 @@ public class Login {
 	    	
 	    	
 	        	if(canLogin == true && selectedMode1 == "Online") {
-	        		//app.setServer(nameUser, nameServer);
-	            	//root.getChildren().remove(loginGrid);
 
-	        		//makeLobby(root);
 	        		gui.loginToLobby(nameUser, nameServer);
-	        		//app.requestPlayerList();
 	        	}
 	        	if(canLogin == true && selectedMode1 == "Local") {
-	        		//makeLocalLobby(root);
-	            	//root.getChildren().remove(loginGrid);
 	        		gui.loginToLocalLobby(nameUser);
 	        	}
 	    	
 	    });
 		
-//		enterButton.setStyle("-fx-background-color: linear-gradient(#15b700, #75ff63);\r\n" + 
-//				"    -fx-background-radius: 30;\r\n" + 
-//				"    -fx-background-insets: 0;\r\n" + 
-//				"    -fx-text-fill: white;");
-	//	
-		
 		enterButton.setId("record-sales");
-		
-		//selectMode.setStyle()
 		
 		loginGrid.setHgap(10);
 		loginGrid.setVgap(10);

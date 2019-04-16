@@ -42,8 +42,6 @@ public class LocalLobby {
 		localLobbyGrid.setVgap(30);
 		localLobbyGrid.setPadding(new Insets(10, 10, 10, 10));
 		
-		//Label playerLobbyLabel = new Label("Player");
-		//Label gameLobbyLabel = new Label("Status");
 		lobbyUsernameLabel = new Label("Logged in as " + "" + "  ");
 		
 		Button playBtn = new Button("play");
@@ -90,29 +88,9 @@ public class LocalLobby {
 		localLobbyGrid.add(localLobbySelectMode, 1, 0);
 		localLobbyGrid.add(rb1, 1, 1);
 		localLobbyGrid.add(rb2, 1, 2);
-		//localLobbyGrid.add(playerLobbyLabel, 0, 1);
-		//localLobbyGrid.add(gameLobbyLabel, 0, 2);
 		localLobbyGrid.add(playBtn, 1, 3);
 		VBox toolbarboxLocal = new VBox();
 		toolbarboxLocal.getChildren().add(toolbarLocal);
-		//root.getChildren().add(lobbyGrid);
-	
-		
-		
-//		toggle.setOnAction(e -> {
-//            
-//        	
-//        	
-//        	String selectedLobbyMode = lobbySelectMode.getSelectionModel().getSelectedItem();
-//            
-//        	if(selectedLobbyMode.equals("AI")) {
-//	            currentMode = true;
-//        	}
-//        	if(selectedLobbyMode.equals("You")) {
-//        		currentMode= false;
-//        	}
-//        });
-        
 		
 		
 		playBtn.setOnAction(e ->{
@@ -156,15 +134,11 @@ public class LocalLobby {
 		
 		backToLoginBtn.setOnAction(e -> {
 			gui.localLobbyToLogin();
-	    	//makeLogin(root);
-	    	//root.getChildren().remove(localLobbyGrid);
-	    	//root.getChildren().remove(toolbarboxLocal);
 	    });
 		
 		toolbarboxLocal.getChildren().add(localLobbyGrid);
 		
 		
-		//app.requestPlayerList();
 		localLobbyPane.getChildren().add(toolbarboxLocal);
 	}
 	

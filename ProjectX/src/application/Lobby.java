@@ -29,8 +29,6 @@ public class Lobby {
 	private GridPane inviteGrid;
 	private Gui gui;
 	private VBox toolbarbox;
-	//private String nameUser;
-	//private String nameServer;
 	private HBox drieBox;
 	private ArrayList<String> playerArrayList;
 	private ButtonBase refreshBtn;
@@ -46,8 +44,6 @@ public class Lobby {
 		this.lobbyPane = mainPane;
 		this.gui = gui;
 		this.app = app;
-		//root.getChildren().clear();
-		
 		
 		drieBox = new HBox();
 		
@@ -139,10 +135,6 @@ public class Lobby {
     	Button backToLoginBtn = new Button("Disconnect");
     	backToLoginBtn.setId("back-button");
     	
-    	
-        //setInviteList(dummyInvites);
-    	
-    	
     	Separator separator1 = new Separator();
     	separator1.setOrientation(Orientation.VERTICAL);
     	
@@ -158,7 +150,6 @@ public class Lobby {
     	
     	toolbarbox = new VBox();
     	toolbarbox.getChildren().add(toolbar);
-    	//root.getChildren().add(lobbyGrid);
 
     	inviteGrid.setId("invites-table");
     	
@@ -170,7 +161,6 @@ public class Lobby {
     	inviteVbox.getChildren().add(inviteGrid);
     	optionsVbox.getChildren().add(optionsGrid);
     	
-    	//drieBox.getChildren().clear();
     	drieBox.getChildren().add(lobbyVbox);
     	drieBox.getChildren().add(inviteVbox);
     	drieBox.getChildren().add(optionsVbox);
@@ -189,25 +179,10 @@ public class Lobby {
     	scrollpane.prefHeight(400);
     	toolbarbox.getChildren().add(scrollpane);
     	lobbyPane.getChildren().add(toolbarbox);
-        
-    	
-    	
-    	
-    	
-    	
-    	
-    	
     	
     	
     	backToLoginBtn.setOnAction(e -> {
-    		//app.disconnect();
-    		//scrollpane.setContent(null);
-    		//root.getChildren().clear();
-        	//toolbarbox.getChildren().clear();
-        	//makeLogin(root);
-        	
         	gui.lobbyToLogin();
-        	
         });
     	
     	lobbyGrid.setHgap(10);
@@ -303,9 +278,6 @@ public class Lobby {
 					tempBtn.setId("small-button");
 					
 					lobbyGrid.add(tempBtn, 1, r+2);
-//    				
-					
-					//System.out.println(gameCurrent);
 					
 					tempBtn.setOnAction(e -> {
 						String gameCurrent = getSelectedGame();
@@ -356,7 +328,6 @@ private void updateChalList() {
 
 		Label playerLobbyLabel = new Label("Invite");
     	Label gameLobbyLabel = new Label("Game");
-    	//Label inviteTitle = new Label("Invites");
     	
     	inviteGrid.add(playerLobbyLabel, 0, 1);
     	inviteGrid.add(gameLobbyLabel, 1, 1);
@@ -367,22 +338,15 @@ private void updateChalList() {
         gameLobbyLabel.setId("label-big");
 
 		
-		int playerCount = inviteArrayList.size();
-		//for (String username : playerArrayList) { 		      
+		int playerCount = inviteArrayList.size();	      
 			for (int r = 0; r < playerCount; r++) {
-              //for (int c = 0; c < 3; c++) {
 				
 				Player currentPlayer = inviteArrayList.get(r);
-				//if(!(inviteArrayList.get(r).equals(nameUser))) {
 				Label tempLabel = new Label(currentPlayer.getName());	
 				Label tempGameLabel = new Label(currentPlayer.getGame());
 				inviteGrid.add(tempLabel, 0, r+2);
 				inviteGrid.add(tempGameLabel, 1, r+2);
-				int currentIndex = r;
-				//}
-                  	//lobbyGrid.add(new Label(currentPlayer.getStatus()), 1, r+1);
-                  	//lobbyGrid.add(new Label("You got invited!"), 1, r+2);
-					Button tempAccept = new Button("Accept");
+				int currentIndex = r;Button tempAccept = new Button("Accept");
 					tempAccept.setOnAction(e -> {
 						app.acceptChallenge(currentPlayer.getChalNumber());
 						int acceptIndex = currentIndex;
@@ -392,14 +356,8 @@ private void updateChalList() {
 					
                   	inviteGrid.add(tempAccept, 2, r+2);
                   	tempAccept.setId("small-button");
-                  	//lobbyGrid.add(new Button("Decline"), 3, r+2);        	
               	
               }
-			
-		
- // }
-      // }
-		
 	});
 }
 	

@@ -43,11 +43,6 @@ public class Gui {
     public Gui(Stage primaryStage, ApplicationHandler app) {
     	this.app = app;
     	primaryStage.setTitle("Project X UltraBotMaximum");
-    	//showBoth(root);
-        //makeLogin(root);
-        //makeLobby(root);
-
-    	//StackPane mainPane;
         
         login = new Login(loginPane, this, app);
         lobby = new Lobby(lobbyPane, this, app);
@@ -138,6 +133,18 @@ public class Gui {
     	localLobby.setVisible();
     }
     
+    public void localLobbyToLogin() {
+	   	localLobby.setInvisible();
+	   	login.setVisible();
+   }
+   
+    public void lobbyToLogin() {
+	   	app.disconnect();
+	   	lobby.clearInvites();
+	   	login.setVisible();
+	   	lobby.setInvisible();
+   }
+    
     public void setPlayerList(ArrayList<String> playerArray) {
     	lobby.setPlayerList(playerArray);
     }
@@ -159,21 +166,7 @@ public class Gui {
     
     
     
-    public void localLobbyToLogin() {
-    	 localLobby.setInvisible();
-    	 login.setVisible();
-    }
     
-    public void lobbyToLogin() {
-    	
-    	
-    	
-    	
-    	app.disconnect();
-    	lobby.clearInvites();
-    	login.setVisible();
-    	lobby.setInvisible();
-    }
     
     public String getName() {
     	return nameUser;
@@ -198,11 +191,6 @@ public class Gui {
 	    	Platform.runLater(() -> {
 		    	game.setGameView(gameview.getBoardView(), nameUser, player2name, gameview.getPieceNames());
 
-	    		//inviteGrid.getChildren().clear();
-	    		
-	    		//root.getChildren().remove(drieBox);
-	        	//root.getChildren().remove(toolbarbox);
-	    		//showBoth(root, gameview);
 	    	});
 	    	
 	    }
