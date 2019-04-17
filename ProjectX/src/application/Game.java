@@ -66,7 +66,7 @@ public void updateStats(int yourPoints, int oppPoints, int beurt, String endreas
     		if(beurt == 1) {
     			turnLabel.setText("It's your turn!");
     		}
-    		//else {
+    		
 			if(beurt==2) {
 				turnLabel.setText("Opponent's turn.");
 			}
@@ -76,8 +76,7 @@ public void updateStats(int yourPoints, int oppPoints, int beurt, String endreas
 				ffBackBtn.setVisible(true);
 			}
 			
-    		//}
-    		//timeLabel.setText(secondenOver + "seconds left!");
+    		
     	});
     }
 	
@@ -86,7 +85,6 @@ public void updateStats(int yourPoints, int oppPoints, int beurt, String endreas
 		//grid1: 
         //hier zitten twee VBoxen in (vBoxLabels en vBoxScores)
         GridPane grid1 = new GridPane();
-    	//grid1.getChildren().clear();
 
         grid1.setAlignment(Pos.CENTER);
         grid1.setPadding(new Insets(15));
@@ -99,7 +97,6 @@ public void updateStats(int yourPoints, int oppPoints, int beurt, String endreas
         //labels for stats screen
         Label statLabel = new Label("Stats");
         turnLabel = new Label();
-        //timeLabel = new Label("8.32 sec left");
         
         //Button
         ffBtn = new Button("Forfeit");
@@ -111,8 +108,7 @@ public void updateStats(int yourPoints, int oppPoints, int beurt, String endreas
         turnLabel.setFont(Font.font("Verdana", 20));
         turnLabel.setTextFill(Color.GREEN);
         turnLabel.setStyle("-fx-padding: 100 0 0 0;");
-//        timeLabel.setFont(Font.font("Verdana", 20));
-//        timeLabel.setStyle("-fx-padding: 0 0 100 0;");
+
         ffBtn.setFont(Font.font("Verdana", 20));
         ffBtn.setStyle("-fx-background-color: linear-gradient(#ff5400, #be1d00);\r\n" + 
         		"    -fx-background-radius: 30;\r\n" + 
@@ -156,31 +152,19 @@ public void updateStats(int yourPoints, int oppPoints, int beurt, String endreas
             	else {
             		app.localForfeit();
             	}
-                //root.getChildren().clear();
-                //makeLobby(root);
-                //gui.gameToLobby();
-        		//app.requestPlayerList();
             }
         });
         
         ffBackBtn.setVisible(false);
         
         ffBackBtn.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-            	//root.getChildren().clear();
-            	//makeLobby(root);
-            	
-            	
-            	
-            	
+            @Override public void handle(ActionEvent e) {            	
             	if(gui.getOnline()) {
                 	gui.gameToLobby();
             	}
             	else {
                 	gui.gameToLocalLobby();
             	}
-        		//app.requestPlayerList();
-                
             }
         });
         
@@ -214,10 +198,6 @@ public void updateStats(int yourPoints, int oppPoints, int beurt, String endreas
     	makeGame(gameview);
     	gamePane.getChildren().add(hBox);
     }
-	
-	
-	
-	
 	
 	public void setInvisible() {
 		gamePane.setVisible(false);

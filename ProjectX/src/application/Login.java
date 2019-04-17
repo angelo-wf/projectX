@@ -141,9 +141,7 @@ public class Login {
 	        	}
 	    		
 	    	}
-	    	
-	    	
-	    	
+
 	        	if(canLogin == true && selectedMode1 == "Online") {
 
 	        		gui.loginToLobby(nameUser, nameServer);
@@ -162,12 +160,7 @@ public class Login {
 		
 		loginPane.getChildren().add(loginGrid);
 	}
-	
-	
-	
-	
-	
-	
+
 	public void setVisible(){
 		loginPane.setVisible(true);
 	}

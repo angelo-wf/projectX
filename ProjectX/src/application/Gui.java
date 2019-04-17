@@ -21,7 +21,6 @@ public class Gui {
    	StackPane root = new StackPane();
 	HBox drieBox = new HBox();
 	
-	
 	private StackPane loginPane = new StackPane();
 	private StackPane lobbyPane = new StackPane();
 	private StackPane gamePane = new StackPane();
@@ -32,11 +31,8 @@ public class Gui {
 	private Game game;
 	private LocalLobby localLobby;
 	
-	
 	private String nameUser;
 	private String nameServer;
-
-	
 	
 	private boolean isOnline;
 
@@ -57,7 +53,6 @@ public class Gui {
         
         Scene scene = new Scene(root, 800, 400);
 
-        //scene.getStylesheets().add(css);
         scene.getStylesheets().add("/style.css");
         primaryStage.setScene(scene);
         primaryStage.setOnCloseRequest(e -> {
@@ -88,8 +83,6 @@ public class Gui {
 				alert.showAndWait();
 			});
     	}
-    	
-    	
     }
     
     public void loginToLocalLobby(String username) {
@@ -164,10 +157,6 @@ public class Gui {
     	lobby.clearInvites();
     }
     
-    
-    
-    
-    
     public String getName() {
     	return nameUser;
     }
@@ -176,18 +165,12 @@ public class Gui {
     }
     
 	public void setGameScreen(GameView gameview, String player2name) {
-	    	
-		
-			
-	    	
 	    	if(getOnline()) {
 		    	lobbyToGame();
         	}
         	else {
     	    	localLobbyToGame();
         	}
-	    	
-	    	
 	    	Platform.runLater(() -> {
 		    	game.setGameView(gameview.getBoardView(), nameUser, player2name, gameview.getPieceNames());
 

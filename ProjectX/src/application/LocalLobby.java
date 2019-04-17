@@ -75,7 +75,6 @@ public class LocalLobby {
 	    		        "AI vs YOU"
 	    		    );
 	    	
-	    	
 	    	localLobbySelectMode = new ComboBox<String>(localLobbyOptions);
 	    	localLobbySelectMode.getSelectionModel().selectFirst();
 		
@@ -97,8 +96,7 @@ public class LocalLobby {
 			RadioButton selectedRadioButton = (RadioButton) toggle.getSelectedToggle();
 			String toggleGroupValue = selectedRadioButton.getText();
 			String modeSelected = localLobbySelectMode.getSelectionModel().getSelectedItem();
-			
-			
+
 			if(toggleGroupValue.equals("Reversi")) {
 				switch(modeSelected) {
 					case "YOU vs AI":
@@ -110,7 +108,6 @@ public class LocalLobby {
 					case "AI vs AI":
 						app.startGame("Reversi", 1, 3, "CPU");
 					break;
-					
 				}
 			}
 			if(toggleGroupValue.equals("Tic-tac-toe")) {
@@ -124,20 +121,15 @@ public class LocalLobby {
 				case "AI vs AI":
 					app.startGame("Tic-tac-toe", 1, 3, "CPU");
 				break;
-				
 			}		
 			}
 		});
-		
-		
-		
 		
 		backToLoginBtn.setOnAction(e -> {
 			gui.localLobbyToLogin();
 	    });
 		
 		toolbarboxLocal.getChildren().add(localLobbyGrid);
-		
 		
 		localLobbyPane.getChildren().add(toolbarboxLocal);
 	}

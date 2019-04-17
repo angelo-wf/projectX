@@ -242,21 +242,15 @@ public class Lobby {
         	lobbyGrid.add(playerLobbyLabel2, 0, 1);
         	lobbyGrid.add(gameLobbyLabel2, 1, 1);
         	
-        	
-        	
-        	
         	playerLobbyLabel2.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
             gameLobbyLabel2.setFont(Font.font("Verdana", FontWeight.BOLD, 18));
             playerLobbyLabel2.setId("label-big");
             gameLobbyLabel2.setId("label-big");
         	
-        	
             refreshBtn = new Button("refresh");
         	refreshBtn.setId("refresh-button");
         	
         	lobbyGrid.add(refreshBtn, 2, 1);
-        	
-    		
     		
         	refreshBtn.setOnAction(e -> {
         		app.requestPlayerList();
@@ -268,9 +262,7 @@ public class Lobby {
 				
 				if(!(playerArrayList.get(r).equals(gui.getName()))) {
 					lobbyGrid.add(new Label(playerArrayList.get(r)), 0, r+2);
-					
-					
-					
+
 					String currentPlayer = playerArrayList.get(r);
 					
 					Button tempBtn = new Button("Invite");
@@ -288,23 +280,18 @@ public class Lobby {
     					r=r+1;
     				}
 				}
-			}
-    		
-    	});
-    	
+			}    		
+    	});    	
     }
 	
 	
 	
 public void setChallenge(String name, String gameType, int chalNumber) {
     	
-    	
     	Player tempPlayer = new Player(name, gameType, chalNumber);
     	inviteArrayList.add(tempPlayer);
     	
-    	updateChalList();
-    	
-    	
+    	updateChalList();  	
     }
 
 	
@@ -337,7 +324,6 @@ private void updateChalList() {
         playerLobbyLabel.setId("label-big");
         gameLobbyLabel.setId("label-big");
 
-		
 		int playerCount = inviteArrayList.size();	      
 			for (int r = 0; r < playerCount; r++) {
 				
@@ -356,10 +342,7 @@ private void updateChalList() {
 					
                   	inviteGrid.add(tempAccept, 2, r+2);
                   	tempAccept.setId("small-button");
-              	
               }
 	});
 }
-	
-	
 }

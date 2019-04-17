@@ -8,9 +8,7 @@ public class Runner extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
-//		
 		ApplicationHandler app = new ApplicationHandler(primaryStage);
-		
 	}
 	
 	public static void main(String[] args) {

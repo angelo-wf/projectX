@@ -36,23 +36,6 @@ public class ApplicationHandler {
 	private boolean closing;
 	
 	public ApplicationHandler(Stage primaryStage) {
-		
-//		// make window
-//		VBox game = new VBox();
-//		// TEMP: Create gameview here
-//		gameView = new ReversiView();
-//		game.getChildren().add(gameView.getBoardView());
-//		game.getChildren().add(gameView.getStatsPane());
-//		
-//		Scene scene = new Scene(game);
-//		primaryStage.setScene(scene);
-//		primaryStage.setTitle("Reversi");
-//		
-//		primaryStage.show();
-//		
-//		setServer("b", "localhost:7789");
-//		//connection.challengePlayer("b", "Reversi");
-//		connection.subscirbe("Reversi");
 		closing = false;
 		gui = new Gui(primaryStage, this);
 		
@@ -243,7 +226,6 @@ public class ApplicationHandler {
 			gui.setPlayerList((ArrayList<String>) map.get("LIST"));
 			break;
 		case "GAMELIST":
-			//System.out.println(type);
 			// not used
 			break;
 		case "ERROR":

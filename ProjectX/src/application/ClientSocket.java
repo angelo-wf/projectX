@@ -40,10 +40,7 @@ public class ClientSocket {
 	class ServerWorker implements Runnable {	
 		@Override
 		public void run() {
-			try {
-
-				
-				
+			try {				
 				while(running) {
 					String line = inputStream.readLine();
 					// when connection stops sending
@@ -75,20 +72,7 @@ public class ClientSocket {
 		//close the connection safely
 		intendedClose = true;
 		running = false;
-//		if(inputStream != null) {
-//			try {
-//				inputStream.close();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//		if(outputStream != null) {
-//			try {
-//				outputStream.close();
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//			}
-//		}
+
 		// those get closed when socket gets closed, will throw an exception, but it doesn't matter
 		if(socket != null && !socket.isClosed()) {
 			try {

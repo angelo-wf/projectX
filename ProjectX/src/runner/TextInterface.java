@@ -79,12 +79,6 @@ public class TextInterface extends Application {
 		primaryStage.setOnCloseRequest(e -> {
 			running = false;
 			try {
-//				if(inputStream != null) {
-//					inputStream.close();
-//				}
-//				if(outputStream != null) {
-//					outputStream.close();
-//				}
 				if(socket != null) {
 					socket.close();
 				}
@@ -116,7 +110,6 @@ public class TextInterface extends Application {
 	}
 
 	public static void main(String[] args) {
-		//System.out.println("Start");
 		Application.launch(args);
 	}
 

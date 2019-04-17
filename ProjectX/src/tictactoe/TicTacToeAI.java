@@ -62,7 +62,6 @@ public class TicTacToeAI extends GamePlayer {
 	@Override
 	public void tellMove(Move move) {
 		// AI doesn't do anything with the other's move
-		
 	}
 	
 	private Move getBestMove(int[] board) {
@@ -71,7 +70,6 @@ public class TicTacToeAI extends GamePlayer {
 	}
 	
 	private Result minimax(int[] board, int playernum, int alpha, int beta) {
-		// adapted from https://github.com/ahmadabdolsaheb/minimaxarticle/blob/master/index.js
 		if(checkWin(board, playerNumber)) {
 			return new Result(1, 0);
 		} else if(checkWin(board, playerNumber == 2 ? 1 : 2)) {

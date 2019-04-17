@@ -47,7 +47,7 @@ public class Connection {
     	String firstWord[] = fromServer.split(" ",2);
     	switch (firstWord[0]) {
         	case "OK":
-        		//System.out.println("OK: OK");
+        		// OK
         		break;
         	case "ERR":
         		setErrorInHashMap(firstWord[1], "ERROR");
@@ -92,7 +92,6 @@ public class Connection {
 
     public void setStringInHashMap(String stringMap, String messageType){
     	// Turn string which contains map into a HashMap
-//    	System.out.println(stringMap);
         HashMap<String, Object> gameMap = new HashMap<>();    
         stringMap = stringMap.substring(1, stringMap.length()-1);
         String[] keyValuePairs = stringMap.split(", ");
@@ -109,7 +108,6 @@ public class Connection {
     }
     
     public void setListInHashMap(String stringList, String messageType) {
-//    	System.out.println(stringMap);
     	// Turn the string which contains a list into a HashMap
         HashMap<String, Object> gameMap = new HashMap<>();
         stringList = stringList.substring(1, stringList.length() - 1);
